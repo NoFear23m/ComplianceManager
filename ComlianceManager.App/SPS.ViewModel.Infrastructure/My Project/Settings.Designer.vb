@@ -62,9 +62,9 @@ Namespace My
     Friend Module MySettingsProperty
         
         <Global.System.ComponentModel.Design.HelpKeywordAttribute("My.Settings")>  _
-        Friend ReadOnly Property Settings() As Global.ComlianceManager.App.MySettings
+        Friend ReadOnly Property Settings() As Global.SPS.ViewModel.Infrastructure.MySettings
             Get
-                Return Global.ComlianceManager.App.MySettings.Default
+                Return Global.SPS.ViewModel.Infrastructure.MySettings.Default
             End Get
         End Property
     End Module
