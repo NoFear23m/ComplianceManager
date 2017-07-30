@@ -36,7 +36,7 @@ Class Application
             If Not db.EntryTypes.Any Then
                 db.EntryTypes.Add(New ComplianceManager.Model.EntryType With {.EntryTitle = "Kundenreklamation", .EntryDescription = ""})
                 db.EntryTypes.Add(New ComplianceManager.Model.EntryType With {.EntryTitle = "Spectra", .EntryDescription = ""})
-                db.EntryTypes.Add(New ComplianceManager.Model.EntryType With {.EntryTitle = "Persölich", .EntryDescription = ""})
+                db.EntryTypes.Add(New ComplianceManager.Model.EntryType With {.EntryTitle = "Persönlich", .EntryDescription = ""})
                 db.EntryTypes.Add(New ComplianceManager.Model.EntryType With {.EntryTitle = "Telefonisch", .EntryDescription = ""})
                 db.EntryTypes.Add(New ComplianceManager.Model.EntryType With {.EntryTitle = "E-Mail", .EntryDescription = ""})
                 db.EntryTypes.Add(New ComplianceManager.Model.EntryType With {.EntryTitle = "Social-Media", .EntryDescription = ""})
