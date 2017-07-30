@@ -116,7 +116,7 @@ Public Class MainVM
         Dim newComItem As New Model.CompliantItem
         Dim newComItemVM As New NewComplianceItemVM(newComItem)
 
-        newComItem.CustomerFirstName = "Sascha"
+
         Dim win As New Windows.Window
         win.Title = "Neue Reklamation anlegen..."
         win.Width = 500

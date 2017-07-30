@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="uclMainComplianceItemsList"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:ComplianceManager.ViewModel;assembly=ComplianceManager.ViewModel"
+             xmlns:local="clr-namespace:ComplianceManager.Views"
+             mc:Ignorable="d"  d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True,Type=vm:ComplianteItemsVM}"
+             d:DesignHeight="221.187" d:DesignWidth="825">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="22*"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="6*"/>
+                <ColumnDefinition Width="19*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="7*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Suchen:"/>
+            <TextBox Text="{Binding FilterString,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100" VerticalAlignment="Top"/>
+
+            <CheckBox Content="Nur abgeschlossene laden" IsChecked="{Binding ShowOnlyOpenItems,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" />
+            <CheckBox Content="Auch gelöscht markierte mitladen" IsChecked="{Binding IncludeDeleted,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" HorizontalAlignment="Right" />
+        </Grid>
+        <DataGrid ItemsSource="{Binding ComplianceItemsView}" AutoGenerateColumns="False" IsReadOnly="True" Grid.Row="1">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding ID}" Header="FallNr"/>
+                <DataGridTextColumn Binding="{Binding FullName}" Header="Kundenname"/>
+                <DataGridTextColumn Binding="{Binding CustomerNumber}" Header="KundenNr"/>
+                <DataGridTextColumn Binding="{Binding ComplianceBrand}" Header="Marke"/>
+                <DataGridTextColumn Binding="{Binding CreationDate, StringFormat=\{0:d\}}" Header="Erstelldatum"/>
+                <DataGridTextColumn Binding="{Binding ComplianceReason.ReasonTitle}" Header="Ursache der Reklamation"/>
+                <DataGridTextColumn Binding="{Binding ComplianceEntryType.EntryTitle}" Header="Art der Reklamation"/>
+                <DataGridTextColumn Binding="{Binding CustomerNumber}" Header="KundenNr"/>
+                <DataGridTextColumn Binding="{Binding CreatedByUserName}" Header="Erstellt durch"/>
+                <DataGridTextColumn Binding="{Binding LastChangeByUserName}" Header="Letzte bearbeitung durch"/>
+                <DataGridTextColumn Binding="{Binding LastChange, StringFormat=\{0:g\}}" Header="Letzte bearbeitung"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

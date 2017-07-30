@@ -9,21 +9,24 @@ Public Class NewComplianceItemVM
 
     Public Sub New()
         _compItem = New Model.CompliantItem
-        Using db As New Context.CompContext
-            AllAviableReasons = db.Resons.Where(Function(d) d.IsDeleted = False).ToList
-            AllAviableEntryTypes = db.EntryTypes.Where(Function(d) d.IsDeleted = False).ToList
-        End Using
+        Init()
     End Sub
 
     Public Sub New(item As Model.CompliantItem)
         _compItem = item
+        Init()
+    End Sub
+
+    Private Sub Init()
         Using db As New Context.CompContext
             AllAviableReasons = db.Resons.Where(Function(d) d.IsDeleted = False).ToList
             AllAviableEntryTypes = db.EntryTypes.Where(Function(d) d.IsDeleted = False).ToList
         End Using
+        ComplianceReason = AllAviableReasons.FirstOrDefault
+        ComplianceEntryType = AllAviableEntryTypes.FirstOrDefault
+        ComplianceBrand = Model.CompliantItem.enuBrand.VW
+
     End Sub
-
-
 
     Public ReadOnly Property ID As Integer
         Get

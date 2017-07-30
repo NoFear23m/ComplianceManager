@@ -106,6 +106,9 @@
     <Compile Include="uclMain.xaml.vb">
       <DependentUpon>uclMain.xaml</DependentUpon>
     </Compile>
+    <Compile Include="uclMainComplianceItemsList.xaml.vb">
+      <DependentUpon>uclMainComplianceItemsList.xaml</DependentUpon>
+    </Compile>
     <Compile Include="uclNewComplianceItem.xaml.vb">
       <DependentUpon>uclNewComplianceItem.xaml</DependentUpon>
     </Compile>
@@ -128,6 +131,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="uclMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="uclMainComplianceItemsList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

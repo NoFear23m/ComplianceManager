@@ -44,6 +44,7 @@ Public Class ComplianceItemVM
         Set(value As String)
             _compItem.CustomerFirstName = value
             RaisePropertyChanged("CustomerFirstName")
+            RaisePropertyChanged("FullName")
         End Set
     End Property
 
@@ -55,6 +56,7 @@ Public Class ComplianceItemVM
         Set(value As String)
             _compItem.CustomerLastName = value
             RaisePropertyChanged("CustomerLastName")
+            RaisePropertyChanged("FullName")
         End Set
     End Property
 
@@ -66,6 +68,12 @@ Public Class ComplianceItemVM
             _compItem.CustomerNumber = value
             RaisePropertyChanged("CustomerNumber")
         End Set
+    End Property
+
+    Public ReadOnly Property FullName As String
+        Get
+            Return _compItem.CustomerFullName
+        End Get
     End Property
 
 

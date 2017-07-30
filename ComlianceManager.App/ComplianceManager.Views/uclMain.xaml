@@ -6,10 +6,10 @@
              xmlns:vm="clr-namespace:ComplianceManager.ViewModel;assembly=ComplianceManager.ViewModel"
              xmlns:local="clr-namespace:ComplianceManager.Views"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True,Type=vm:MainVM}"
-             d:DesignHeight="467" d:DesignWidth="1321">
+             d:DesignHeight="467" d:DesignWidth="1321" Language="de-DE">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="5*"/>
             <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -21,6 +21,10 @@
 
         <local:uclShortInfos Margin="10" Grid.ColumnSpan="2" DataContext="{Binding ShortInfoVm,Mode=OneWay}"/>
 
+        
+        <local:uclMainComplianceItemsList Grid.Row="1" DataContext="{Binding ComplianceItemsVm}"/>
+       
+        
         <StatusBar DataContext="{Binding StatusVm,Mode=OneWay}" Grid.Row="3" Grid.ColumnSpan="2">
             <StatusBar.ItemsPanel>
                 <ItemsPanelTemplate>
