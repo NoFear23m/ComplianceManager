@@ -1,4 +1,6 @@
-﻿Imports SPS.ViewModel.Infrastructure
+﻿Imports System.Windows.Controls
+Imports System.Windows.Input
+Imports SPS.ViewModel.Infrastructure
 
 Public Class ComplianceItemVM
     Inherits ViewModelBase
@@ -21,7 +23,7 @@ Public Class ComplianceItemVM
         Using db As New Context.CompContext
             AllAviableReasons = db.Resons.Where(Function(d) d.IsDeleted = False).ToList
             AllAviableEntryTypes = db.EntryTypes.Where(Function(d) d.IsDeleted = False).ToList
-            End Using
+        End Using
     End Sub
 
     Public Sub New(item As Model.CompliantItem, aviableReasons As List(Of Model.Reason), aviableEntryTypes As List(Of Model.EntryType))
@@ -196,4 +198,34 @@ Public Class ComplianceItemVM
 
 
 
+    Private _showdetailsCommand As ICommand
+    Public Property ShowDetailsCommand() As ICommand
+        Get
+            If _showdetailsCommand Is Nothing Then _showdetailsCommand = New RelayCommand(AddressOf ShowDetailsCommand_Execute, AddressOf ShowDetailsCommand_canExecute)
+            Return _showdetailsCommand
+        End Get
+        Set(ByVal value As ICommand)
+            _showdetailsCommand = value
+            RaisePropertyChanged("ShowDetailsCommand")
+        End Set
+    End Property
+
+    Private Function ShowDetailsCommand_canExecute(obj As Object) As Boolean
+        Return True
+    End Function
+
+    Private Sub ShowDetailsCommand_Execute(obj As Object)
+        Dim win As New Windows.Window
+        win.Title = "Reklmations-Detailsansicht"
+        win.Width = 500
+        win.Height = 400
+        win.WindowStartupLocation = Windows.WindowStartupLocation.CenterScreen
+        win.DataContext = Me
+        win.Content = New ContentPresenter With {.Content = Me, .DataContext = Me}
+        If win.ShowDialog Then
+
+
+            'RefreshViews()
+        End If
+    End Sub
 End Class

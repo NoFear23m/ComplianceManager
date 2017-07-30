@@ -29,6 +29,13 @@
         </Grid>
         <DataGrid ItemsSource="{Binding ComplianceItemsView}" AutoGenerateColumns="False" IsReadOnly="True" Grid.Row="1">
             <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Command="{Binding ShowDetailsCommand}">OPEN</Button>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
                 <DataGridTextColumn Binding="{Binding ID}" Header="FallNr"/>
                 <DataGridTextColumn Binding="{Binding FullName}" Header="Kundenname"/>
                 <DataGridTextColumn Binding="{Binding CustomerNumber}" Header="KundenNr"/>
