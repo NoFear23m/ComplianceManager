@@ -106,6 +106,12 @@
     <Compile Include="uclMain.xaml.vb">
       <DependentUpon>uclMain.xaml</DependentUpon>
     </Compile>
+    <Compile Include="uclNewComplianceItem.xaml.vb">
+      <DependentUpon>uclNewComplianceItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="uclShortInfos.xaml.vb">
+      <DependentUpon>uclShortInfos.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
@@ -122,6 +128,14 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="uclMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="uclNewComplianceItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="uclShortInfos.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

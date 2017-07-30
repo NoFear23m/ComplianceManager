@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="uclShortInfos"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:ComplianceManager.ViewModel;assembly=ComplianceManager.ViewModel"
+             xmlns:local="clr-namespace:ComplianceManager.Views"
+             mc:Ignorable="d"  d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True,Type=vm:ShortInfoVM}"
+             d:DesignHeight="139.212" d:DesignWidth="1115.898" Language="de-DE">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <TextBlock>
+            <Run>Es sind insgesamt </Run>
+            <Hyperlink><TextBlock Text="{Binding OpenComplianceItems,Mode=OneWay}"/></Hyperlink>
+            <Run> offene von </Run>
+            <Hyperlink><TextBlock Text="{Binding AviableComplianceItemsCount,Mode=OneWay}"/></Hyperlink>
+            <Run> Kundenreklamationen verfügbar.</Run>
+        </TextBlock>
+        <TextBlock Grid.Row="1">
+            <Run>Die zuletzt hinzugefügt Kundenreklamation von </Run>
+            <Hyperlink><TextBlock Text="{Binding LatestAddedComplianceItem.CustomerFullName, Mode=OneWay,FallbackValue=Unknown,TargetNullValue=Unknown}"/></Hyperlink>
+            <Run> wurde angelegt durch </Run>
+            <Run Text="{Binding LatestAddedComplianceItem.CreatedByUserName, Mode=OneWay,FallbackValue=Unknown,TargetNullValue=Unknown}"/>
+            <Run> am </Run>
+            <Run Text="{Binding LatestAddedComplianceItem.CreationDate, Mode=OneWay, StringFormat=\{0:D\}}"/>
+           <Run>.</Run>
+        </TextBlock>
+        <TextBlock Grid.Row="2">
+            <Run>Letzte bearbeitung einer Kundenreklamation wurde durch  </Run>
+            <Run Text="{Binding LatestChangedComplianceItem.LastChangeByUserName, Mode=OneWay,FallbackValue=Unknown,TargetNullValue=Unknown}"/>
+            <Run> an der Reklamation von </Run>
+            <Hyperlink><TextBlock Text="{Binding LatestChangedComplianceItem.CustomerFullName, Mode=OneWay,FallbackValue=Unknown,TargetNullValue=Unknown}"/></Hyperlink>
+            <Run> am </Run>
+            <Run Text="{Binding LatestAddedComplianceItem.CreationDate, Mode=OneWay, StringFormat=\{0:D\}}"/>
+           <Run> durchgeführt.</Run>
+        </TextBlock>
+        <TextBlock Grid.Row="3">
+            <Run>Die letzten drei Kundenreklamationen sind: </Run>
+            
+            <Hyperlink><TextBlock Text="{Binding LastThreeComplianceItems[0].CustomerFullName, Mode=OneWay,FallbackValue=Unknown,TargetNullValue=Unknown}"/></Hyperlink>
+             <Run>, </Run>
+             <Hyperlink><TextBlock Text="{Binding LastThreeComplianceItems[1].CustomerFullName, Mode=OneWay,FallbackValue=Unknown,TargetNullValue=Unknown}"/></Hyperlink>
+            <Run> und </Run>
+             <Hyperlink><TextBlock Text="{Binding LastThreeComplianceItems[2].CustomerFullName, Mode=OneWay,FallbackValue=Unknown,TargetNullValue=Unknown}"/></Hyperlink>
+           
+        </TextBlock>
+    </Grid>
+</UserControl>

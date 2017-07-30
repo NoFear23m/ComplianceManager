@@ -6,5 +6,16 @@
         xmlns:local="clr-namespace:ComlianceManager.App"
         mc:Ignorable="d"
         Title="MainWindow" Height="520" Width="969">
-    <Views:uclMain />
+    <DockPanel LastChildFill="True">
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_Datei">
+                <MenuItem Header="_Beenden"/>
+
+            </MenuItem>
+            <MenuItem Header="Reklamation">
+                <MenuItem Header="Neue Reklamation erstellen" Command="{Binding CreateNewItemCommand}"/>
+            </MenuItem>
+        </Menu>
+        <Views:uclMain />
+    </DockPanel>
 </Window>

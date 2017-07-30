@@ -1,9 +1,16 @@
 ﻿<Application x:Class="Application"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="clr-namespace:ComplianceManager.ViewModel;assembly=ComplianceManager.ViewModel"
+            
     xmlns:local="clr-namespace:ComlianceManager.App"
-   >
+    xmlns:views="clr-namespace:ComplianceManager.Views;assembly=ComplianceManager.Views">
     <Application.Resources>
-        
+
+        <DataTemplate DataType="{x:Type vm:NewComplianceItemVM}">
+            <views:uclNewComplianceItem  DataContext="{Binding}"/>
+        </DataTemplate>
+        <!--Workaround damit Styles übernommen werden welche in anderen dll`s eingebettet sind-->
+        <Style TargetType="{x:Type Rectangle}" />
     </Application.Resources>
 </Application>

@@ -18,6 +18,36 @@ Class Application
 
             End If
 
+            If Not db.Resons.Any Then
+                db.Resons.Add(New ComplianceManager.Model.Reason With {.ReasonTitle = "Noch nicht bewertbar", .ReasonDescription = ""})
+                db.Resons.Add(New ComplianceManager.Model.Reason With {.ReasonTitle = "Reparatur/ServiceQualität", .ReasonDescription = ""})
+                db.Resons.Add(New ComplianceManager.Model.Reason With {.ReasonTitle = "Kundenbehandlung", .ReasonDescription = ""})
+                db.Resons.Add(New ComplianceManager.Model.Reason With {.ReasonTitle = "Termingestalltung", .ReasonDescription = ""})
+                db.Resons.Add(New ComplianceManager.Model.Reason With {.ReasonTitle = "Garantie/Kulanzabwicklung", .ReasonDescription = ""})
+                db.Resons.Add(New ComplianceManager.Model.Reason With {.ReasonTitle = "Preis-/Leistungsgestalltung", .ReasonDescription = ""})
+                db.Resons.Add(New ComplianceManager.Model.Reason With {.ReasonTitle = "Teileversorgung", .ReasonDescription = ""})
+                db.Resons.Add(New ComplianceManager.Model.Reason With {.ReasonTitle = "Produktqualität", .ReasonDescription = ""})
+                db.Resons.Add(New ComplianceManager.Model.Reason With {.ReasonTitle = "Fremdverschulden", .ReasonDescription = ""})
+                db.Resons.Add(New ComplianceManager.Model.Reason With {.ReasonTitle = "Rostgaratieabwicklung", .ReasonDescription = ""})
+                db.Resons.Add(New ComplianceManager.Model.Reason With {.ReasonTitle = "Lob", .ReasonDescription = ""})
+                db.Resons.Add(New ComplianceManager.Model.Reason With {.ReasonTitle = "Fremdverschulden", .ReasonDescription = ""})
+            End If
+
+            If Not db.EntryTypes.Any Then
+                db.EntryTypes.Add(New ComplianceManager.Model.EntryType With {.EntryTitle = "Kundenreklamation", .EntryDescription = ""})
+                db.EntryTypes.Add(New ComplianceManager.Model.EntryType With {.EntryTitle = "Spectra", .EntryDescription = ""})
+                db.EntryTypes.Add(New ComplianceManager.Model.EntryType With {.EntryTitle = "Persölich", .EntryDescription = ""})
+                db.EntryTypes.Add(New ComplianceManager.Model.EntryType With {.EntryTitle = "Telefonisch", .EntryDescription = ""})
+                db.EntryTypes.Add(New ComplianceManager.Model.EntryType With {.EntryTitle = "E-Mail", .EntryDescription = ""})
+                db.EntryTypes.Add(New ComplianceManager.Model.EntryType With {.EntryTitle = "Social-Media", .EntryDescription = ""})
+                db.EntryTypes.Add(New ComplianceManager.Model.EntryType With {.EntryTitle = "Brief", .EntryDescription = ""})
+                db.EntryTypes.Add(New ComplianceManager.Model.EntryType With {.EntryTitle = "PIA Kundenfeedback", .EntryDescription = ""})
+                db.EntryTypes.Add(New ComplianceManager.Model.EntryType With {.EntryTitle = "KUZU-U2", .EntryDescription = ""})
+
+            End If
+
+            db.SaveChanges()
+
         End Using
 
         

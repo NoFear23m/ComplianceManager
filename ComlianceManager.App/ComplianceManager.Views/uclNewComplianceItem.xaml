@@ -1,0 +1,85 @@
+﻿<UserControl x:Class="uclNewComplianceItem"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:vm="clr-namespace:ComplianceManager.ViewModel;assembly=ComplianceManager.ViewModel"
+             xmlns:local="clr-namespace:ComplianceManager.Views"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True,Type=vm:NewComplianceItemVM}"
+             d:DesignHeight="240.667" d:DesignWidth="506.334">
+    <UserControl.Resources>
+        <Style TargetType="TextBox">
+            <!--<Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>-->
+            <Setter Property="Margin" Value="2"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+
+        <Label Content="Cross GeschäftspartnerNr" Grid.Row="1"/>
+        <Label Content="Vorname/Nachname" Grid.Row="2"/>
+        <Label Content="Kennzeichen/Marke" Grid.Row="3"/>
+        <Label Content="Ursache/Eingangsart" Grid.Row="4"/>
+
+        <TextBox Text="{Binding CustomerNumber,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1" Width="80" HorizontalAlignment="Left"/>
+        <Grid Grid.Column="1" Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Text="{Binding CustomerFirstName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBox Text="{Binding CustomerLastName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="2"/>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBox Text="{Binding LicensePlate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            <ComboBox  Margin="2" SelectedIndex="{Binding ComplianceBrand}" Grid.Column="2">
+                <ComboBoxItem>VW</ComboBoxItem>
+                <ComboBoxItem>Audi</ComboBoxItem>
+                <ComboBoxItem>Seat</ComboBoxItem>
+                <ComboBoxItem>Skoda</ComboBoxItem>
+                <ComboBoxItem>Porsche</ComboBoxItem>
+                <ComboBoxItem>Andere</ComboBoxItem>
+            </ComboBox>
+        </Grid>
+        <Grid Grid.Column="1" Grid.Row="4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <ComboBox Margin="2" Grid.Column="2" ItemsSource="{Binding AllAviableEntryTypes,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ComplianceEntryType}" DisplayMemberPath="EntryTitle" SelectedValuePath="ID" IsSynchronizedWithCurrentItem="True"></ComboBox>
+
+            <ComboBox Margin="2" Grid.Column="0" ItemsSource="{Binding AllAviableReasons,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ComplianceReason}" DisplayMemberPath="ReasonTitle" SelectedValuePath="ID" IsSynchronizedWithCurrentItem="True"></ComboBox>
+        </Grid>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Right">
+            <Button Content="Anlegen" IsDefault="True" Margin="5" Width="70" Click="ButtonAnlegen_Click"></Button>
+            <Button Content="Abbrechen" IsCancel="True" Margin="5" Width="70" Click="ButtonAbbrechen_Click"></Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

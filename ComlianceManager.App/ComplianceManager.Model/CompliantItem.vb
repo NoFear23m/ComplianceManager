@@ -1,6 +1,7 @@
 ﻿
 
 Imports System.ComponentModel.DataAnnotations
+Imports System.ComponentModel.DataAnnotations.Schema
 
 Public Class CompliantItem
 
@@ -22,6 +23,12 @@ Public Class CompliantItem
     <StringLengthAttribute(50, MinimumLength:=2)>
     Public Overridable Property CustomerLastName As String
 
+    <NotMapped>
+    Public ReadOnly Property CustomerFullName As String
+        Get
+            Return CustomerFirstName & " " & CustomerLastName
+        End Get
+    End Property
 
     Public Overridable Property CustomerNumber As Integer
 

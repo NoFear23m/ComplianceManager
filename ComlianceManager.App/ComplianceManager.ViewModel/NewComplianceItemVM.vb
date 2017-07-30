@@ -1,6 +1,6 @@
 ﻿Imports SPS.ViewModel.Infrastructure
 
-Public Class ComplianceItemVM
+Public Class NewComplianceItemVM
     Inherits ViewModelBase
 
 
@@ -8,7 +8,6 @@ Public Class ComplianceItemVM
 
 
     Public Sub New()
-
         _compItem = New Model.CompliantItem
         Using db As New Context.CompContext
             AllAviableReasons = db.Resons.Where(Function(d) d.IsDeleted = False).ToList
@@ -21,14 +20,10 @@ Public Class ComplianceItemVM
         Using db As New Context.CompContext
             AllAviableReasons = db.Resons.Where(Function(d) d.IsDeleted = False).ToList
             AllAviableEntryTypes = db.EntryTypes.Where(Function(d) d.IsDeleted = False).ToList
-            End Using
+        End Using
     End Sub
 
-    Public Sub New(item As Model.CompliantItem, aviableReasons As List(Of Model.Reason), aviableEntryTypes As List(Of Model.EntryType))
-        _compItem = item
-        AllAviableEntryTypes = aviableEntryTypes
-        AllAviableReasons = aviableReasons
-    End Sub
+
 
     Public ReadOnly Property ID As Integer
         Get
@@ -112,51 +107,8 @@ Public Class ComplianceItemVM
     End Property
 
 
-    Public Property FinishedAt As Date?
-        Get
-            Return _compItem.FinishedAt
-        End Get
-        Set(value As Date?)
-            _compItem.FinishedAt = value
-            RaisePropertyChanged("FinishedAt")
-        End Set
-    End Property
 
 
-    Public ReadOnly Property CreationDate As DateTime
-        Get
-            Return _compItem.CreationDate
-        End Get
-    End Property
-
-    Public ReadOnly Property CreatedByUserName As String
-        Get
-            Return _compItem.CreatedByUserName
-        End Get
-    End Property
-
-    Public ReadOnly Property LastChange As DateTime
-        Get
-            Return _compItem.LastChange
-        End Get
-    End Property
-
-    Public ReadOnly Property LastChangeByUserName As String
-        Get
-            Return _compItem.LastChangeByUserName
-        End Get
-    End Property
-
-
-
-    Public Property ComplianceHistory As ICollection(Of Model.HistoryItem)
-        Get
-            Return _compItem.ComplianceHistory
-        End Get
-        Set(value As ICollection(Of Model.HistoryItem))
-            _compItem.ComplianceHistory = value
-        End Set
-    End Property
 
 
 
@@ -174,6 +126,7 @@ Public Class ComplianceItemVM
             RaisePropertyChanged("AllAviableReasons")
         End Set
     End Property
+
 
     Private _allAviableEntryTypes As List(Of Model.EntryType)
     Public Property AllAviableEntryTypes() As List(Of Model.EntryType)

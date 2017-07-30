@@ -1,4 +1,5 @@
 ﻿Imports System.Data.Entity
+Imports System.Windows.Controls
 Imports System.Windows.Input
 Imports SPS.ViewModel.Infrastructure
 
@@ -21,12 +22,16 @@ Public Class MainVM
 
 
 
+        RefreshViews()
+
+
+    End Sub
+
+    Friend Sub RefreshViews()
         ShortInfoVm = New ShortInfoVM
         ComplianceItemsVm = New ComplianteItemsVM
         DetailComplianceInfoVm = New ComplianceItemVM
         StatusVm = New StatusVM With {.UserName = Environment.UserName}
-
-
     End Sub
 
 
@@ -108,7 +113,32 @@ Public Class MainVM
     End Function
 
     Private Sub CreateNewItemCommand_Execute(obj As Object)
-        MsgBox("Neues Item")
+        Dim newComItem As New Model.CompliantItem
+        Dim newComItemVM As New NewComplianceItemVM(newComItem)
+
+        newComItem.CustomerFirstName = "Sascha"
+        Dim win As New Windows.Window
+        win.Title = "Neue Reklamation anlegen..."
+        win.Width = 500
+        win.Height = 250
+        win.WindowStartupLocation = Windows.WindowStartupLocation.CenterScreen
+        win.DataContext = newComItemVM
+        win.Content = New ContentPresenter With {.Content = newComItemVM, .DataContext = newComItemVM}
+        If win.ShowDialog Then
+            Using db As New Context.CompContext
+                newComItem.ComplianceReason = db.Resons.Find(newComItem.ComplianceReason.ID)
+                newComItem.ComplianceEntryType = db.EntryTypes.Find(newComItem.ComplianceEntryType.ID)
+                newComItem.CreationDate = Now
+                newComItem.CreatedByUserName = Environment.UserName
+                newComItem.LastChange = Now
+                newComItem.LastChangeByUserName = Environment.UserName
+
+                db.ComplianceItems.Add(newComItem)
+                db.SaveChanges()
+            End Using
+            RefreshViews()
+        End If
+
     End Sub
 
 
