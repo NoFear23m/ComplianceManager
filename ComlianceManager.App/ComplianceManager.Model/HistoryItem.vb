@@ -34,6 +34,5 @@ Public Class HistoryItem
 
     Public Overridable Property Attachments As ICollection(Of ComplianteAttachment)
 
-    <Required>
-    Public Overridable Property ComplianteItem As CompliantItem
+    
 End Class

@@ -23,6 +23,5 @@ Public Class Reason
 
 
 
-    Public Overridable Property CompliantItems As ICollection(Of CompliantItem)
 
 End Class

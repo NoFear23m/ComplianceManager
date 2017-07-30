@@ -18,6 +18,5 @@ Public Class EntryType
     Public Overridable Property IsDeleted As Boolean
 
 
-    Public Overridable Property ComplianceItems As ICollection(Of CompliantItem)
 
 End Class

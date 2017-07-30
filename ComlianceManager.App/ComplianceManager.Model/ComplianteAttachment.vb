@@ -36,7 +36,6 @@ Public Class ComplianteAttachment
     <Required>
     Public Overridable Property LastChange As DateTime
 
-    <Required>
-    Public Overridable Property HistoryItem As HistoryItem
+ 
 
 End Class
