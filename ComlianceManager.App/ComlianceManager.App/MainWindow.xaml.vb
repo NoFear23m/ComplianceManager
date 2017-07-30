@@ -8,7 +8,7 @@ Class MainWindow
 
         Dim mvm As New MainVM()
 
-
+        Me.DataContext = mvm
 
     End Sub
 End Class

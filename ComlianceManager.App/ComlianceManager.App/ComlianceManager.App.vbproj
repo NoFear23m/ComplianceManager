@@ -165,6 +165,10 @@
       <Project>{40299b4a-4cdd-42b6-a834-b51c5b8e12ee}</Project>
       <Name>ComplianceManager.ViewModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ComplianceManager.Views\ComplianceManager.Views.vbproj">
+      <Project>{dea5b46f-a600-42db-9e75-a43abf71e869}</Project>
+      <Name>ComplianceManager.Views</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SPS.ViewModel.Infrastructure\SPS.ViewModel.Infrastructure.vbproj">
       <Project>{b6bd0e5c-d9a3-4eb0-a7a0-ffb18743fdad}</Project>
       <Name>SPS.ViewModel.Infrastructure</Name>

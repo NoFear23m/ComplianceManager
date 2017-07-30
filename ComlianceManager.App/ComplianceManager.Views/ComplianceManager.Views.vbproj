@@ -103,6 +103,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="uclMain.xaml.vb">
+      <DependentUpon>uclMain.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.vb</LastGenOutput>
@@ -116,6 +119,22 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="uclMain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ComplianceManager.Model\ComplianceManager.Model.vbproj">
+      <Project>{6fb9247d-fa3c-41dd-b0c2-f424d131a3d2}</Project>
+      <Name>ComplianceManager.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ComplianceManager.ViewModel\ComplianceManager.ViewModel.vbproj">
+      <Project>{40299b4a-4cdd-42b6-a834-b51c5b8e12ee}</Project>
+      <Name>ComplianceManager.ViewModel</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
 </Project>

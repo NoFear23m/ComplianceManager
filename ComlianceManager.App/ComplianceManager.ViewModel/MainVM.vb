@@ -7,7 +7,12 @@ Public Class MainVM
     Inherits ViewModelBase
 
 
+
+
+
     Public Sub New()
+
+
 
         Using settDb As New Context.CompContext
             AllSettings = settDb.Settings.ToList
@@ -19,7 +24,7 @@ Public Class MainVM
         ShortInfoVm = New ShortInfoVM
         ComplianceItemsVm = New ComplianteItemsVM
         DetailComplianceInfoVm = New ComplianceItemVM
-        StatusVm = New StatusVM
+        StatusVm = New StatusVM With {.UserName = Environment.UserName}
 
 
     End Sub
