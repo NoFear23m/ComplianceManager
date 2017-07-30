@@ -15,6 +15,7 @@ Class Application
 
             If Not db.Settings.Any Then
                 Debug.WriteLine("Keine Settings vorhanden!!!!!!")
+
             End If
 
         End Using
