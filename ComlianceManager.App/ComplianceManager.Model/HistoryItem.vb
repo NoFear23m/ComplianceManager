@@ -29,7 +29,7 @@ Public Class HistoryItem
     <StringLength(50, MinimumLength:=5)>
     Public Overridable Property Title As String
 
-    <Required>
+
     Public Overridable Property Description As String
 
     Public Overridable Property Attachments As ICollection(Of ComplianteAttachment)

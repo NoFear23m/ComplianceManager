@@ -1,36 +1,43 @@
 ﻿Imports System.Windows.Controls
 Imports System.Windows.Input
 Imports SPS.ViewModel.Infrastructure
+Imports System.Data.Entity
+Imports System.Collections.ObjectModel
 
-Public Class ComplianceItemVM
+Public Class ComplianceItemDetailVM
     Inherits ViewModelBase
 
 
     Private _compItem As Model.CompliantItem
-
+    Private _db As Context.CompContext
 
     Public Sub New()
-
+        If _db Is Nothing Then _db = New Context.CompContext
         _compItem = New Model.CompliantItem
-        Using db As New Context.CompContext
-            AllAviableReasons = db.Resons.Where(Function(d) d.IsDeleted = False).ToList
-            AllAviableEntryTypes = db.EntryTypes.Where(Function(d) d.IsDeleted = False).ToList
-        End Using
+
+        AllAviableReasons = _db.Resons.Where(Function(d) d.IsDeleted = False).ToList
+        AllAviableEntryTypes = _db.EntryTypes.Where(Function(d) d.IsDeleted = False).ToList
+        AviableUsers = _db.Users.Where(Function(u) u.IsActive = True).ToList
+
+        ComplianceHistory = New ObservableCollection(Of HistoryItemVM)
     End Sub
 
     Public Sub New(item As Model.CompliantItem)
-        _compItem = item
-        Using db As New Context.CompContext
-            AllAviableReasons = db.Resons.Where(Function(d) d.IsDeleted = False).ToList
-            AllAviableEntryTypes = db.EntryTypes.Where(Function(d) d.IsDeleted = False).ToList
-        End Using
+        If _db Is Nothing Then _db = New Context.CompContext
+        _compItem = _db.ComplianceItems.Include(
+            Function(i) i.ComplianceEntryType).Include(Function(i1) i1.ComplianceHistory).Include(Function(i2) i2.ComplianceReason).Where(Function(c) c.ID = item.ID).FirstOrDefault
+
+
+        AllAviableReasons = _db.Resons.Where(Function(d) d.IsDeleted = False).ToList
+        AllAviableEntryTypes = _db.EntryTypes.Where(Function(d) d.IsDeleted = False).ToList
+        AviableUsers = _db.Users.Where(Function(u) u.IsActive = True).ToList
+
+        ComplianceHistory = New ObservableCollection(Of HistoryItemVM)
+        For Each hi As Model.HistoryItem In _compItem.ComplianceHistory
+            ComplianceHistory.Add(New HistoryItemVM(hi))
+        Next
     End Sub
 
-    Public Sub New(item As Model.CompliantItem, aviableReasons As List(Of Model.Reason), aviableEntryTypes As List(Of Model.EntryType))
-        _compItem = item
-        AllAviableEntryTypes = aviableEntryTypes
-        AllAviableReasons = aviableReasons
-    End Sub
 
     Public ReadOnly Property ID As Integer
         Get
@@ -158,13 +165,14 @@ Public Class ComplianceItemVM
     End Property
 
 
-
-    Public Property ComplianceHistory As ICollection(Of Model.HistoryItem)
+    Private _complianceHistory As ObservableCollection(Of HistoryItemVM)
+    Public Property ComplianceHistory As ObservableCollection(Of HistoryItemVM)
         Get
-            Return _compItem.ComplianceHistory
+            Return _complianceHistory
         End Get
-        Set(value As ICollection(Of Model.HistoryItem))
-            _compItem.ComplianceHistory = value
+        Set(value As ObservableCollection(Of HistoryItemVM))
+            _complianceHistory = value
+            RaisePropertyChanged("ComplianceHistory")
         End Set
     End Property
 
@@ -196,6 +204,16 @@ Public Class ComplianceItemVM
         End Set
     End Property
 
+    Private _aviableUsers As List(Of Model.User)
+    Public Property AviableUsers() As List(Of Model.User)
+        Get
+            Return _aviableUsers
+        End Get
+        Set(ByVal value As List(Of Model.User))
+            _aviableUsers = value
+        End Set
+    End Property
+
 
 
     Private _showdetailsCommand As ICommand
@@ -220,12 +238,16 @@ Public Class ComplianceItemVM
         win.Width = 500
         win.Height = 400
         win.WindowStartupLocation = Windows.WindowStartupLocation.CenterScreen
-        win.DataContext = New ComplianceItemDetailVM(_compItem)
-        win.Content = New ContentPresenter With {.Content = win.DataContext, .DataContext = win.DataContext}
+        win.DataContext = Me
+        win.Content = New ContentPresenter With {.Content = Me, .DataContext = Me}
         If win.ShowDialog Then
 
 
             'RefreshViews()
         End If
     End Sub
+
+
+
+
 End Class

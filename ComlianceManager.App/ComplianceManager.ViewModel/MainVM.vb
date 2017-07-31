@@ -133,7 +133,11 @@ Public Class MainVM
                 newComItem.LastChange = Now
                 newComItem.LastChangeByUserName = Environment.UserName
 
+                If newComItem.ComplianceHistory Is Nothing Then newComItem.ComplianceHistory = New List(Of Model.HistoryItem)
+                newComItem.ComplianceHistory.Add(New Model.HistoryItem With {.CreatedBy = Environment.UserName, .CreationDate = Now, .Title = "Neuanlage der Reklamation", .LastChange = Now, .LastEditedBy = Environment.UserName, .Description = " "})
+
                 db.ComplianceItems.Add(newComItem)
+
                 db.SaveChanges()
             End Using
             RefreshViews()

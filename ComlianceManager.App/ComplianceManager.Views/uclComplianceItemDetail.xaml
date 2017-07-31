@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="uclComplianceItemDetail"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:ComplianceManager.ViewModel;assembly=ComplianceManager.ViewModel"
+             xmlns:local="clr-namespace:ComplianceManager.Views"
+             xmlns:model="clr-namespace:ComplianceManager.Model;assembly=ComplianceManager.Model"
+             mc:Ignorable="d"  d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True,Type=vm:ComplianceItemVM}"
+             d:DesignHeight="600" d:DesignWidth="1217">
+    <UserControl.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="2"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="37*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" MinWidth="200" MaxWidth="400"/>
+            <ColumnDefinition Width="1*" MinWidth="200" MaxWidth="400"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+               
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Kundennummer"/>
+            <TextBox Text="{Binding CustomerNumber,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"/>
+            <Label Content="Vorname" Grid.Row="1"/>
+            <TextBox Text="{Binding CustomerFirstName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1"/>
+            <Label Content="Nachname" Grid.Row="2"/>
+            <TextBox Text="{Binding CustomerLastName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="2"/>
+            <Label Content="Kennzeichen" Grid.Row="3"/>
+            <TextBox Text="{Binding LicensePlate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="3"/>
+            
+            
+        </Grid>
+        <Grid Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Marke"/>
+            <ComboBox Name="cmbBrands" SelectedItem="{Binding ComplianceBrand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Margin="2" Grid.Column="1" Grid.Row="0">
+               
+            </ComboBox>
+            <Label Content="Ursache" Grid.Row="1"/>
+            <ComboBox Margin="2" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding AllAviableReasons,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ComplianceReason}" DisplayMemberPath="ReasonTitle" SelectedValuePath="ID" IsSynchronizedWithCurrentItem="True"></ComboBox>
+            <Label Content="Eingangsart" Grid.Row="2"/>
+            <ComboBox Margin="2" Grid.Column="1" Grid.Row="2" ItemsSource="{Binding AllAviableEntryTypes,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ComplianceEntryType}" DisplayMemberPath="EntryTitle" SelectedValuePath="ID" IsSynchronizedWithCurrentItem="True"></ComboBox>
+
+
+
+        </Grid>
+        <!--<local:uclHighlightedRichtextbox  Grid.Row="2" Grid.ColumnSpan="2"/>-->
+
+        <ListBox ItemsSource="{Binding ComplianceHistory,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Row="2" Grid.ColumnSpan="2">
+            <ListBox.Resources>
+                
+            </ListBox.Resources>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <local:uclHistoryListItem />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>
