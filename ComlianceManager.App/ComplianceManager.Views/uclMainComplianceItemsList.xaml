@@ -6,7 +6,7 @@
              xmlns:vm="clr-namespace:ComplianceManager.ViewModel;assembly=ComplianceManager.ViewModel"
              xmlns:local="clr-namespace:ComplianceManager.Views"
              mc:Ignorable="d"  d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True,Type=vm:ComplianteItemsVM}"
-             d:DesignHeight="221.187" d:DesignWidth="825">
+             d:DesignHeight="221.187" d:DesignWidth="825" Language="de-DE">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
@@ -27,26 +27,30 @@
             <CheckBox Content="Nur abgeschlossene laden" IsChecked="{Binding ShowOnlyOpenItems,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" />
             <CheckBox Content="Auch gelöscht markierte mitladen" IsChecked="{Binding IncludeDeleted,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" HorizontalAlignment="Right" />
         </Grid>
-        <DataGrid ItemsSource="{Binding ComplianceItemsView}" AutoGenerateColumns="False" IsReadOnly="True" Grid.Row="1">
+        <DataGrid ItemsSource="{Binding ComplianceItemsView}" AutoGenerateColumns="False" IsReadOnly="True" Grid.Row="1" IsSynchronizedWithCurrentItem="True">
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Command="{Binding ShowDetailsCommand}">OPEN</Button>
+                            <Button Command="{Binding ShowDetailsCommand}">
+                                <Viewbox Height="13">
+                                    <Path Stretch="Uniform" Fill="Black" Data="F1 M 477.366,32.4489C 470.432,35.802 462.011,33.0596 458.558,26.3193C 455.103,19.5833 457.927,11.3994 464.867,8.04321C 471.8,4.69006 480.222,7.4342 483.675,14.1729C 487.123,20.9102 484.303,29.0901 477.366,32.4489 Z M 489.398,50.2073L 481.138,34.0914C 488.075,29.3633 490.6,20.2981 486.712,12.7021C 482.423,4.33691 471.967,0.928711 463.351,5.09277C 454.739,9.26074 451.234,19.4209 455.52,27.7913C 459.414,35.3821 468.384,38.8887 476.447,36.3619L 484.703,52.4756C 485.051,53.1487 485.924,53.4045 486.66,53.0488L 488.688,52.0686C 489.427,51.7129 489.742,50.8782 489.398,50.2073 Z " UseLayoutRounding="False"/>
+                                </Viewbox>
+                            </Button>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
                 <DataGridTextColumn Binding="{Binding ID}" Header="FallNr"/>
                 <DataGridTextColumn Binding="{Binding FullName}" Header="Kundenname"/>
-                <DataGridTextColumn Binding="{Binding CustomerNumber}" Header="KundenNr"/>
+                <DataGridTextColumn Binding="{Binding CustomerNumber}" Header="KdNr"/>
                 <DataGridTextColumn Binding="{Binding ComplianceBrand}" Header="Marke"/>
                 <DataGridTextColumn Binding="{Binding CreationDate, StringFormat=\{0:d\}}" Header="Erstelldatum"/>
                 <DataGridTextColumn Binding="{Binding ComplianceReason.ReasonTitle}" Header="Ursache der Reklamation"/>
-                <DataGridTextColumn Binding="{Binding ComplianceEntryType.EntryTitle}" Header="Art der Reklamation"/>
-                <DataGridTextColumn Binding="{Binding CustomerNumber}" Header="KundenNr"/>
+                <DataGridTextColumn Binding="{Binding ComplianceEntryType.EntryTitle}" Header="Reklamationsart"/>
+                
                 <DataGridTextColumn Binding="{Binding CreatedByUserName}" Header="Erstellt durch"/>
-                <DataGridTextColumn Binding="{Binding LastChangeByUserName}" Header="Letzte bearbeitung durch"/>
-                <DataGridTextColumn Binding="{Binding LastChange, StringFormat=\{0:g\}}" Header="Letzte bearbeitung"/>
+                <DataGridTextColumn Binding="{Binding LastChangeByUserName}" Header="Zul. bearb. von"/>
+                <DataGridTextColumn Binding="{Binding LastChange, StringFormat=\{0:g\}}" Header="zul. bear."/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

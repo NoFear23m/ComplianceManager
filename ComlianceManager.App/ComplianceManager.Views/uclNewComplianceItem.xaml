@@ -6,7 +6,7 @@
              xmlns:vm="clr-namespace:ComplianceManager.ViewModel;assembly=ComplianceManager.ViewModel"
              xmlns:local="clr-namespace:ComplianceManager.Views"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True,Type=vm:NewComplianceItemVM}"
-             d:DesignHeight="240.667" d:DesignWidth="506.334">
+             d:DesignHeight="240.667" d:DesignWidth="506.334" FocusManager.FocusedElement="{Binding ElementName=txtCustomerName}">
     <UserControl.Resources>
         <Style TargetType="TextBox">
             <!--<Setter Property="VerticalAlignment" Value="Center"/>
@@ -30,13 +30,15 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        <TextBlock Text="Bitte fülle alle Felder sorgfälltig aus um eine neue Kundenreklamation anzulegen. Die Reklamation wird anschliessend der Liste hinzugefügt und kann weiterbearbeitet werden."
+               TextWrapping="WrapWithOverflow" Grid.ColumnSpan="2"/>
 
         <Label Content="Cross GeschäftspartnerNr" Grid.Row="1"/>
         <Label Content="Vorname/Nachname" Grid.Row="2"/>
         <Label Content="Kennzeichen/Marke" Grid.Row="3"/>
         <Label Content="Ursache/Eingangsart" Grid.Row="4"/>
 
-        <TextBox Text="{Binding CustomerNumber,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1" Width="80" HorizontalAlignment="Left"/>
+        <TextBox Name="txtCustomerName" Text="{Binding CustomerNumber,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1" Width="80" HorizontalAlignment="Left"/>
         <Grid Grid.Column="1" Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150"/>
@@ -55,7 +57,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <TextBox Text="{Binding LicensePlate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-            <ComboBox  Margin="2" SelectedIndex="{Binding ComplianceBrand}" Grid.Column="2">
+            <ComboBox  Margin="2" SelectedIndex="{Binding ComplianceBrand, FallbackValue=0}" Grid.Column="2">
                 <ComboBoxItem>VW</ComboBoxItem>
                 <ComboBoxItem>Audi</ComboBoxItem>
                 <ComboBoxItem>Seat</ComboBoxItem>

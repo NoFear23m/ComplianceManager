@@ -22,7 +22,7 @@
         <local:uclShortInfos Margin="10" Grid.ColumnSpan="2" DataContext="{Binding ShortInfoVm,Mode=OneWay}"/>
 
         
-        <local:uclMainComplianceItemsList Grid.Row="1" DataContext="{Binding ComplianceItemsVm}"/>
+        <local:uclMainComplianceItemsList Grid.Row="1" DataContext="{Binding ComplianceItemsVm}" Margin="10"/>
        
         
         <StatusBar DataContext="{Binding StatusVm,Mode=OneWay}" Grid.Row="3" Grid.ColumnSpan="2">
