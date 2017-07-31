@@ -32,7 +32,7 @@ Public Class HistoryItem
 
     Public Overridable Property Description As String
 
-    Public Overridable Property Attachments As ICollection(Of ComplianteAttachment)
+    Public Overridable Property Attachments As List(Of ComplianteAttachment)
 
-    
+
 End Class

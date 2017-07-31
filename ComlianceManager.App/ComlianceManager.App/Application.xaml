@@ -15,7 +15,9 @@
             <views:uclComplianceItemDetail  DataContext="{Binding}"/>
         </DataTemplate>
 
-       
+         <DataTemplate DataType="{x:Type vm:HistoryItemVM}">
+            <views:uclAddEditHistoryItem  DataContext="{Binding}"/>
+        </DataTemplate>
 
         <!--Workaround damit Styles übernommen werden welche in anderen dll`s eingebettet sind-->
         <Style TargetType="{x:Type Rectangle}" />

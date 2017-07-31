@@ -24,18 +24,26 @@ Public Class ComplianceItemDetailVM
 
     Public Sub New(item As Model.CompliantItem)
         If _db Is Nothing Then _db = New Context.CompContext
+        Reload(item)
+    End Sub
+
+    Private Sub Reload(item As Model.CompliantItem)
+
         _compItem = _db.ComplianceItems.Include(
             Function(i) i.ComplianceEntryType).Include(Function(i1) i1.ComplianceHistory).Include(Function(i2) i2.ComplianceReason).Where(Function(c) c.ID = item.ID).FirstOrDefault
 
 
-        AllAviableReasons = _db.Resons.Where(Function(d) d.IsDeleted = False).ToList
-        AllAviableEntryTypes = _db.EntryTypes.Where(Function(d) d.IsDeleted = False).ToList
-        AviableUsers = _db.Users.Where(Function(u) u.IsActive = True).ToList
+            AllAviableReasons = _db.Resons.Where(Function(d) d.IsDeleted = False).ToList
+            AllAviableEntryTypes = _db.EntryTypes.Where(Function(d) d.IsDeleted = False).ToList
+            AviableUsers = _db.Users.Where(Function(u) u.IsActive = True).ToList
 
-        ComplianceHistory = New ObservableCollection(Of HistoryItemVM)
-        For Each hi As Model.HistoryItem In _compItem.ComplianceHistory
-            ComplianceHistory.Add(New HistoryItemVM(hi))
-        Next
+            ComplianceHistory = New ObservableCollection(Of HistoryItemVM)
+            For Each hi As Model.HistoryItem In _compItem.ComplianceHistory
+                ComplianceHistory.Add(New HistoryItemVM(hi))
+            Next
+
+
+
     End Sub
 
 
@@ -234,7 +242,7 @@ Public Class ComplianceItemDetailVM
 
     Private Sub ShowDetailsCommand_Execute(obj As Object)
         Dim win As New Windows.Window
-        win.Title = "Reklmations-Detailsansicht"
+        win.Title = "Reklamations-Detailsansicht"
         win.Width = 500
         win.Height = 400
         win.WindowStartupLocation = Windows.WindowStartupLocation.CenterScreen
@@ -250,4 +258,61 @@ Public Class ComplianceItemDetailVM
 
 
 
+
+
+
+
+    Private _addHistorItemCommand As ICommand
+    Public Property AddHistoryItemCommand() As ICommand
+        Get
+            If _addHistorItemCommand Is Nothing Then _addHistorItemCommand = New RelayCommand(AddressOf AddHistoryItemCommand_Execute, AddressOf AddHistoryItemCommand_CanExecute)
+            Return _addHistorItemCommand
+        End Get
+        Set(ByVal value As ICommand)
+            _addHistorItemCommand = value
+            RaisePropertyChanged("AddHistoryItemCommand")
+        End Set
+    End Property
+
+    Private Function AddHistoryItemCommand_CanExecute(obj As Object) As Boolean
+        Return True
+    End Function
+
+    Private Sub AddHistoryItemCommand_Execute(obj As Object)
+
+        Dim win As New Windows.Window
+        win.Title = "Neue Historie anlegen..."
+        win.Width = 500
+        win.Height = 250
+        win.WindowStartupLocation = Windows.WindowStartupLocation.CenterScreen
+        Dim newHistVm = New HistoryItemVM()
+        win.DataContext = newHistVm
+        win.Content = New ContentPresenter With {.Content = newHistVm}
+        win.ShowDialog()
+        Using db As New Context.CompContext
+
+                Dim NewHist As Model.HistoryItem = newHistVm._historyItem
+                NewHist.Title = newHistVm.Title
+                NewHist.Description = newHistVm.Description
+                NewHist.CreationDate = Now
+                newHist.CreatedBy = Environment.UserName
+                newHist.LastChange = Now
+                newHist.LastEditedBy = Environment.UserName
+
+            'For Each a As Model.ComplianteAttachment In newHistVm.Attachments
+            '    If NewHist.Attachments.Where(Function(i) i.ID = a.ID).FirstOrDefault IsNot Nothing Then
+
+            '    End If
+            'Next
+
+
+            Dim Comp As Model.CompliantItem = db.ComplianceItems.Find(Me.ID)
+                If Comp.ComplianceHistory Is Nothing Then Comp.ComplianceHistory = New List(Of Model.HistoryItem)
+                Comp.ComplianceHistory.Add(NewHist)
+
+                db.SaveChanges()
+            End Using
+            Reload(_compItem)
+
+    End Sub
 End Class
