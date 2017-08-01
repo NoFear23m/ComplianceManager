@@ -6,7 +6,7 @@ Public Class ComplianteAttachment
 
     Public Sub New()
         IsDeleted = False
-        CreatedBy = Now
+        CreationDate = Now
         LastChange = Now
     End Sub
 

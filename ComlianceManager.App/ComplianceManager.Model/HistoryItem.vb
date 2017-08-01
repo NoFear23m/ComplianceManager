@@ -26,13 +26,13 @@ Public Class HistoryItem
     Public Overridable Property LastChange As DateTime
 
     <Required>
-    <StringLength(50, MinimumLength:=5)>
+    <StringLength(50, MinimumLength:=2)>
     Public Overridable Property Title As String
 
 
     Public Overridable Property Description As String
 
-    Public Overridable Property Attachments As List(Of ComplianteAttachment)
+    Public Overridable Property Attachments As ICollection(Of ComplianteAttachment)
 
 
 End Class

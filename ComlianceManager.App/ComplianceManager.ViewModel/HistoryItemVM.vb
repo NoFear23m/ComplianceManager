@@ -12,20 +12,33 @@ Public Class HistoryItemVM
     Friend _historyItem As Model.HistoryItem
     Public settPath As String
     Public saveFolder As String = settPath & "\" & Now.Year & "\"
+    Private _db As Context.CompContext
+
+
 
     Public Sub New()
-        _historyItem = New Model.HistoryItem
-        Using settDb As New Context.CompContext
-            settPath = settDb.Settings.Where(Function(s) s.Key = "AttachmentsPath").FirstOrDefault.Value
-        End Using
+        '_historyItem = New Model.HistoryItem
+        'Using settDb As New Context.CompContext
+        '    settPath = settDb.Settings.Where(Function(s) s.Key = "AttachmentsPath").FirstOrDefault.Value
+        'End Using
+        'If _historyItem.Attachments Is Nothing Then _historyItem.Attachments = New List(Of ComplianteAttachment)
     End Sub
 
 
-    Public Sub New(hItem As Model.HistoryItem)
+    Public Sub New(hItem As Model.HistoryItem, db As Context.CompContext)
         _historyItem = hItem
+        If _historyItem.Attachments Is Nothing Then _historyItem.Attachments = New List(Of ComplianteAttachment)
+        _db = db
         Using settDb As New Context.CompContext
             settPath = settDb.Settings.Where(Function(s) s.Key = "AttachmentsPath").FirstOrDefault.Value
         End Using
+
+    End Sub
+
+    Public Sub RefreshView()
+        RaisePropertyChanged("Attachments")
+        RaisePropertyChanged("Attachments")
+        RaisePropertyChanged("Attachments")
     End Sub
 
 
@@ -93,11 +106,11 @@ Public Class HistoryItemVM
     End Property
 
     ' Private _attachments As ObservableCollection(Of ComplianteAttachment)
-    Public Property Attachments As List(Of ComplianteAttachment)
+    Public Property Attachments As ICollection(Of ComplianteAttachment)
         Get
             Return _historyItem.Attachments
         End Get
-        Set(value As List(Of ComplianteAttachment))
+        Set(value As ICollection(Of ComplianteAttachment))
             _historyItem.Attachments = value
             RaisePropertyChanged("Attachments")
         End Set
@@ -129,6 +142,8 @@ Public Class HistoryItemVM
             ofDiag.Multiselect = True
             ofDiag.RestoreDirectory = True
             ofDiag.Title = "Wählen Sie die Dateien welches Sie hinzufügen möchten..."
+            If Attachments Is Nothing Then Attachments = New List(Of Model.ComplianteAttachment)
+            Attachments.Add(New ComplianteAttachment())
 
             If ofDiag.ShowDialog = Forms.DialogResult.OK Then
                 If Attachments Is Nothing Then Attachments = New List(Of Model.ComplianteAttachment)
@@ -137,7 +152,6 @@ Public Class HistoryItemVM
                     Attachments.Add(New ComplianteAttachment() _
                                     With {.Title = fi.Name, .RelativeFilePath = Now.Year & "\" & fi.Name, .CreatedBy = Environment.UserName, .LastChange = Environment.UserName})
                 Next
-                'db.SaveChanges()
             End If
         End Using
     End Sub
@@ -168,9 +182,8 @@ Public Class HistoryItemVM
             win.Width = 500
             win.Height = 250
             win.WindowStartupLocation = Windows.WindowStartupLocation.CenterScreen
-            db.Entry(Of HistoryItem)(_historyItem).Entity.
-            Dim newHistVm = Me
-            win.DataContext = newHistVm
+
+            win.DataContext = Me
             win.Content = New ContentPresenter With {.Content = Me}
 
             If win.ShowDialog Then
@@ -182,7 +195,7 @@ Public Class HistoryItemVM
 
                 Dim anz As Integer = db.SaveChanges()
 
-
+                RefreshView()
             End If
         End Using
     End Sub

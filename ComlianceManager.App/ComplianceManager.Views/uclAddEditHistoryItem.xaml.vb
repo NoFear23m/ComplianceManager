@@ -20,7 +20,11 @@ Public Class uclAddEditHistoryItem
                                     With {.Title = fi.Name, .RelativeFilePath = Now.Year & "\" & fi.Name, .CreatedBy = Environment.UserName, .LastEditedBy = Environment.UserName}
                 VM.Attachments.Add(newAtt)
 
+                VM.RefreshView()
+                Me.DataContext = Nothing
+                Me.DataContext = VM
             Next
+            VM.RefreshView()
         End If
 
     End Sub
