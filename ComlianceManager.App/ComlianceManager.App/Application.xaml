@@ -18,7 +18,21 @@
          <DataTemplate DataType="{x:Type vm:HistoryItemVM}">
             <views:uclAddEditHistoryItem  DataContext="{Binding}"/>
         </DataTemplate>
-
+                
+        <DataTemplate DataType="{x:Type vm:EditUsersVM}">
+            <views:uclEditUser  DataContext="{Binding}"/>
+        </DataTemplate>
+        
+         <DataTemplate DataType="{x:Type vm:EditReasonsVM}">
+            <views:uclEditReasons  DataContext="{Binding}"/>
+        </DataTemplate>
+        
+           <DataTemplate DataType="{x:Type vm:EditEntryTypesVM}">
+            <views:uclEditEntryTypes  DataContext="{Binding}"/>
+        </DataTemplate>
+        
+        
+        
         <!--Workaround damit Styles übernommen werden welche in anderen dll`s eingebettet sind-->
         <Style TargetType="{x:Type Rectangle}" />
     </Application.Resources>

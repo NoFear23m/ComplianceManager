@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="uclEditUser"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ComplianceManager.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <DataGrid ItemsSource="{Binding Users,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Benutzername" Binding="{Binding UserName}"/>
+                <DataGridTextColumn Header="Vor und Nachname" Binding="{Binding FullName}"/>
+                <DataGridCheckBoxColumn Header="Adminrechte" Binding="{Binding IsAdmin}"/>
+                <DataGridCheckBoxColumn Header="Aktiv" Binding="{Binding IsActive}"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

@@ -1,4 +1,5 @@
 ﻿Imports System.Collections.ObjectModel
+Imports System.ComponentModel
 Imports System.Windows
 Imports System.Windows.Controls
 Imports System.Windows.Input
@@ -13,15 +14,30 @@ Public Class HistoryItemVM
     Public settPath As String
     Public saveFolder As String = settPath & "\" & Now.Year & "\"
     Private _db As Context.CompContext
+    Private IsUserAdmin As Boolean = False
 
     Public Event Refresh()
+    Private AreThereChanges As Boolean = False
 
     Public Sub New()
-        _historyItem = New Model.HistoryItem
-        'Using settDb As New Context.CompContext
-        '    settPath = settDb.Settings.Where(Function(s) s.Key = "AttachmentsPath").FirstOrDefault.Value
-        'End Using
-        'If _historyItem.Attachments Is Nothing Then _historyItem.Attachments = New List(Of ComplianteAttachment)
+
+        If DesignerProperties.GetIsInDesignMode(New DependencyObject) Then
+            _historyItem = New HistoryItem() With {.CreatedBy = "User", .CreationDate = Now, .Description = "Description of HistoryItemVM", .LastChange = Now, .LastEditedBy = "User", .Title = "Title"}
+            _historyItem.Attachments = New List(Of Model.ComplianteAttachment)
+            _historyItem.Attachments.Add(New ComplianteAttachment() With {.CreatedBy = "User", .CreationDate = Now, .LastChange = Now, .LastEditedBy = "User", .Title = "Test1"})
+            _historyItem.Attachments.Add(New ComplianteAttachment() With {.CreatedBy = "User", .CreationDate = Now, .LastChange = Now, .LastEditedBy = "User", .Title = "Test2", .RelativeFilePath = "Test2.png", .IsDeleted = True})
+            _historyItem.Attachments.Add(New ComplianteAttachment() With {.CreatedBy = "User", .CreationDate = Now, .LastChange = Now, .LastEditedBy = "User", .Title = "Test3", .RelativeFilePath = "Test3.png", .IsDeleted = True})
+        Else
+            _historyItem = New Model.HistoryItem
+            'Using settDb As New Context.CompContext
+            '    settPath = settDb.Settings.Where(Function(s) s.Key = "AttachmentsPath").FirstOrDefault.Value
+            'End Using
+            'If _historyItem.Attachments Is Nothing Then _historyItem.Attachments = New List(Of ComplianteAttachment)
+            AreThereChanges = False
+        End If
+
+
+
     End Sub
 
 
@@ -31,8 +47,9 @@ Public Class HistoryItemVM
         _db = db
         Using settDb As New Context.CompContext
             settPath = settDb.Settings.Where(Function(s) s.Key = "AttachmentsPath").FirstOrDefault.Value
+            IsUserAdmin = settDb.Users.Where(Function(u) u.UserName = Environment.UserName).First.IsAdmin
         End Using
-
+        AreThereChanges = False
     End Sub
 
     Public Sub RefreshView()
@@ -49,6 +66,7 @@ Public Class HistoryItemVM
         End Get
         Set(value As DateTime)
             _historyItem.CreationDate = value
+            AreThereChanges = True
             RaisePropertyChanged("CreationDate")
             RaisePropertyChanged("CreatedString")
         End Set
@@ -76,6 +94,7 @@ Public Class HistoryItemVM
             _historyItem.CreatedBy = value
             RaisePropertyChanged("CreatedBy")
             RaisePropertyChanged("CreatedString")
+            AreThereChanges = True
         End Set
     End Property
 
@@ -88,6 +107,7 @@ Public Class HistoryItemVM
             _historyItem.LastEditedBy = value
             RaisePropertyChanged("LastEditedBy")
             RaisePropertyChanged("ChangedString")
+            AreThereChanges = True
         End Set
     End Property
 
@@ -100,6 +120,7 @@ Public Class HistoryItemVM
             _historyItem.LastChange = value
             RaisePropertyChanged("LastChange")
             RaisePropertyChanged("ChangedString")
+            AreThereChanges = True
         End Set
     End Property
 
@@ -110,6 +131,7 @@ Public Class HistoryItemVM
         Set(value As String)
             _historyItem.Title = value
             RaisePropertyChanged("Title")
+            AreThereChanges = True
         End Set
     End Property
 
@@ -120,6 +142,7 @@ Public Class HistoryItemVM
         Set(value As String)
             _historyItem.Description = value
             RaisePropertyChanged("Description")
+            AreThereChanges = True
         End Set
     End Property
 
@@ -131,6 +154,7 @@ Public Class HistoryItemVM
         Set(value As ICollection(Of ComplianteAttachment))
             _historyItem.Attachments = value
             RaisePropertyChanged("Attachments")
+            AreThereChanges = True
         End Set
     End Property
 
@@ -186,31 +210,35 @@ Public Class HistoryItemVM
         Set(ByVal value As ICommand)
             _editCommand = value
             RaisePropertyChanged("EditCommand")
+            AreThereChanges = True
         End Set
     End Property
 
     Private Function EditCommand_CanExecute(obj As Object) As Boolean
-        Return Environment.UserName = Me.CreatedBy
+        Return Environment.UserName = Me.CreatedBy OrElse IsUserAdmin
     End Function
 
     Private Sub EditCommand_Execute(obj As Object)
         ' Using db As New Context.CompContext
         Dim win As New Windows.Window
-            win.Title = "Historie bearbeiten..."
+        win.Title = "Historie bearbeiten..."
         win.Width = 600
         win.Height = 350
         win.WindowStartupLocation = Windows.WindowStartupLocation.CenterScreen
 
-            win.DataContext = Me
-            win.Content = New ContentPresenter With {.Content = Me}
+        win.DataContext = Me
+        win.Content = New ContentPresenter With {.Content = Me}
 
-            If win.ShowDialog Then
-
-
+        If win.ShowDialog Then
 
 
-                If Attachments Is Nothing Then Attachments = New List(Of ComplianteAttachment)
 
+
+            If Attachments Is Nothing Then Attachments = New List(Of ComplianteAttachment)
+            If AreThereChanges Then
+                LastChange = Now
+                LastEditedBy = Environment.UserName
+            End If
             Dim anz As Integer = _db.SaveChanges()
 
             RefreshView()
@@ -240,13 +268,13 @@ Public Class HistoryItemVM
         'Using settDb As New Context.CompContext
         Dim settPath As String = _db.Settings.Where(Function(s) s.Key = "AttachmentsPath").FirstOrDefault.Value
         Dim saveFolder As String = settPath & "\" & Now.Year & "\"
-            If Not IO.Directory.Exists(saveFolder) Then IO.Directory.CreateDirectory(saveFolder)
+        If Not IO.Directory.Exists(saveFolder) Then IO.Directory.CreateDirectory(saveFolder)
 
-            Dim ofDiag As New Forms.OpenFileDialog
-            ofDiag.Multiselect = True
-            ofDiag.RestoreDirectory = True
-            ofDiag.Title = "Wählen Sie die Dateien welches Sie hinzufügen möchten..."
-            If Attachments Is Nothing Then Attachments = New List(Of Model.ComplianteAttachment)
+        Dim ofDiag As New Forms.OpenFileDialog
+        ofDiag.Multiselect = True
+        ofDiag.RestoreDirectory = True
+        ofDiag.Title = "Wählen Sie die Dateien welches Sie hinzufügen möchten..."
+        If Attachments Is Nothing Then Attachments = New List(Of Model.ComplianteAttachment)
         'Attachments.Add(New ComplianteAttachment())
 
         If ofDiag.ShowDialog = Forms.DialogResult.OK Then
@@ -262,6 +290,7 @@ Public Class HistoryItemVM
 
         'End Using
         RefreshView()
+        RaiseEvent Refresh()
     End Sub
 
 
@@ -279,12 +308,36 @@ Public Class HistoryItemVM
     End Property
 
     Private Function DeleteAttachmentcommand_Canexecute(obj As Object) As Boolean
-        Return obj IsNot Nothing
+        Return obj IsNot Nothing AndAlso IsUserAdmin
     End Function
 
     Private Sub DeleteAttachmentcommand_Execute(obj As Object)
-        Attachments.Remove(Attachments.Where(Function(a) a.RelativeFilePath = DirectCast(obj, Model.ComplianteAttachment).RelativeFilePath).First)
+        Attachments.Where(Function(a) a.RelativeFilePath = DirectCast(obj, Model.ComplianteAttachment).RelativeFilePath).First.IsDeleted = True
         RefreshView()
+        RaiseEvent Refresh()
+    End Sub
+
+
+    Private _dedeleteAttachmentCommand As ICommand
+    Public Property DeDeleteAttachmentcommand() As ICommand
+        Get
+            If _dedeleteAttachmentCommand Is Nothing Then _dedeleteAttachmentCommand = New RelayCommand(AddressOf DeDeleteAttachmentcommand_Execute, AddressOf DeDeleteAttachmentcommand_Canexecute)
+            Return _dedeleteAttachmentCommand
+        End Get
+        Set(ByVal value As ICommand)
+            _dedeleteAttachmentCommand = value
+            RaisePropertyChanged("DeDeleteAttachmentcommand")
+        End Set
+    End Property
+
+    Private Function DeDeleteAttachmentcommand_Canexecute(obj As Object) As Boolean
+        Return obj IsNot Nothing
+    End Function
+
+    Private Sub DeDeleteAttachmentcommand_Execute(obj As Object)
+        Attachments.Where(Function(a) a.RelativeFilePath = DirectCast(obj, Model.ComplianteAttachment).RelativeFilePath).First.IsDeleted = False
+        RefreshView()
+        RaiseEvent Refresh()
     End Sub
 
 

@@ -8,7 +8,7 @@ Namespace Migrations
 
         Public Sub New()
             AutomaticMigrationsEnabled = True
-            AutomaticMigrationDataLossAllowed = False
+            AutomaticMigrationDataLossAllowed = True
 
         End Sub
 

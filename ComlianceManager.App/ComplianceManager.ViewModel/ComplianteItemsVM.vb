@@ -23,7 +23,7 @@ Public Class ComplianteItemsVM
 
         Load()
 
-        ComplianceItemsView = Windows.Data.CollectionViewSource.GetDefaultView(ComplianceItems)
+        'ComplianceItemsView = Windows.Data.CollectionViewSource.GetDefaultView(ComplianceItems)
 
 
 
@@ -31,18 +31,19 @@ Public Class ComplianteItemsVM
         showOnProps = True
     End Sub
 
-    Private Sub Load()
+    Friend Sub Load()
         ComplianceItems = New ObservableCollection(Of ComplianceItemVM)
-
-        Dim itemsQuery = _context.ComplianceItems.OrderByDescending(Function(o) o.CreationDate)
+        _context = New Context.CompContext
+        Dim itemsQuery = _context.ComplianceItems.OrderByDescending(Function(o) o.LastChange)
         If Not IncludeDeleted Then itemsQuery.Where(Function(d) d.IsDeleted = False)
         If ShowOnlyOpenItems Then itemsQuery.Where(Function(i) i.FinishedAt Is Nothing)
 
         Dim items As List(Of Model.CompliantItem) = itemsQuery.ToList
 
         For Each i As Model.CompliantItem In items
-            ComplianceItems.Add(New ComplianceItemVM(i))
+            ComplianceItems.Add(New ComplianceItemVM(i, _context, Me))
         Next
+        ComplianceItemsView = Windows.Data.CollectionViewSource.GetDefaultView(ComplianceItems)
     End Sub
 
 

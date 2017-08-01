@@ -11,6 +11,9 @@ Public Class ComplianceItemDetailVM
     Private _compItem As Model.CompliantItem
     Private _db As Context.CompContext
 
+    Private detectChanges As Boolean = False
+    Private AreThereChanges As Boolean = False
+
     Public Sub New()
         If _db Is Nothing Then _db = New Context.CompContext
         _compItem = New Model.CompliantItem
@@ -20,11 +23,15 @@ Public Class ComplianceItemDetailVM
         AviableUsers = _db.Users.Where(Function(u) u.IsActive = True).ToList
 
         ComplianceHistory = New ObservableCollection(Of HistoryItemVM)
+
+        detectChanges = True
+
     End Sub
 
     Public Sub New(item As Model.CompliantItem)
         If _db Is Nothing Then _db = New Context.CompContext
         Reload(item)
+        detectChanges = True
     End Sub
 
     Private Sub Reload(item As Model.CompliantItem)
@@ -34,17 +41,31 @@ Public Class ComplianceItemDetailVM
 
 
         AllAviableReasons = _db.Resons.Where(Function(d) d.IsDeleted = False).ToList
-            AllAviableEntryTypes = _db.EntryTypes.Where(Function(d) d.IsDeleted = False).ToList
-            AviableUsers = _db.Users.Where(Function(u) u.IsActive = True).ToList
+        AllAviableEntryTypes = _db.EntryTypes.Where(Function(d) d.IsDeleted = False).ToList
+        AviableUsers = _db.Users.Where(Function(u) u.IsActive = True).ToList
 
-            ComplianceHistory = New ObservableCollection(Of HistoryItemVM)
-            For Each hi As Model.HistoryItem In _compItem.ComplianceHistory
+        ComplianceHistory = New ObservableCollection(Of HistoryItemVM)
+        For Each hi As Model.HistoryItem In _compItem.ComplianceHistory
             ComplianceHistory.Add(New HistoryItemVM(hi, _db))
         Next
 
-
+        IsUserAdmin = IsCurrUserAdmin()
 
     End Sub
+
+
+    Public Property IsUserAdmin As Boolean = False
+    Public Function IsCurrUserAdmin() As Boolean
+        Using Db As New Context.CompContext
+
+            If Not Db.Users.Where(Function(u) u.UserName = Environment.UserName).First.IsAdmin Then
+
+                Return False
+            Else
+                Return True
+            End If
+        End Using
+    End Function
 
 
     Public ReadOnly Property ID As Integer
@@ -62,9 +83,17 @@ Public Class ComplianceItemDetailVM
             _compItem.CustomerFirstName = value
             RaisePropertyChanged("CustomerFirstName")
             RaisePropertyChanged("FullName")
+            If detectChanges Then RefreshLastChange
         End Set
     End Property
 
+    Private Sub RefreshLastChange()
+        _compItem.LastChange = Now
+        _compItem.LastChangeByUserName = Environment.UserName
+        RaisePropertyChanged("LastChange")
+        RaisePropertyChanged("LastChangeByUserName")
+        AreThereChanges = True
+    End Sub
 
     Public Property CustomerLastName As String
         Get
@@ -74,6 +103,7 @@ Public Class ComplianceItemDetailVM
             _compItem.CustomerLastName = value
             RaisePropertyChanged("CustomerLastName")
             RaisePropertyChanged("FullName")
+            If detectChanges Then RefreshLastChange()
         End Set
     End Property
 
@@ -84,6 +114,7 @@ Public Class ComplianceItemDetailVM
         Set(value As Integer)
             _compItem.CustomerNumber = value
             RaisePropertyChanged("CustomerNumber")
+            If detectChanges Then RefreshLastChange()
         End Set
     End Property
 
@@ -101,6 +132,7 @@ Public Class ComplianceItemDetailVM
         Set(value As Model.CompliantItem.enuBrand)
             _compItem.ComplianceBrand = value
             RaisePropertyChanged("ComplianceBrand")
+            If detectChanges Then RefreshLastChange()
         End Set
     End Property
 
@@ -111,6 +143,7 @@ Public Class ComplianceItemDetailVM
         Set(value As String)
             _compItem.LicensePlate = value
             RaisePropertyChanged("LicensePlate")
+            If detectChanges Then RefreshLastChange()
         End Set
     End Property
 
@@ -122,6 +155,7 @@ Public Class ComplianceItemDetailVM
         Set(value As Model.Reason)
             _compItem.ComplianceReason = value
             RaisePropertyChanged("ComplianceReason")
+            If detectChanges Then RefreshLastChange()
         End Set
     End Property
 
@@ -133,6 +167,7 @@ Public Class ComplianceItemDetailVM
         Set(value As Model.EntryType)
             _compItem.ComplianceEntryType = value
             RaisePropertyChanged("ComplianceEntryType")
+            If detectChanges Then RefreshLastChange()
         End Set
     End Property
 
@@ -144,6 +179,7 @@ Public Class ComplianceItemDetailVM
         Set(value As Date?)
             _compItem.FinishedAt = value
             RaisePropertyChanged("FinishedAt")
+            If detectChanges Then RefreshLastChange()
         End Set
     End Property
 
@@ -181,12 +217,29 @@ Public Class ComplianceItemDetailVM
         Set(value As ObservableCollection(Of HistoryItemVM))
             _complianceHistory = value
             RaisePropertyChanged("ComplianceHistory")
+            If detectChanges Then RefreshLastChange()
         End Set
     End Property
 
 
+    Public Property IsFinished As Boolean
+        Get
+            Return _compItem.FinishedAt IsNot Nothing
+        End Get
+        Set(value As Boolean)
+            If value = True Then
+                FinishedAt = Now
+                RefreshLastChange()
 
+                RaisePropertyChanged("IsFinished")
+            Else
+                FinishedAt = Nothing
+                RefreshLastChange()
 
+                RaisePropertyChanged("IsFinished")
+            End If
+        End Set
+    End Property
 
 
 
@@ -198,6 +251,7 @@ Public Class ComplianceItemDetailVM
         Set(ByVal value As List(Of Model.Reason))
             _allAviableReasons = value
             RaisePropertyChanged("AllAviableReasons")
+
         End Set
     End Property
 
@@ -338,10 +392,10 @@ Public Class ComplianceItemDetailVM
     End Property
 
     Private Function Save_CanExecute(obj As Object) As Boolean
-
+        Return True
     End Function
 
     Private Sub Save_Execute(obj As Object)
-        Throw New NotImplementedException()
+        _db.SaveChanges()
     End Sub
 End Class

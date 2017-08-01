@@ -9,7 +9,8 @@
              mc:Ignorable="d"  d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True,Type=vm:ComplianceItemVM}"
              d:DesignHeight="600" d:DesignWidth="1217">
     <UserControl.Resources>
-        <Style TargetType="TextBox">
+        <local:BooleanReverseConverter x:Key="BooleanReverseConverter"/>
+        <Style TargetType="{x:Type TextBox}">
             <Setter Property="Margin" Value="2"/>
         </Style>
     </UserControl.Resources>
@@ -24,7 +25,7 @@
             <ColumnDefinition Width="1*" MinWidth="200" MaxWidth="400"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -37,13 +38,13 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <Label Content="Kundennummer"/>
-            <TextBox Text="{Binding CustomerNumber,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1"/>
+            <TextBox Text="{Binding CustomerNumber,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsFinished,Mode=OneWay}" Grid.Column="1"/>
             <Label Content="Vorname" Grid.Row="1"/>
-            <TextBox Text="{Binding CustomerFirstName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1"/>
+            <TextBox Text="{Binding CustomerFirstName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsFinished,Mode=OneWay}" Grid.Column="1" Grid.Row="1"/>
             <Label Content="Nachname" Grid.Row="2"/>
-            <TextBox Text="{Binding CustomerLastName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="2"/>
+            <TextBox Text="{Binding CustomerLastName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsFinished,Mode=OneWay}" Grid.Column="1" Grid.Row="2"/>
             <Label Content="Kennzeichen" Grid.Row="3"/>
-            <TextBox Text="{Binding LicensePlate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="3"/>
+            <TextBox Text="{Binding LicensePlate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsFinished,Mode=OneWay}" Grid.Column="1" Grid.Row="3"/>
             
             
         </Grid>
@@ -59,13 +60,13 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <Label Content="Marke"/>
-            <ComboBox Name="cmbBrands" SelectedItem="{Binding ComplianceBrand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Margin="2" Grid.Column="1" Grid.Row="0">
+            <ComboBox Name="cmbBrands"  IsEnabled="{Binding IsFinished, Converter={StaticResource BooleanReverseConverter}, Mode=OneWay}" SelectedItem="{Binding ComplianceBrand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Margin="2" Grid.Column="1" Grid.Row="0">
                
             </ComboBox>
             <Label Content="Ursache" Grid.Row="1"/>
-            <ComboBox Margin="2" Grid.Column="1" Grid.Row="1" ItemsSource="{Binding AllAviableReasons,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ComplianceReason}" DisplayMemberPath="ReasonTitle" SelectedValuePath="ID" IsSynchronizedWithCurrentItem="True"></ComboBox>
+            <ComboBox Margin="2" Grid.Column="1" IsEnabled="{Binding IsFinished, Converter={StaticResource BooleanReverseConverter},Mode=OneWay}" Grid.Row="1" ItemsSource="{Binding AllAviableReasons,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ComplianceReason}" DisplayMemberPath="ReasonTitle" SelectedValuePath="ID" IsSynchronizedWithCurrentItem="True"></ComboBox>
             <Label Content="Eingangsart" Grid.Row="2"/>
-            <ComboBox Margin="2" Grid.Column="1" Grid.Row="2" ItemsSource="{Binding AllAviableEntryTypes,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ComplianceEntryType}" DisplayMemberPath="EntryTitle" SelectedValuePath="ID" IsSynchronizedWithCurrentItem="True"></ComboBox>
+            <ComboBox Margin="2" Grid.Column="1" Grid.Row="2"  IsEnabled="{Binding IsFinished, Converter={StaticResource BooleanReverseConverter},Mode=OneWay}" ItemsSource="{Binding AllAviableEntryTypes,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ComplianceEntryType}" DisplayMemberPath="EntryTitle" SelectedValuePath="ID" IsSynchronizedWithCurrentItem="True"></ComboBox>
 
 
 
@@ -123,6 +124,17 @@
             <Button Command="{Binding AddHistoryItemCommand}" Padding="5">
                 <Path Height="20" Stretch="Uniform" UseLayoutRounding="False" Fill="Black" Data="F1 M 2.88,17.2725C 0.959991,15.3475 0,12.95 0,10.08C 0,7.21002 0.959991,4.8125 2.88,2.88751C 4.80002,0.962494 7.19125,0 10.0537,0C 12.9163,0 15.3163,0.962494 17.2538,2.88751C 19.1913,4.8125 20.16,7.21002 20.16,10.08C 20.16,12.95 19.1913,15.3475 17.2538,17.2725C 15.3163,19.1975 12.9163,20.16 10.0537,20.16C 7.19125,20.16 4.80002,19.1975 2.88,17.2725 Z M 3.84,11.3625L 8.81998,11.3625L 8.81998,16.32L 11.34,16.32L 11.34,11.3625L 16.32,11.3625L 16.32,8.85001L 11.34,8.85001L 11.34,3.84L 8.81998,3.84L 8.81998,8.85001L 3.84,8.85001L 3.84,11.3625 Z "/>
             </Button>
+            <CheckBox HorizontalAlignment="Center" Margin="0,10,0,0" FontSize="15"  IsChecked="{Binding IsFinished,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="Reklamation abgeschlossen" RenderTransformOrigin="0.5,0.5" IsEnabled="{Binding IsUserAdmin}">
+                <CheckBox.LayoutTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform Angle="90"/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </CheckBox.LayoutTransform>
+
+            </CheckBox>
         </StackPanel>
         
     </Grid>

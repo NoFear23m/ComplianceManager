@@ -73,6 +73,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComplianceItemDetailVM.vb" />
+    <Compile Include="EditEntryTypesVM.vb" />
+    <Compile Include="EditReasonsVM.vb" />
+    <Compile Include="EditUsersVM.vb" />
     <Compile Include="HistoryItemVM.vb" />
     <Compile Include="NewComplianceItemVM.vb" />
     <Compile Include="ComplianceItemVM.vb" />

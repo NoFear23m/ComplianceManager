@@ -7,6 +7,9 @@ Public Class ComplianceItemVM
 
 
     Private _compItem As Model.CompliantItem
+    Private _db As Context.CompContext
+    Private _listVm As ComplianteItemsVM
+
 
 
     Public Sub New()
@@ -18,12 +21,13 @@ Public Class ComplianceItemVM
         End Using
     End Sub
 
-    Public Sub New(item As Model.CompliantItem)
+    Public Sub New(item As Model.CompliantItem, db As Context.CompContext, complListVm As ComplianteItemsVM)
         _compItem = item
-        Using db As New Context.CompContext
-            AllAviableReasons = db.Resons.Where(Function(d) d.IsDeleted = False).ToList
-            AllAviableEntryTypes = db.EntryTypes.Where(Function(d) d.IsDeleted = False).ToList
-        End Using
+        _listVm = complListVm
+        _db = db
+        AllAviableReasons = _db.Resons.Where(Function(d) d.IsDeleted = False).ToList
+        AllAviableEntryTypes = _db.EntryTypes.Where(Function(d) d.IsDeleted = False).ToList
+
     End Sub
 
     Public Sub New(item As Model.CompliantItem, aviableReasons As List(Of Model.Reason), aviableEntryTypes As List(Of Model.EntryType))
@@ -216,16 +220,33 @@ Public Class ComplianceItemVM
 
     Private Sub ShowDetailsCommand_Execute(obj As Object)
         Dim win As New Windows.Window
-        win.Title = "Reklmations-Detailsansicht"
+        win.Title = "Reklamations-Detailsansicht"
         win.Width = 1200
         win.Height = 800
         win.WindowStartupLocation = Windows.WindowStartupLocation.CenterScreen
         win.DataContext = New ComplianceItemDetailVM(_compItem)
         win.Content = New ContentPresenter With {.Content = win.DataContext, .DataContext = win.DataContext}
-        If win.ShowDialog Then
+        win.ShowDialog()
 
+        If DirectCast(win.DataContext, ComplianceItemDetailVM).Save.CanExecute(Nothing) Then DirectCast(win.DataContext, ComplianceItemDetailVM).Save.Execute(Nothing)
 
-            'RefreshViews()
-        End If
+        RefreshViews()
+        _listVm.Load()
+    End Sub
+
+    Private Sub RefreshViews()
+
+        ' _compItem = _db.ComplianceItems.Find(_compItem.ID)
+
+        RaisePropertyChanged("CustomerFirstName")
+        RaisePropertyChanged("FullName")
+        RaisePropertyChanged("CustomerLastName")
+        RaisePropertyChanged("FullName")
+        RaisePropertyChanged("CustomerNumber")
+        RaisePropertyChanged("ComplianceBrand")
+        RaisePropertyChanged("LicensePlate")
+        RaisePropertyChanged("ComplianceReason")
+        RaisePropertyChanged("ComplianceEntryType")
+        RaisePropertyChanged("FinishedAt")
     End Sub
 End Class

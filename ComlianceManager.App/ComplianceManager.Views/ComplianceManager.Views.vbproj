@@ -111,6 +111,7 @@
     <Import Include="System.Windows.Navigation" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BooleanReverseConverter.vb" />
     <Compile Include="EnumBindingSourceEntension.vb" />
     <Compile Include="FilePathToExtensionImageConverter.vb" />
     <Compile Include="IntellisenseBehavior.vb" />
@@ -136,6 +137,15 @@
     </Compile>
     <Compile Include="uclComplianceItemDetail.xaml.vb">
       <DependentUpon>uclComplianceItemDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="uclEditEntryTypes.xaml.vb">
+      <DependentUpon>uclEditEntryTypes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="uclEditReasons.xaml.vb">
+      <DependentUpon>uclEditReasons.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="uclEditUser.xaml.vb">
+      <DependentUpon>uclEditUser.xaml</DependentUpon>
     </Compile>
     <Compile Include="uclHighlightedRichtextbox.xaml.vb">
       <DependentUpon>uclHighlightedRichtextbox.xaml</DependentUpon>
@@ -176,6 +186,18 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="uclComplianceItemDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="uclEditEntryTypes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="uclEditReasons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="uclEditUser.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

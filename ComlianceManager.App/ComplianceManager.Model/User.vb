@@ -3,8 +3,7 @@
 Public Class User
 
     Public Sub New()
-        UpdatedAt = Now
-        CreatedAt = Now
+
         IsAdmin = False
         IsActive = True
 
@@ -21,14 +20,7 @@ Public Class User
     Public Overridable Property IsAdmin As Boolean
     <Required>
     Public Overridable Property IsActive As String
-    <Required>
-    Public Overridable Property CreatedBy As String
-    <Required>
-    Public Overridable Property UpdatedBy As String
-    <Required>
-    Public Overridable Property UpdatedAt As DateTime
-    <Required>
-    Public Overridable Property CreatedAt As DateTime
+
 
 
 End Class

@@ -20,12 +20,42 @@ Public Class MainVM
 
         End Using
 
+        If IsUserInDB() Then
+            IsUserAdmin = IsCurrUserAdmin()
+        End If
 
 
         RefreshViews()
 
 
     End Sub
+
+    Public Function IsUserInDB() As Boolean
+        Using Db As New Context.CompContext
+
+            If Not Db.Users.Where(Function(u) u.UserName = Environment.UserName).Any Then
+
+                Return False
+            Else
+                Return True
+            End If
+        End Using
+    End Function
+
+
+    Private IsUserAdmin As Boolean = False
+    Public Function IsCurrUserAdmin() As Boolean
+        Using Db As New Context.CompContext
+
+            If Not Db.Users.Where(Function(u) u.UserName = Environment.UserName).First.IsAdmin Then
+
+                Return False
+            Else
+                Return True
+            End If
+        End Using
+    End Function
+
 
     Friend Sub RefreshViews()
         ShortInfoVm = New ShortInfoVM
@@ -144,6 +174,120 @@ Public Class MainVM
         End If
 
     End Sub
+
+
+
+
+
+    Private _editUsers As ICommand
+    Public Property EditUsers() As ICommand
+        Get
+            If _editUsers Is Nothing Then _editUsers = New RelayCommand(AddressOf EditUsers_Execute, AddressOf EditUsers_CanExecute)
+            Return _editUsers
+        End Get
+        Set(ByVal value As ICommand)
+            _editUsers = value
+            RaisePropertyChanged("EditUsers")
+        End Set
+    End Property
+
+    Private Function EditUsers_CanExecute(obj As Object) As Boolean
+        Return IsUserAdmin
+    End Function
+
+    Private Sub EditUsers_Execute(obj As Object)
+        Using db As New Context.CompContext
+            Dim win As New Windows.Window
+            win.Title = "Benutzer bearbeiten..."
+            win.Width = 400
+            win.Height = 200
+            win.WindowStartupLocation = Windows.WindowStartupLocation.CenterScreen
+
+            db.Configuration.AutoDetectChangesEnabled = True
+            win.DataContext = New EditUsersVM(db)
+            win.Content = New ContentPresenter With {.Content = win.DataContext}
+
+            win.ShowDialog()
+            Debug.WriteLine(db.SaveChanges())
+
+        End Using
+    End Sub
+
+
+    Private _editReasons As ICommand
+    Public Property EditReasons() As ICommand
+        Get
+            If _editReasons Is Nothing Then _editReasons = New RelayCommand(AddressOf EditReasons_Execute, AddressOf EditReasons_CanExecute)
+            Return _editReasons
+        End Get
+        Set(ByVal value As ICommand)
+            _editReasons = value
+            RaisePropertyChanged("EditReasons")
+        End Set
+    End Property
+
+    Private Sub EditReasons_Execute(obj As Object)
+        Using db As New Context.CompContext
+            Dim win As New Windows.Window
+            win.Title = "Reklamationursachen bearbeiten..."
+            win.Width = 400
+            win.Height = 300
+            win.WindowStartupLocation = Windows.WindowStartupLocation.CenterScreen
+
+            db.Configuration.AutoDetectChangesEnabled = True
+            win.DataContext = New EditreasonsVM(db)
+            win.Content = New ContentPresenter With {.Content = win.DataContext}
+
+            win.ShowDialog()
+            Debug.WriteLine(db.SaveChanges())
+
+        End Using
+    End Sub
+
+    Private Function EditReasons_CanExecute() As Object
+        Return IsUserAdmin
+    End Function
+
+
+
+
+
+
+    Private _editEntryTypes As ICommand
+    Public Property EditEntryTypes() As ICommand
+        Get
+            If _EditEntryTypes Is Nothing Then _EditEntryTypes = New RelayCommand(AddressOf EditEntryTypes_Execute, AddressOf EditEntryTypes_CanExecute)
+            Return _editEntryTypes
+        End Get
+        Set(ByVal value As ICommand)
+            _editEntryTypes = value
+            RaisePropertyChanged("EditEntryTypes")
+        End Set
+    End Property
+
+    Private Function EditEntryTypes_CanExecute(obj As Object) As Boolean
+        Return IsUserAdmin
+    End Function
+
+    Private Sub EditEntryTypes_Execute(obj As Object)
+        Using db As New Context.CompContext
+            Dim win As New Windows.Window
+            win.Title = "Reklamationsarten bearbeiten..."
+            win.Width = 400
+            win.Height = 300
+            win.WindowStartupLocation = Windows.WindowStartupLocation.CenterScreen
+
+            db.Configuration.AutoDetectChangesEnabled = True
+            win.DataContext = New EditEntryTypesVM(db)
+            win.Content = New ContentPresenter With {.Content = win.DataContext}
+
+            win.ShowDialog()
+            Debug.WriteLine(db.SaveChanges())
+
+        End Using
+    End Sub
+
+
 
 
 #End Region
