@@ -217,8 +217,8 @@ Public Class ComplianceItemVM
     Private Sub ShowDetailsCommand_Execute(obj As Object)
         Dim win As New Windows.Window
         win.Title = "Reklmations-Detailsansicht"
-        win.Width = 500
-        win.Height = 400
+        win.Width = 1200
+        win.Height = 800
         win.WindowStartupLocation = Windows.WindowStartupLocation.CenterScreen
         win.DataContext = New ComplianceItemDetailVM(_compItem)
         win.Content = New ContentPresenter With {.Content = win.DataContext, .DataContext = win.DataContext}

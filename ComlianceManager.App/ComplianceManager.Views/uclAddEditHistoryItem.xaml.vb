@@ -17,8 +17,11 @@ Public Class uclAddEditHistoryItem
             Dim files() As String = e.Data.GetData(DataFormats.FileDrop)
             For Each f In files
                 Dim fi As New IO.FileInfo(f)
+                Dim NewFilename As String = Now.Ticks & "_" & fi.Name
                 Dim newAtt As New ComplianteAttachment() _
-                                    With {.Title = Replace(fi.Name, fi.Extension, ""), .RelativeFilePath = Now.Year & "\" & Now.Ticks & "_" & fi.Name, .CreatedBy = Environment.UserName, .LastEditedBy = Environment.UserName}
+                                    With {.Title = Replace(fi.Name, fi.Extension, ""), .RelativeFilePath = Now.Year & "\" & NewFilename, .CreatedBy = Environment.UserName, .LastEditedBy = Environment.UserName}
+
+                IO.File.Copy(fi.FullName, VM.settPath & Now.Year & "\" & NewFilename)
                 VM.Attachments.Add(newAtt)
 
                 VM.RefreshView()

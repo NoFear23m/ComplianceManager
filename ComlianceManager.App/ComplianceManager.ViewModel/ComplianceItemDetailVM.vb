@@ -295,12 +295,12 @@ Public Class ComplianceItemDetailVM
 
 
         Dim NewHist As Model.HistoryItem = newHistVm._historyItem
-                NewHist.Title = newHistVm.Title
-                NewHist.Description = newHistVm.Description
-                NewHist.CreationDate = Now
-                newHist.CreatedBy = Environment.UserName
-                newHist.LastChange = Now
-                newHist.LastEditedBy = Environment.UserName
+        NewHist.Title = newHistVm.Title
+        NewHist.Description = newHistVm.Description
+        NewHist.CreationDate = Now
+        newHist.CreatedBy = Environment.UserName
+        newHist.LastChange = Now
+        newHist.LastEditedBy = Environment.UserName
 
         'For Each a As Model.ComplianteAttachment In newHistVm.Attachments
         '    If NewHist.Attachments.Where(Function(i) i.ID = a.ID).FirstOrDefault IsNot Nothing Then
@@ -311,7 +311,7 @@ Public Class ComplianceItemDetailVM
 
         Dim Comp As Model.CompliantItem = _db.ComplianceItems.Find(Me.ID)
         If Comp.ComplianceHistory Is Nothing Then Comp.ComplianceHistory = New List(Of Model.HistoryItem)
-                Comp.ComplianceHistory.Add(NewHist)
+        Comp.ComplianceHistory.Add(NewHist)
 
         _db.SaveChanges()
 
@@ -320,5 +320,28 @@ Public Class ComplianceItemDetailVM
             h.RefreshView()
         Next
 
+    End Sub
+
+
+
+
+    Private _Save As ICommand
+    Public Property Save() As ICommand
+        Get
+            If _Save Is Nothing Then _Save = New RelayCommand(AddressOf Save_Execute, AddressOf Save_CanExecute)
+            Return _Save
+        End Get
+        Set(ByVal value As ICommand)
+            _Save = value
+            RaisePropertyChanged("Save")
+        End Set
+    End Property
+
+    Private Function Save_CanExecute(obj As Object) As Boolean
+
+    End Function
+
+    Private Sub Save_Execute(obj As Object)
+        Throw New NotImplementedException()
     End Sub
 End Class

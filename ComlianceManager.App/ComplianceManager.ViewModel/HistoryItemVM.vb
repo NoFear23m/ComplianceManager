@@ -50,9 +50,23 @@ Public Class HistoryItemVM
         Set(value As DateTime)
             _historyItem.CreationDate = value
             RaisePropertyChanged("CreationDate")
+            RaisePropertyChanged("CreatedString")
         End Set
     End Property
 
+
+    Public ReadOnly Property CreatedString As String
+        Get
+            Return String.Format("Erstellt am {0} durch {1}", CreationDate.ToShortDateString, CreatedBy)
+        End Get
+    End Property
+
+
+    Public ReadOnly Property ChangedString As String
+        Get
+            Return String.Format("Zuletzt geändert durch {0} am {1}", LastEditedBy, LastChange.ToShortDateString)
+        End Get
+    End Property
 
     Public Property CreatedBy As String
         Get
@@ -61,6 +75,7 @@ Public Class HistoryItemVM
         Set(value As String)
             _historyItem.CreatedBy = value
             RaisePropertyChanged("CreatedBy")
+            RaisePropertyChanged("CreatedString")
         End Set
     End Property
 
@@ -72,6 +87,7 @@ Public Class HistoryItemVM
         Set(value As String)
             _historyItem.LastEditedBy = value
             RaisePropertyChanged("LastEditedBy")
+            RaisePropertyChanged("ChangedString")
         End Set
     End Property
 
@@ -83,6 +99,7 @@ Public Class HistoryItemVM
         Set(value As DateTime)
             _historyItem.LastChange = value
             RaisePropertyChanged("LastChange")
+            RaisePropertyChanged("ChangedString")
         End Set
     End Property
 
@@ -236,8 +253,10 @@ Public Class HistoryItemVM
             If Attachments Is Nothing Then Attachments = New List(Of Model.ComplianteAttachment)
             For Each f In ofDiag.FileNames
                 Dim fi As IO.FileInfo = New IO.FileInfo(f)
+                Dim NewFilename As String = Now.Ticks & "_" & fi.Name
+                IO.File.Copy(fi.FullName, settPath & Now.Year & "\" & NewFilename)
                 Attachments.Add(New ComplianteAttachment() _
-                                    With {.Title = Replace(fi.Name, fi.Extension, ""), .RelativeFilePath = Now.Year & "\" & Now.Ticks & "_" & fi.Name, .CreatedBy = Environment.UserName, .LastEditedBy = Environment.UserName})
+                                    With {.Title = Replace(fi.Name, fi.Extension, ""), .RelativeFilePath = Now.Year & "\" & NewFilename, .CreatedBy = Environment.UserName, .LastEditedBy = Environment.UserName})
             Next
         End If
 
@@ -266,5 +285,34 @@ Public Class HistoryItemVM
     Private Sub DeleteAttachmentcommand_Execute(obj As Object)
         Attachments.Remove(Attachments.Where(Function(a) a.RelativeFilePath = DirectCast(obj, Model.ComplianteAttachment).RelativeFilePath).First)
         RefreshView()
+    End Sub
+
+
+
+
+    Private _OpenAttachmentCommand As ICommand
+    Public Property OpenAttachmentCommand() As ICommand
+        Get
+            If _OpenAttachmentCommand Is Nothing Then _OpenAttachmentCommand = New RelayCommand(AddressOf OpenAttachmentCommand_execute, AddressOf OpenAttachmentCommand_CanExecute)
+            Return _OpenAttachmentCommand
+        End Get
+        Set(ByVal value As ICommand)
+            _OpenAttachmentCommand = value
+            RaisePropertyChanged("OpenAttachmentCommand")
+        End Set
+    End Property
+
+    Private Function OpenAttachmentCommand_CanExecute(obj As Object) As Boolean
+        Return obj IsNot Nothing
+
+
+    End Function
+
+    Private Sub OpenAttachmentCommand_execute(obj As Object)
+        Try
+            Process.Start(settPath & DirectCast(obj, Model.ComplianteAttachment).RelativeFilePath)
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.OkCancel, "Fehler beim laden der Datei")
+        End Try
     End Sub
 End Class
