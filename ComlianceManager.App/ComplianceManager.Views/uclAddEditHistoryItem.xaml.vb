@@ -1,4 +1,5 @@
 ﻿Imports System.Collections.ObjectModel
+Imports System.ComponentModel
 Imports ComplianceManager.Model
 
 Public Class uclAddEditHistoryItem
@@ -17,7 +18,7 @@ Public Class uclAddEditHistoryItem
             For Each f In files
                 Dim fi As New IO.FileInfo(f)
                 Dim newAtt As New ComplianteAttachment() _
-                                    With {.Title = fi.Name, .RelativeFilePath = Now.Year & "\" & fi.Name, .CreatedBy = Environment.UserName, .LastEditedBy = Environment.UserName}
+                                    With {.Title = Replace(fi.Name, fi.Extension, ""), .RelativeFilePath = Now.Year & "\" & Now.Ticks & "_" & fi.Name, .CreatedBy = Environment.UserName, .LastEditedBy = Environment.UserName}
                 VM.Attachments.Add(newAtt)
 
                 VM.RefreshView()
@@ -34,5 +35,31 @@ Public Class uclAddEditHistoryItem
         win.DialogResult = True
     End Sub
 
+    Private Sub uclAddEditHistoryItem_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
+        Dim VM As ViewModel.HistoryItemVM = Me.DataContext
+        AddHandler VM.Refresh, AddressOf Refresh
+        AddHandler Window.GetWindow(Me).Closing, AddressOf closing
+    End Sub
 
+    Private Sub closing(sender As Object, e As CancelEventArgs)
+        Dim VM As ViewModel.HistoryItemVM = Me.DataContext
+        Dim message As String = ""
+
+        If String.IsNullOrEmpty(VM.Title) Then
+            message += "Es muss ein titel angegeben werden." & vbNewLine
+        End If
+
+        If message.Length > 0 Then
+            e.Cancel = True
+            MessageBox.Show(message, "Bitte alle Felder ausfüllen...", MessageBoxButton.OK, MessageBoxImage.Information)
+
+        End If
+
+    End Sub
+
+    Private Sub Refresh()
+        Dim VM As ViewModel.HistoryItemVM = Me.DataContext
+        Me.DataContext = Nothing
+        Me.DataContext = VM
+    End Sub
 End Class

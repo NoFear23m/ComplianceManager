@@ -25,7 +25,7 @@
         <TextBox VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch" Margin="2" Text="{Binding Description,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1"/>
 
         <Label Content="Anhänge" Grid.Row="3"/>
-        <ListBox Grid.Column="1" AllowDrop="True" Drop="ItemsControl_Drop" ItemsSource="{Binding Attachments,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MinHeight="60" Background="White" Grid.Row="3" Margin="2">
+        <ListBox Name="AttList" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" AllowDrop="True" Drop="ItemsControl_Drop" ItemsSource="{Binding Attachments,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MinHeight="60" Background="White" Grid.Row="3" Margin="2">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <WrapPanel Orientation="Horizontal">
@@ -40,8 +40,8 @@
             </ItemsControl.ItemTemplate>
         </ListBox>
         <DockPanel Grid.Row="4" Grid.Column="1" LastChildFill="False">
-            <Button Content="Add" DockPanel.Dock="Left" Margin="4"/>
-            <Button Content="Delete" DockPanel.Dock="Left" Margin="4"/>
+            <Button Content="Add" DockPanel.Dock="Left" Margin="4" Command="{Binding AddAttachmentCommand}"/>
+            <Button Content="Delete" DockPanel.Dock="Left" Margin="4" Command="{Binding DeleteAttachmentcommand}" CommandParameter="{Binding ElementName=AttList,Path=SelectedItem}"/>
         </DockPanel>
         <DockPanel Grid.Row="5" Grid.Column="1" LastChildFill="False">
             <Button Content="_Schliessen" IsDefault="False" DockPanel.Dock="Right" Margin="4" Click="Button_Click"/>

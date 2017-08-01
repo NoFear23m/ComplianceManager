@@ -282,8 +282,8 @@ Public Class ComplianceItemDetailVM
 
         Dim win As New Windows.Window
         win.Title = "Neue Historie anlegen..."
-        win.Width = 500
-        win.Height = 250
+        win.Width = 600
+        win.Height = 350
         win.WindowStartupLocation = Windows.WindowStartupLocation.CenterScreen
         Dim newHistVm = New HistoryItemVM(New Model.HistoryItem, _db)
         If newHistVm.Attachments Is Nothing Then newHistVm.Attachments = New List(Of Model.ComplianteAttachment)
