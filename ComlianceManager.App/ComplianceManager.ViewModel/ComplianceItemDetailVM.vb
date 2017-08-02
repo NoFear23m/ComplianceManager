@@ -46,13 +46,18 @@ Public Class ComplianceItemDetailVM
 
         ComplianceHistory = New ObservableCollection(Of HistoryItemVM)
         For Each hi As Model.HistoryItem In _compItem.ComplianceHistory
-            ComplianceHistory.Add(New HistoryItemVM(hi, _db))
+            Dim nivm = New HistoryItemVM(hi, _db)
+            ComplianceHistory.Add(nivm)
+            AddHandler nivm.Refresh, AddressOf Refresh
         Next
 
         IsUserAdmin = IsCurrUserAdmin()
 
     End Sub
 
+    Private Sub Refresh()
+        Reload(_compItem)
+    End Sub
 
     Public Property IsUserAdmin As Boolean = False
     Public Function IsCurrUserAdmin() As Boolean
@@ -317,8 +322,6 @@ Public Class ComplianceItemDetailVM
 
 
 
-
-
     Private _addHistorItemCommand As ICommand
     Public Property AddHistoryItemCommand() As ICommand
         Get
@@ -348,35 +351,35 @@ Public Class ComplianceItemDetailVM
         win.DataContext = newHistVm
         win.Content = New ContentPresenter With {.Content = newHistVm}
 
-        win.ShowDialog()
+        If win.ShowDialog() Then
 
 
-        Dim NewHist As Model.HistoryItem = newHistVm._historyItem
-        NewHist.Title = newHistVm.Title
-        NewHist.Description = newHistVm.Description
-        NewHist.CreationDate = Now
-        newHist.CreatedBy = Environment.UserName
-        newHist.LastChange = Now
-        newHist.LastEditedBy = Environment.UserName
+            Dim NewHist As Model.HistoryItem = newHistVm._historyItem
+            NewHist.Title = newHistVm.Title
+            NewHist.Description = newHistVm.Description
+            NewHist.CreationDate = Now
+            newHist.CreatedBy = Environment.UserName
+            newHist.LastChange = Now
+            newHist.LastEditedBy = Environment.UserName
 
-        'For Each a As Model.ComplianteAttachment In newHistVm.Attachments
-        '    If NewHist.Attachments.Where(Function(i) i.ID = a.ID).FirstOrDefault IsNot Nothing Then
+            'For Each a As Model.ComplianteAttachment In newHistVm.Attachments
+            '    If NewHist.Attachments.Where(Function(i) i.ID = a.ID).FirstOrDefault IsNot Nothing Then
 
-        '    End If
-        'Next
+            '    End If
+            'Next
 
 
-        Dim Comp As Model.CompliantItem = _db.ComplianceItems.Find(Me.ID)
-        If Comp.ComplianceHistory Is Nothing Then Comp.ComplianceHistory = New List(Of Model.HistoryItem)
-        Comp.ComplianceHistory.Add(NewHist)
+            Dim Comp As Model.CompliantItem = _db.ComplianceItems.Find(Me.ID)
+            If Comp.ComplianceHistory Is Nothing Then Comp.ComplianceHistory = New List(Of Model.HistoryItem)
+            Comp.ComplianceHistory.Add(NewHist)
 
-        _db.SaveChanges()
+            _db.SaveChanges()
 
-        Reload(_compItem)
-        For Each h As HistoryItemVM In Me.ComplianceHistory
-            h.RefreshView()
-        Next
-
+            Reload(_compItem)
+            For Each h As HistoryItemVM In Me.ComplianceHistory
+                h.RefreshView()
+            Next
+        End If
     End Sub
 
 

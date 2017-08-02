@@ -3,6 +3,9 @@ Imports System.ComponentModel
 Imports ComplianceManager.Model
 
 Public Class uclAddEditHistoryItem
+
+
+    Private forceClose As Boolean = False
     Private Sub ItemsControl_Drop(sender As Object, e As DragEventArgs)
 
 
@@ -45,11 +48,12 @@ Public Class uclAddEditHistoryItem
     End Sub
 
     Private Sub closing(sender As Object, e As CancelEventArgs)
+        If forceClose Then Exit Sub
         Dim VM As ViewModel.HistoryItemVM = Me.DataContext
         Dim message As String = ""
 
         If String.IsNullOrEmpty(VM.Title) Then
-            message += "Es muss ein titel angegeben werden." & vbNewLine
+            message += "Es muss ein Titel angegeben werden." & vbNewLine
         End If
 
         If message.Length > 0 Then
@@ -64,5 +68,11 @@ Public Class uclAddEditHistoryItem
         Dim VM As ViewModel.HistoryItemVM = Me.DataContext
         Me.DataContext = Nothing
         Me.DataContext = VM
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As RoutedEventArgs)
+        Dim win As Window = Window.GetWindow(Me)
+        forceClose = True
+        win.DialogResult = False
     End Sub
 End Class

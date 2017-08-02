@@ -8,9 +8,13 @@
 
 
     Private Sub Refresh()
-        Dim VM As ViewModel.HistoryItemVM = Me.DataContext
-        Me.DataContext = Nothing
-        Me.DataContext = VM
+        Try
+            Dim VM As ViewModel.HistoryItemVM = Me.DataContext
+            Me.DataContext = Nothing
+            Me.DataContext = VM
+        Catch ex As Exception
+
+        End Try
     End Sub
 
 

@@ -27,6 +27,7 @@
         <Label Content="Titel"/>
         <TextBox Text="{Binding Title,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="2" Grid.Column="1"/>
         <Label Content="Beschreibung" Grid.Row="1"/>
+        <TextBlock TextWrapping="Wrap" Width="70" FontSize="9" Grid.Row="1" Margin="0,25,0,0" Text="Um zu Formattieren einen Text markieren"/>
         <!--<TextBox VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch" Margin="2" Text="{Binding Description,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1"/>-->
         <local:uclHighlightedRichtextbox VerticalAlignment="Stretch" Margin="2" Grid.Column="1" Grid.Row="1"
                                          AviableUsers="{Binding AviableUsers}" PlainText="{Binding Description, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
@@ -111,7 +112,10 @@
         <DockPanel Grid.Row="5" Grid.Column="1" LastChildFill="False">
             <Button IsDefault="False" DockPanel.Dock="Right" Margin="4" Click="Button_Click">
                 <!--<Image Source="FileIcons\jpg.png"/>-->
-                Schliessen
+                Speichern
+            </Button>
+            <Button IsDefault="False" DockPanel.Dock="Right" Margin="4" Click="Button1_Click">
+               Abbrechen
             </Button>
 
         </DockPanel>

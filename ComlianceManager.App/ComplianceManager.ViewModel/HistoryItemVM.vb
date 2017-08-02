@@ -235,8 +235,8 @@ Public Class HistoryItemVM
         ' Using db As New Context.CompContext
         Dim win As New Windows.Window
         win.Title = "Historie bearbeiten..."
-        win.Width = 600
-        win.Height = 350
+        win.Width = 800
+        win.Height = 600
         win.WindowStartupLocation = Windows.WindowStartupLocation.CenterScreen
 
         win.DataContext = Me
@@ -352,6 +352,33 @@ Public Class HistoryItemVM
         RefreshView()
         RaiseEvent Refresh()
     End Sub
+
+
+    Private _removeHistoryItem As ICommand
+    Public Property RemoveHistoryItem() As ICommand
+        Get
+            If _removeHistoryItem Is Nothing Then _removeHistoryItem = New RelayCommand(AddressOf RemoveHistoryItem_Execute, AddressOf RemoveHistoryItem_CanExecute)
+            Return _removeHistoryItem
+        End Get
+        Set(ByVal value As ICommand)
+            _removeHistoryItem = value
+            RaisePropertyChanged("RemoveHistoryItem")
+        End Set
+    End Property
+
+    Private Function RemoveHistoryItem_CanExecute(obj As Object) As Boolean
+        Return IsUserAdmin AndAlso obj IsNot Nothing
+    End Function
+
+    Private Sub RemoveHistoryItem_Execute(obj As Object)
+        _db.HistoryItems.Remove(_db.HistoryItems.Where(Function(i) i.ID = DirectCast(obj, HistoryItemVM)._historyItem.ID).First)
+        _db.SaveChanges()
+
+
+        RefreshView()
+        RaiseEvent Refresh()
+    End Sub
+
 
 
 
