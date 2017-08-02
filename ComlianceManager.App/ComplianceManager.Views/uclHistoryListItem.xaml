@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:vm="clr-namespace:ComplianceManager.ViewModel;assembly=ComplianceManager.ViewModel"
-             xmlns:local="clr-namespace:ComplianceManager.Views"
+             xmlns:local="clr-namespace:ComplianceManager.Views"  xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True,Type=vm:HistoryItemVM}"
              d:DesignHeight="157.471" d:DesignWidth="669.441" Height="Auto" Width="Auto" MinHeight="50">
     <UserControl.Resources>
@@ -28,7 +28,12 @@
 
                 <Border Height="1" Grid.Row="1" BorderBrush="LightGray" BorderThickness="1" Grid.ColumnSpan="2" Margin="0,0,0,1"/>
                 <ScrollViewer Grid.Row="2" Grid.ColumnSpan="1">
-                    <TextBlock Text="{Binding Description,FallbackValue=Fehler,TargetNullValue=Fehler}" MaxHeight="100" MinHeight="50" TextWrapping="Wrap"/>
+                    <toolkit:RichTextBox Background="Transparent"  Text="{Binding Description,FallbackValue=Fehler,TargetNullValue=Fehler}" MaxHeight="100" MinHeight="90">
+                        <toolkit:RichTextBox.TextFormatter>
+
+                            <toolkit:RtfFormatter />
+                        </toolkit:RichTextBox.TextFormatter>
+                    </toolkit:RichTextBox>
                 </ScrollViewer>
                 <ItemsControl Grid.Row="3" ItemsSource="{Binding Attachments}" Grid.ColumnSpan="2">
                     <ItemsControl.ItemsPanel>

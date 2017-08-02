@@ -68,6 +68,9 @@ Public Class ComplianceItemDetailVM
     End Function
 
 
+
+
+
     Public ReadOnly Property ID As Integer
         Get
             Return _compItem.ID

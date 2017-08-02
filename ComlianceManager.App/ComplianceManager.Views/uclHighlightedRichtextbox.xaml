@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="uclHighlightedRichtextbox"
+﻿<UserControl x:Name="userControl" x:Class="uclHighlightedRichtextbox"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <toolkit:RichTextBox x:Name="_richTextBox" Grid.Row="1" Margin="0" BorderBrush="Gray" Padding="10" 
+        <!--<toolkit:RichTextBox x:Name="_richTextBox" Grid.Row="1" Margin="0" BorderBrush="Gray" Padding="10" 
                                           Text="{Binding Notes}" 
                                           ScrollViewer.VerticalScrollBarVisibility="Auto">
             
@@ -20,8 +20,17 @@
                 
                 <toolkit:XamlFormatter />
             </toolkit:RichTextBox.TextFormatter>
+        </toolkit:RichTextBox>-->
+        <toolkit:RichTextBox x:Name="rtb" Text="{Binding PlainText, ElementName=userControl}">
+            <toolkit:RichTextBoxFormatBarManager.FormatBar>
+                <toolkit:RichTextBoxFormatBar />
+            </toolkit:RichTextBoxFormatBarManager.FormatBar>
+            <toolkit:RichTextBox.TextFormatter>
+
+                <toolkit:RtfFormatter />
+            </toolkit:RichTextBox.TextFormatter>
         </toolkit:RichTextBox>
-        <!--<Popup Name="PopupWindow"
+        <Popup Name="PopupWindow"
                Placement="Relative"
                IsOpen="False"
                StaysOpen="False">
@@ -30,8 +39,10 @@
                     Height="100"
                     Background="AntiqueWhite">
 
-                <ListBox ItemsSource="{Binding AviableUsers}" DisplayMemberPath="Fullname" SelectedItem="{Binding SelectedPopupUser}"/>
+                <ListBox ItemsSource="{Binding AviableUsers, ElementName=userControl}" DisplayMemberPath="FullName" SelectedValuePath="ID" SelectedIndex="0">
+                   
+                </ListBox>
             </Border>
-        </Popup>-->
+        </Popup>
     </Grid>
 </UserControl>

@@ -29,6 +29,7 @@ Public Class HistoryItemVM
             _historyItem.Attachments.Add(New ComplianteAttachment() With {.CreatedBy = "User", .CreationDate = Now, .LastChange = Now, .LastEditedBy = "User", .Title = "Test3", .RelativeFilePath = "Test3.png", .IsDeleted = True})
         Else
             _historyItem = New Model.HistoryItem
+            AviableUsers = _db.Users.Where(Function(u) u.IsActive = True).ToList
             'Using settDb As New Context.CompContext
             '    settPath = settDb.Settings.Where(Function(s) s.Key = "AttachmentsPath").FirstOrDefault.Value
             'End Using
@@ -49,6 +50,7 @@ Public Class HistoryItemVM
             settPath = settDb.Settings.Where(Function(s) s.Key = "AttachmentsPath").FirstOrDefault.Value
             IsUserAdmin = settDb.Users.Where(Function(u) u.UserName = Environment.UserName).First.IsAdmin
         End Using
+        AviableUsers = _db.Users.Where(Function(u) u.IsActive = True).ToList
         AreThereChanges = False
     End Sub
 
@@ -58,6 +60,17 @@ Public Class HistoryItemVM
         RaisePropertyChanged("Attachments")
         RaiseEvent Refresh()
     End Sub
+
+
+    Private _aviableUsers As List(Of Model.User)
+    Public Property AviableUsers() As List(Of Model.User)
+        Get
+            Return _aviableUsers
+        End Get
+        Set(ByVal value As List(Of Model.User))
+            _aviableUsers = value
+        End Set
+    End Property
 
 
     Public Property CreationDate As DateTime

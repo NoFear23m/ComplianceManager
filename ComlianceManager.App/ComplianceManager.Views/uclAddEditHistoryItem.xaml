@@ -27,8 +27,9 @@
         <Label Content="Titel"/>
         <TextBox Text="{Binding Title,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="2" Grid.Column="1"/>
         <Label Content="Beschreibung" Grid.Row="1"/>
-        <TextBox VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch" Margin="2" Text="{Binding Description,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1"/>
-
+        <!--<TextBox VerticalScrollBarVisibility="Visible" VerticalAlignment="Stretch" Margin="2" Text="{Binding Description,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1"/>-->
+        <local:uclHighlightedRichtextbox VerticalAlignment="Stretch" Margin="2" Grid.Column="1" Grid.Row="1"
+                                         AviableUsers="{Binding AviableUsers}" PlainText="{Binding Description, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
         <Label Content="Anhänge" Grid.Row="3"/>
         <ItemsControl Name="AttList" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Disabled" AllowDrop="True" Drop="ItemsControl_Drop" ItemsSource="{Binding Attachments,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MinHeight="60" Background="White" Grid.Row="3" Margin="2">
             <ItemsControl.ItemsPanel>

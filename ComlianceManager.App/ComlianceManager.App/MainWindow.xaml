@@ -9,6 +9,7 @@
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_Datei">
+              
                 <MenuItem Header="_Beenden" Click="ShutDown"/>
 
             </MenuItem>
