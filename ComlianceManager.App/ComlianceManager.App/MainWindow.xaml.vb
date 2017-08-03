@@ -26,6 +26,6 @@ Class MainWindow
     End Sub
 
     Private Sub MenuItem_Click(sender As Object, e As RoutedEventArgs)
-
+        Process.Start("https://github.com/NoFear23m/ComplianceManager")
     End Sub
 End Class
