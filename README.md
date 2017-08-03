@@ -1,7 +1,7 @@
-### Reklamationsmanager
+ kann### Reklamationsmanager
 
 Ein kleiner Manager um Reklamationen in einem kleinen Team zu Verwalten. 
-Datenbackend ist eine MS SQL Datenbank, wobei jeder Provider welcher von Entity Framework 6 unterstützt wird verwendet werden.
+Datenbackend ist eine MS SQL Datenbank, wobei jeder Provider welcher von Entity Framework 6 unterstützt wird verwendet werden kann.
 Der Connectionstring kann in der app.config geändert werden.
 
 
