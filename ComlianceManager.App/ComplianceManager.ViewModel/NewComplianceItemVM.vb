@@ -4,7 +4,7 @@ Public Class NewComplianceItemVM
     Inherits ViewModelBase
 
 
-    Private _compItem As Model.CompliantItem
+    Public _compItem As Model.CompliantItem
 
 
     Public Sub New()
@@ -19,6 +19,7 @@ Public Class NewComplianceItemVM
 
     Private Sub Init()
         Using db As New Context.CompContext
+            _partnerNetUrl = db.Settings.Where(Function(s) s.Key = "ParnterNetURL").FirstOrDefault.Value
             AllAviableReasons = db.Resons.Where(Function(d) d.IsDeleted = False).ToList
             AllAviableEntryTypes = db.EntryTypes.Where(Function(d) d.IsDeleted = False).ToList
         End Using
@@ -27,6 +28,18 @@ Public Class NewComplianceItemVM
         ComplianceBrand = Model.CompliantItem.enuBrand.VW
 
     End Sub
+
+
+    Private _partnerNetUrl As String
+    Public Property PertnerNetUrl() As String
+        Get
+            Return _partnerNetUrl
+        End Get
+        Set(ByVal value As String)
+            _partnerNetUrl = value
+            RaisePropertyChanged("PertnerNetUrl")
+        End Set
+    End Property
 
     Public ReadOnly Property ID As Integer
         Get

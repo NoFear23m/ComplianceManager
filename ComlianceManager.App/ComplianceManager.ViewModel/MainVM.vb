@@ -163,8 +163,8 @@ Public Class MainVM
                 newComItem.LastChange = Now
                 newComItem.LastChangeByUserName = Environment.UserName
 
-                If newComItem.ComplianceHistory Is Nothing Then newComItem.ComplianceHistory = New List(Of Model.HistoryItem)
-                newComItem.ComplianceHistory.Add(New Model.HistoryItem With {.CreatedBy = Environment.UserName, .CreationDate = Now, .Title = "Neuanlage der Reklamation", .LastChange = Now, .LastEditedBy = Environment.UserName, .Description = " "})
+                'If newComItem.ComplianceHistory Is Nothing Then newComItem.ComplianceHistory = New List(Of Model.HistoryItem)
+                'newComItem.ComplianceHistory.Add(New Model.HistoryItem With {.CreatedBy = Environment.UserName, .CreationDate = Now, .Title = "Neuanlage der Reklamation", .LastChange = Now, .LastEditedBy = Environment.UserName, .Description = " "})
 
                 db.ComplianceItems.Add(newComItem)
 
@@ -287,6 +287,43 @@ Public Class MainVM
         End Using
     End Sub
 
+
+
+
+
+    Private _editSettings As ICommand
+    Public Property EditSettings() As ICommand
+        Get
+            If _editSettings Is Nothing Then _editSettings = New RelayCommand(AddressOf EditSettings_Execute, AddressOf EditSettings_CanExecute)
+            Return _editSettings
+        End Get
+        Set(ByVal value As ICommand)
+            _editSettings = value
+            RaisePropertyChanged("EditSettings")
+        End Set
+    End Property
+
+    Private Function EditSettings_CanExecute(obj As Object) As Boolean
+        Return IsUserAdmin
+    End Function
+
+    Private Sub EditSettings_Execute(obj As Object)
+        Using db As New Context.CompContext
+            Dim win As New Windows.Window
+            win.Title = "Einstellungen bearbeiten..."
+            win.Width = 400
+            win.Height = 300
+            win.WindowStartupLocation = Windows.WindowStartupLocation.CenterScreen
+
+            db.Configuration.AutoDetectChangesEnabled = True
+            win.DataContext = New EditSettingsVM(db)
+            win.Content = New ContentPresenter With {.Content = win.DataContext}
+
+            win.ShowDialog()
+            Debug.WriteLine(db.SaveChanges())
+
+        End Using
+    End Sub
 
 
 

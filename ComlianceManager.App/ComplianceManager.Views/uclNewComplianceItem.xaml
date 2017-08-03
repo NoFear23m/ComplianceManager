@@ -30,7 +30,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Text="Bitte fülle alle Felder sorgfälltig aus um eine neue Kundenreklamation anzulegen. Die Reklamation wird anschliessend der Liste hinzugefügt und kann weiterbearbeitet werden."
+        <TextBlock Margin="5" Text="Bitte fülle alle Felder sorgfälltig aus um eine neue Kundenreklamation anzulegen. Die Reklamation wird anschliessend der Liste hinzugefügt und kann weiterbearbeitet werden."
                TextWrapping="WrapWithOverflow" Grid.ColumnSpan="2"/>
 
         <Label Content="Cross GeschäftspartnerNr" Grid.Row="1"/>
@@ -80,6 +80,7 @@
         </Grid>
 
         <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Right">
+            <Button Content="Partner.Net Abruf"  Margin="5" Click="Abruf_Click"></Button>
             <Button Content="Anlegen" IsDefault="True" Margin="5" Width="70" Click="ButtonAnlegen_Click"></Button>
             <Button Content="Abbrechen" IsCancel="True" Margin="5" Width="70" Click="ButtonAbbrechen_Click"></Button>
         </StackPanel>

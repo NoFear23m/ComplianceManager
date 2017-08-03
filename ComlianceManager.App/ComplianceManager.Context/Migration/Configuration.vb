@@ -33,7 +33,8 @@ Namespace Migrations
             '                                      New SettingCategory() With {.Title = "Focuseinstellungen"},
             '                                      New SettingCategory() With {.Title = "Defaultwerte"})
             context.Settings.AddOrUpdate(Function(c) c.Key,
-                                         New Model.Setting() With {.Key = "AttachmentsPath",.Title="Der Pfad wo die Attachment gespeichert werden sollen.",.Value = "D:\Attachments\"})
+                                         New Model.Setting() With {.Key = "AttachmentsPath", .Title = "Der Pfad wo die Attachment gespeichert werden sollen.", .Value = "D:\Attachments\"},
+                                         New Model.Setting() With {.Key = "ParnterNetURL", .Title = "Die URL des Partner.Net Fensters mit den Reklamationen", .Value = "https://www.auto-partner.net/portal/at/thirdparty?directlink=KU_REK&noFramesMode=true"})
         End Sub
 
 

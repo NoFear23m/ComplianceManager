@@ -53,6 +53,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.mshtml, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
@@ -141,6 +144,9 @@
     <Compile Include="uclEditEntryTypes.xaml.vb">
       <DependentUpon>uclEditEntryTypes.xaml</DependentUpon>
     </Compile>
+    <Compile Include="uclEditSettings.xaml.vb">
+      <DependentUpon>uclEditSettings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="uclEditReasons.xaml.vb">
       <DependentUpon>uclEditReasons.xaml</DependentUpon>
     </Compile>
@@ -164,6 +170,9 @@
     </Compile>
     <Compile Include="uclShortInfos.xaml.vb">
       <DependentUpon>uclShortInfos.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WindowGetPartnerNet.xaml.vb">
+      <DependentUpon>WindowGetPartnerNet.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="My Project\Resources.resx">
       <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
@@ -190,6 +199,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="uclEditEntryTypes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="uclEditSettings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -222,6 +235,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="uclShortInfos.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WindowGetPartnerNet.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -73,7 +73,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
@@ -87,7 +87,7 @@
             <ComboBox Margin="2" Grid.Column="1" IsEnabled="{Binding IsFinished, Converter={StaticResource BooleanReverseConverter},Mode=OneWay}" Grid.Row="1" ItemsSource="{Binding AllAviableReasons,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ComplianceReason}" DisplayMemberPath="ReasonTitle" SelectedValuePath="ID" IsSynchronizedWithCurrentItem="True"></ComboBox>
             <Label Content="Eingangsart" Grid.Row="2"/>
             <ComboBox Margin="2" Grid.Column="1" Grid.Row="2"  IsEnabled="{Binding IsFinished, Converter={StaticResource BooleanReverseConverter},Mode=OneWay}" ItemsSource="{Binding AllAviableEntryTypes,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ComplianceEntryType}" DisplayMemberPath="EntryTitle" SelectedValuePath="ID" IsSynchronizedWithCurrentItem="True"></ComboBox>
-
+            <CheckBox Grid.Column="1" Grid.Row="3" Margin="4" Content="Gelöscht markieren" IsChecked="{Binding Deleted}" IsEnabled="{Binding IsUserAdmin}"/>
 
 
         </Grid>

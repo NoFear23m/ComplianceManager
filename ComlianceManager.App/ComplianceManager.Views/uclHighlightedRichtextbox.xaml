@@ -25,9 +25,9 @@
             <toolkit:RichTextBoxFormatBarManager.FormatBar>
                 <toolkit:RichTextBoxFormatBar />
             </toolkit:RichTextBoxFormatBarManager.FormatBar>
-            <toolkit:RichTextBox.TextFormatter>
+            <toolkit:RichTextBox.TextFormatter >
 
-                <toolkit:RtfFormatter />
+                <toolkit:RtfFormatter  />
             </toolkit:RichTextBox.TextFormatter>
         </toolkit:RichTextBox>
         <Popup Name="PopupWindow"

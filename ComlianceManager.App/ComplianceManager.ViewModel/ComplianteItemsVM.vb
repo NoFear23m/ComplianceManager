@@ -35,8 +35,8 @@ Public Class ComplianteItemsVM
         ComplianceItems = New ObservableCollection(Of ComplianceItemVM)
         _context = New Context.CompContext
         Dim itemsQuery = _context.ComplianceItems.OrderByDescending(Function(o) o.LastChange)
-        If Not IncludeDeleted Then itemsQuery.Where(Function(d) d.IsDeleted = False)
-        If ShowOnlyOpenItems Then itemsQuery.Where(Function(i) i.FinishedAt Is Nothing)
+        If Not IncludeDeleted Then itemsQuery = itemsQuery.Where(Function(d) d.IsDeleted = False)
+        If ShowOnlyOpenItems Then itemsQuery = itemsQuery.Where(Function(i) i.FinishedAt Is Nothing)
 
         Dim items As List(Of Model.CompliantItem) = itemsQuery.ToList
 

@@ -156,6 +156,17 @@ Public Class ComplianceItemDetailVM
     End Property
 
 
+    Public Property Deleted As String
+        Get
+            Return _compItem.IsDeleted
+        End Get
+        Set(value As String)
+            _compItem.IsDeleted = value
+            RaisePropertyChanged("Deleted")
+
+        End Set
+    End Property
+
     Public Property ComplianceReason As Model.Reason
         Get
             Return _compItem.ComplianceReason

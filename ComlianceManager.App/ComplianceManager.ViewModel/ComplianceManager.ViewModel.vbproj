@@ -75,6 +75,7 @@
     <Compile Include="ComplianceItemDetailVM.vb" />
     <Compile Include="EditEntryTypesVM.vb" />
     <Compile Include="EditReasonsVM.vb" />
+    <Compile Include="EditSettingsVM.vb" />
     <Compile Include="EditUsersVM.vb" />
     <Compile Include="HistoryItemVM.vb" />
     <Compile Include="NewComplianceItemVM.vb" />
