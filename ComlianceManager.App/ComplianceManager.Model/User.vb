@@ -6,7 +6,7 @@ Public Class User
 
         IsAdmin = False
         IsActive = True
-
+        IsFirstLogin = True
     End Sub
 
     <Key>
@@ -20,7 +20,7 @@ Public Class User
     Public Overridable Property IsAdmin As Boolean
     <Required>
     Public Overridable Property IsActive As String
-
-
+    <Required>
+    Public Overridable Property IsFirstLogin As Boolean
 
 End Class

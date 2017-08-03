@@ -24,7 +24,7 @@
             </MenuItem>
             <MenuItem Header="Info">
                 <MenuItem Header="Bug melden" Click="MenuItem_Click"/>
-                
+                <MenuItem Header="WIKI" Click="MenuItem1_Click"/>
             </MenuItem>
         </Menu>
         <Views:uclMain />

@@ -18,6 +18,11 @@ Public Class MainVM
         Using settDb As New Context.CompContext
             AllSettings = settDb.Settings.ToList
 
+            If settDb.Users.Where(Function(u) u.UserName = Environment.UserName).First.IsFirstLogin Then
+                MsgBox("Hallo und Willkommen" & vbNewLine & "Du hast dich zum ersten mal angemeldet. Besuche doch das WIKI um dich mit dem Programm vertraut zu machen. Das WIKI findest du im Menupunkt Info.", MsgBoxStyle.OkOnly, "Willkommen beim Compliant-Manager")
+                settDb.Users.Where(Function(u) u.UserName = Environment.UserName).First.IsFirstLogin = False
+                settDb.SaveChanges()
+            End If
         End Using
 
         If IsUserInDB() Then

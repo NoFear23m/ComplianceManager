@@ -28,4 +28,8 @@ Class MainWindow
     Private Sub MenuItem_Click(sender As Object, e As RoutedEventArgs)
         Process.Start("https://github.com/NoFear23m/ComplianceManager")
     End Sub
+
+    Private Sub MenuItem1_Click(sender As Object, e As RoutedEventArgs)
+        Process.Start("https://github.com/NoFear23m/ComplianceManager/wiki")
+    End Sub
 End Class
