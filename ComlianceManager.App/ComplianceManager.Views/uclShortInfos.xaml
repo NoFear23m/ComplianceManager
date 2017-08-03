@@ -16,14 +16,14 @@
         </Grid.RowDefinitions>
         <TextBlock>
             <Run>Es sind insgesamt </Run>
-            <Hyperlink><TextBlock Text="{Binding OpenComplianceItems,Mode=OneWay}"/></Hyperlink>
+            <Hyperlink Command="{Binding ShowOpenedCommand}"><TextBlock Text="{Binding OpenComplianceItems,Mode=OneWay}"/></Hyperlink>
             <Run> offene von </Run>
-            <Hyperlink><TextBlock Text="{Binding AviableComplianceItemsCount,Mode=OneWay}"/></Hyperlink>
+            <Hyperlink Command="{Binding ShowAllCommand}"><TextBlock Text="{Binding AviableComplianceItemsCount,Mode=OneWay}"/></Hyperlink>
             <Run> Kundenreklamationen verfügbar.</Run>
         </TextBlock>
         <TextBlock Grid.Row="1">
             <Run>Die zuletzt hinzugefügt Kundenreklamation von </Run>
-            <Hyperlink><TextBlock Text="{Binding LatestAddedComplianceItem.CustomerFullName, Mode=OneWay,FallbackValue=Unknown,TargetNullValue=Unknown}"/></Hyperlink>
+            <Hyperlink Command="{Binding OpenLastAdded}"><TextBlock Text="{Binding LatestAddedComplianceItem.CustomerFullName, Mode=OneWay,FallbackValue=Unknown,TargetNullValue=Unknown}"/></Hyperlink>
             <Run> wurde angelegt durch </Run>
             <Run Text="{Binding LatestAddedComplianceItem.CreatedByUserName, Mode=OneWay,FallbackValue=Unknown,TargetNullValue=Unknown}"/>
             <Run> am </Run>
@@ -34,7 +34,7 @@
             <Run>Letzte bearbeitung einer Kundenreklamation wurde durch  </Run>
             <Run Text="{Binding LatestChangedComplianceItem.LastChangeByUserName, Mode=OneWay,FallbackValue=Unknown,TargetNullValue=Unknown}"/>
             <Run> an der Reklamation von </Run>
-            <Hyperlink><TextBlock Text="{Binding LatestChangedComplianceItem.CustomerFullName, Mode=OneWay,FallbackValue=Unknown,TargetNullValue=Unknown}"/></Hyperlink>
+            <Hyperlink Command="{Binding OpenLastChanged}"><TextBlock Text="{Binding LatestChangedComplianceItem.CustomerFullName, Mode=OneWay,FallbackValue=Unknown,TargetNullValue=Unknown}"/></Hyperlink>
             <Run> am </Run>
             <Run Text="{Binding LatestAddedComplianceItem.CreationDate, Mode=OneWay, StringFormat=\{0:D\}}"/>
            <Run> durchgeführt.</Run>
@@ -42,11 +42,14 @@
         <TextBlock Grid.Row="3">
             <Run>Die letzten drei Kundenreklamationen sind: </Run>
             
-            <Hyperlink><TextBlock Text="{Binding LastThreeComplianceItems[0].CustomerFullName, Mode=OneWay,FallbackValue=Unknown,TargetNullValue=Unknown}"/></Hyperlink>
+            <Hyperlink Command="{Binding OpenAITem}" CommandParameter="{Binding LastThreeComplianceItems[0]}">
+                <TextBlock Text="{Binding LastThreeComplianceItems[0].CustomerFullName, Mode=OneWay,FallbackValue=Unknown,TargetNullValue=Unknown}"/></Hyperlink>
              <Run>, </Run>
-             <Hyperlink><TextBlock Text="{Binding LastThreeComplianceItems[1].CustomerFullName, Mode=OneWay,FallbackValue=Unknown,TargetNullValue=Unknown}"/></Hyperlink>
+             <Hyperlink Command="{Binding OpenAITem}" CommandParameter="{Binding LastThreeComplianceItems[1]}">
+                 <TextBlock Text="{Binding LastThreeComplianceItems[1].CustomerFullName, Mode=OneWay,FallbackValue=Unknown,TargetNullValue=Unknown}"/></Hyperlink>
             <Run> und </Run>
-             <Hyperlink><TextBlock Text="{Binding LastThreeComplianceItems[2].CustomerFullName, Mode=OneWay,FallbackValue=Unknown,TargetNullValue=Unknown}"/></Hyperlink>
+             <Hyperlink Command="{Binding OpenAITem}" CommandParameter="{Binding LastThreeComplianceItems[2]}">
+                 <TextBlock Text="{Binding LastThreeComplianceItems[2].CustomerFullName, Mode=OneWay,FallbackValue=Unknown,TargetNullValue=Unknown}"/></Hyperlink>
            
         </TextBlock>
     </Grid>

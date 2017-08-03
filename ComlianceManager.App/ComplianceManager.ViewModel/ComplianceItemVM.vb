@@ -104,6 +104,17 @@ Public Class ComplianceItemVM
     End Property
 
 
+    Public Property Deleted As Boolean
+        Get
+            Return _compItem.IsDeleted
+        End Get
+        Set(value As Boolean)
+            _compItem.IsDeleted = value
+            RaisePropertyChanged("Deleted")
+        End Set
+    End Property
+
+
     Public Property ComplianceReason As Model.Reason
         Get
             Return _compItem.ComplianceReason
@@ -173,7 +184,16 @@ Public Class ComplianceItemVM
     End Property
 
 
-
+    Private _isMarked As Boolean
+    Public Property IsMarked() As Boolean
+        Get
+            Return _isMarked
+        End Get
+        Set(ByVal value As Boolean)
+            _isMarked = value
+            RaisePropertyChanged("IsMarked")
+        End Set
+    End Property
 
 
 
@@ -248,5 +268,6 @@ Public Class ComplianceItemVM
         RaisePropertyChanged("ComplianceReason")
         RaisePropertyChanged("ComplianceEntryType")
         RaisePropertyChanged("FinishedAt")
+        _listVm._mainVM.RefreshViews()
     End Sub
 End Class

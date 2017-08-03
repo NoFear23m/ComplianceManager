@@ -58,8 +58,14 @@ Public Class MainVM
 
 
     Friend Sub RefreshViews()
-        ShortInfoVm = New ShortInfoVM
-        ComplianceItemsVm = New ComplianteItemsVM
+        ShortInfoVm = New ShortInfoVM(Me)
+        If ComplianceItemsVm Is Nothing Then
+            ComplianceItemsVm = New ComplianteItemsVM(Me)
+        Else
+            ComplianceItemsVm.Load()
+        End If
+
+
         DetailComplianceInfoVm = New ComplianceItemVM
         StatusVm = New StatusVM With {.UserName = Environment.UserName}
     End Sub

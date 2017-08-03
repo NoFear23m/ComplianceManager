@@ -5,28 +5,23 @@ Imports SPS.ViewModel.Infrastructure
 Public Class ComplianteItemsVM
     Inherits ViewModelBase
 
-    Private _context As Context.CompContext
+    Friend _mainVM As MainVM
+    Friend _context As Context.CompContext
     Private showOnProps As Boolean = False
 
     Public Sub New()
         If _context Is Nothing Then _context = New Context.CompContext
 
-
-        'Dim itemsQuery = _context.ComplianceItems.OrderByDescending(Function(o) o.CreationDate)
-        'If Not IncludeDeleted Then itemsQuery.Where(Function(d) d.IsDeleted = False)
-        'If ShowOnlyOpenItems Then itemsQuery.Where(Function(i) i.FinishedAt Is Nothing)
-
-        'Dim items As List(Of Model.CompliantItem) = itemsQuery.ToList
-
-        'Dim allReasons = _context.Resons.Where(Function(d) d.IsDeleted = False).ToList
-        'Dim allTypes = _context.EntryTypes.Where(Function(d) d.IsDeleted = False).ToList
-
         Load()
 
-        'ComplianceItemsView = Windows.Data.CollectionViewSource.GetDefaultView(ComplianceItems)
+        showOnProps = True
+    End Sub
 
+    Public Sub New(mainVM As MainVM)
+        _mainVM = mainVM
+        If _context Is Nothing Then _context = New Context.CompContext
 
-
+        Load()
 
         showOnProps = True
     End Sub

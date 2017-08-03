@@ -7,6 +7,30 @@
              xmlns:local="clr-namespace:ComplianceManager.Views"
              mc:Ignorable="d"  d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True,Type=vm:ComplianteItemsVM}"
              d:DesignHeight="221.187" d:DesignWidth="825" Language="de-DE">
+    <UserControl.Resources>
+       
+        <Style TargetType="{x:Type DataGridCell}">
+          
+            <Style.Triggers>
+                <Trigger Property="DataGridCell.IsSelected" Value="True">
+                    <Setter Property="BorderBrush">
+                        <Setter.Value>
+                            <SolidColorBrush Color="Transparent"/>
+                        </Setter.Value>
+                    </Setter>
+                    <Setter Property="Foreground"
+                            Value="{DynamicResource
+                                   {x:Static SystemColors.ControlTextBrushKey}}"/>
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <SolidColorBrush Color="Transparent"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="60"/>
@@ -28,6 +52,17 @@
             <CheckBox Content="Auch gelöscht markierte mitladen" IsChecked="{Binding IncludeDeleted,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" HorizontalAlignment="Right" />
         </Grid>
         <DataGrid ItemsSource="{Binding ComplianceItemsView}" AutoGenerateColumns="False" IsReadOnly="True" Grid.Row="1" IsSynchronizedWithCurrentItem="True">
+            <DataGrid.ItemContainerStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Setter Property="Background" Value="White"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsMarked}" Value="True">
+                            <Setter Property="Background" Value="Red"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.ItemContainerStyle>
+            
             <DataGrid.Columns>
                 <DataGridTemplateColumn>
                     <DataGridTemplateColumn.CellTemplate>
