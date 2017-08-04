@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ComlianceManager.App"
-        mc:Ignorable="d" Language="de-DE" Icon="FileIcons\Sick.ico"
-        Title="MainWindow" Height="520" Width="969">
+        mc:Ignorable="d" Language="de-DE" Icon="Sick.ico"
+        Title="Reklamationsmanager" Height="520" Width="969">
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_Datei">
@@ -25,6 +25,7 @@
             <MenuItem Header="Info">
                 <MenuItem Header="Bug melden" Click="MenuItem_Click"/>
                 <MenuItem Header="WIKI" Click="MenuItem1_Click"/>
+                <MenuItem Header="Anwendungsordner öffnen" Click="MenuItem2_Click"/>
             </MenuItem>
         </Menu>
         <Views:uclMain />

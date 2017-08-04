@@ -4,7 +4,9 @@
              xmlns:vm="clr-namespace:ComplianceManager.ViewModel;assembly=ComplianceManager.ViewModel"
             
     xmlns:local="clr-namespace:ComlianceManager.App"
-    xmlns:views="clr-namespace:ComplianceManager.Views;assembly=ComplianceManager.Views">
+    xmlns:views="clr-namespace:ComplianceManager.Views;assembly=ComplianceManager.Views"
+StartupUri="MainWindow.xaml"
+ShutdownMode="OnMainWindowClose">
     <Application.Resources>
 
         <DataTemplate DataType="{x:Type vm:NewComplianceItemVM}">

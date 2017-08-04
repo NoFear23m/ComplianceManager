@@ -49,6 +49,19 @@
         historyText = historyText.Replace("<TR>", "")
         historyText = historyText.Replace("<BR>", vbNewLine)
 
+        historyText = historyText.Replace("Ö", "\'d6")
+        historyText = historyText.Replace("ö", "\'f6")
+        historyText = historyText.Replace("Ü", "\'dc")
+        historyText = historyText.Replace("ü", "\'fc")
+        historyText = historyText.Replace("Ä", "\'c4")
+        historyText = historyText.Replace("ä", "\'e4")
+
+
+
+        historyText = "{\rtf1\ansi\ansicpg1252\uc1\htmautsp\deff2{\fonttbl{\f0\fcharset0 Times New Roman;}{\f2\fcharset0 Segoe UI;}}{\colortbl\red0\green0\blue0;\red255\green255\blue255;}\loch\hich\dbch\pard\plain\ltrpar\itap0{\lang1033\fs18\f2\cf0 \cf0\ql{\f2 {\lang3079\ltrch " & historyText
+        historyText += "}\li0\ri0\sa0\sb0\fi0\ql\par}}}"
+
+
         Me.DialogResult = True
     End Sub
 End Class

@@ -23,7 +23,8 @@
             vm.CustomerFirstName = Split(win.Kundendaten(0), " ")(0)
             vm.CustomerLastName = ""
             For i As Integer = 1 To Split(win.Kundendaten(0), " ").Count - 1
-                vm.CustomerLastName += " " & Split(win.Kundendaten(0), " ")(i)
+                vm.CustomerLastName += Split(win.Kundendaten(0), " ")(i) & " "
+
             Next
 
 

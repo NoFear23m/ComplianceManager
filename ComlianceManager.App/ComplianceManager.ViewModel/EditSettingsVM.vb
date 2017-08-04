@@ -15,7 +15,7 @@ Public Class EditSettingsVM
     End Sub
 
     Public Sub New(db As Context.CompContext)
-        db.Users.ToList
+        db.Settings.ToList
         _users = db.Settings.Local.ToBindingList
 
 

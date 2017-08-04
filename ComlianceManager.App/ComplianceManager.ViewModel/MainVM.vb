@@ -1,4 +1,5 @@
 ﻿Imports System.Data.Entity
+Imports System.Windows
 Imports System.Windows.Controls
 Imports System.Windows.Input
 Imports SPS.ViewModel.Infrastructure
@@ -15,14 +16,11 @@ Public Class MainVM
 
 
 
+
         Using settDb As New Context.CompContext
             AllSettings = settDb.Settings.ToList
 
-            If settDb.Users.Where(Function(u) u.UserName = Environment.UserName).First.IsFirstLogin Then
-                MsgBox("Hallo und Willkommen" & vbNewLine & "Du hast dich zum ersten mal angemeldet. Besuche doch das WIKI um dich mit dem Programm vertraut zu machen. Das WIKI findest du im Menupunkt Info.", MsgBoxStyle.OkOnly, "Willkommen beim Compliant-Manager")
-                settDb.Users.Where(Function(u) u.UserName = Environment.UserName).First.IsFirstLogin = False
-                settDb.SaveChanges()
-            End If
+
         End Using
 
         If IsUserInDB() Then
@@ -33,6 +31,17 @@ Public Class MainVM
         RefreshViews()
 
 
+    End Sub
+
+    Public Sub IsFisrtLogin()
+        Using db As New Context.CompContext
+            If db.Users.Where(Function(u) u.UserName = Environment.UserName).First.IsFirstLogin Then
+                If MessageBox.Show("Hallo und Willkommen" & vbNewLine & "Du hast dich zum ersten mal angemeldet. Besuche doch das WIKI um dich mit dem Programm vertraut zu machen. Das WIKI findest du im Menupunkt Info.", "Willkommen beim Compliant-Manager", MessageBoxButton.OK) = MsgBoxResult.Ok Then
+                    db.Users.Where(Function(u) u.UserName = Environment.UserName).First.IsFirstLogin = False
+                    db.SaveChanges()
+                End If
+            End If
+        End Using
     End Sub
 
     Public Function IsUserInDB() As Boolean
@@ -51,7 +60,7 @@ Public Class MainVM
     Private IsUserAdmin As Boolean = False
     Public Function IsCurrUserAdmin() As Boolean
         Using Db As New Context.CompContext
-
+            If Not Db.Users.Where(Function(u) u.UserName = Environment.UserName).Any Then Return False
             If Not Db.Users.Where(Function(u) u.UserName = Environment.UserName).First.IsAdmin Then
 
                 Return False
@@ -219,7 +228,7 @@ Public Class MainVM
             win.Content = New ContentPresenter With {.Content = win.DataContext}
 
             win.ShowDialog()
-            Debug.WriteLine(db.SaveChanges())
+            db.SaveChanges()
 
         End Using
     End Sub
@@ -246,11 +255,11 @@ Public Class MainVM
             win.WindowStartupLocation = Windows.WindowStartupLocation.CenterScreen
 
             db.Configuration.AutoDetectChangesEnabled = True
-            win.DataContext = New EditreasonsVM(db)
+            win.DataContext = New EditReasonsVM(db)
             win.Content = New ContentPresenter With {.Content = win.DataContext}
 
             win.ShowDialog()
-            Debug.WriteLine(db.SaveChanges())
+            db.SaveChanges()
 
         End Using
     End Sub
@@ -267,7 +276,7 @@ Public Class MainVM
     Private _editEntryTypes As ICommand
     Public Property EditEntryTypes() As ICommand
         Get
-            If _EditEntryTypes Is Nothing Then _EditEntryTypes = New RelayCommand(AddressOf EditEntryTypes_Execute, AddressOf EditEntryTypes_CanExecute)
+            If _editEntryTypes Is Nothing Then _editEntryTypes = New RelayCommand(AddressOf EditEntryTypes_Execute, AddressOf EditEntryTypes_CanExecute)
             Return _editEntryTypes
         End Get
         Set(ByVal value As ICommand)
@@ -293,7 +302,7 @@ Public Class MainVM
             win.Content = New ContentPresenter With {.Content = win.DataContext}
 
             win.ShowDialog()
-            Debug.WriteLine(db.SaveChanges())
+            db.SaveChanges()
 
         End Using
     End Sub
@@ -331,7 +340,7 @@ Public Class MainVM
             win.Content = New ContentPresenter With {.Content = win.DataContext}
 
             win.ShowDialog()
-            Debug.WriteLine(db.SaveChanges())
+            db.SaveChanges()
 
         End Using
     End Sub

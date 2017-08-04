@@ -49,6 +49,7 @@
             <TextBox Text="{Binding FilterString,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100" VerticalAlignment="Top"/>
 
             <CheckBox Content="Nur offene laden" IsChecked="{Binding ShowOnlyOpenItems,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" />
+            <Button Content="Aktualisieren" VerticalAlignment="Top" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Command="{Binding ReloadCommand}"/>
             <CheckBox Content="Auch gelöscht markierte mitladen" IsChecked="{Binding IncludeDeleted,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" HorizontalAlignment="Right" />
         </Grid>
         <DataGrid ItemsSource="{Binding ComplianceItemsView}" AutoGenerateColumns="False" IsReadOnly="True" Grid.Row="1" IsSynchronizedWithCurrentItem="True">

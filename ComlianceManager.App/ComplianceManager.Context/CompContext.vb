@@ -7,6 +7,12 @@ Public Class CompContext
     Inherits DbContext
 
 
+
+    Public Sub New()
+        MyBase.New("ComplianceDB")
+    End Sub
+
+
     Public Overridable Property ComplianceItems As DbSet(Of Model.CompliantItem)
     Public Overridable Property HistoryItems As DbSet(Of Model.HistoryItem)
     Public Overridable Property EntryTypes As DbSet(Of Model.EntryType)

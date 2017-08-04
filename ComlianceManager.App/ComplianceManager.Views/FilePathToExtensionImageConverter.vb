@@ -8,7 +8,7 @@ Public Class FilePathToExtensionImageConverter
             Dim ext As String = Mid(value.ToString, InStrRev(value.ToString, ".") + 1)
             Dim img As New BitmapImage
             img.BeginInit()
-            img.UriSource = New Uri("FileIcons/" & ext.ToLower & ".png", UriKind.Relative)
+            img.UriSource = New Uri("FileIcons\" & ext.ToLower & ".png", UriKind.Relative)
             img.EndInit()
             Return img
         Catch ex As Exception

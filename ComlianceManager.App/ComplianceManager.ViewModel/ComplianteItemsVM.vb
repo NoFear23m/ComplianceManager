@@ -1,5 +1,6 @@
 ﻿Imports System.Collections.ObjectModel
 Imports System.ComponentModel
+Imports System.Windows.Input
 Imports SPS.ViewModel.Infrastructure
 
 Public Class ComplianteItemsVM
@@ -110,4 +111,22 @@ Public Class ComplianteItemsVM
                 item.LicensePlate.ToLower.Contains(FilterString.ToLower)
 
     End Function
+
+
+
+    Private _reload As ICommand
+    Public Property ReloadCommand() As Windows.Input.ICommand
+        Get
+            If _reload Is Nothing Then _reload = New RelayCommand(AddressOf ReloadCommand_Execute)
+            Return _reload
+        End Get
+        Set(ByVal value As ICommand)
+            _reload = value
+            RaisePropertyChanged("Reload")
+        End Set
+    End Property
+
+    Private Sub ReloadCommand_Execute(obj As Object)
+        _mainVM.RefreshViews()
+    End Sub
 End Class
