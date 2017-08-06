@@ -17,6 +17,7 @@ Public Class ComplianceItemDetailVM
     Public Sub New()
         If _db Is Nothing Then _db = New Context.CompContext
         _compItem = New Model.CompliantItem
+        _compItem.CreationDate = Now
 
         AllAviableReasons = _db.Resons.Where(Function(d) d.IsDeleted = False).ToList
         AllAviableEntryTypes = _db.EntryTypes.Where(Function(d) d.IsDeleted = False).ToList
@@ -203,10 +204,13 @@ Public Class ComplianceItemDetailVM
     End Property
 
 
-    Public ReadOnly Property CreationDate As DateTime
+    Public Property CreationDate As DateTime
         Get
             Return _compItem.CreationDate
         End Get
+        Set(value As DateTime)
+            _compItem.CreationDate = value
+        End Set
     End Property
 
     Public ReadOnly Property CreatedByUserName As String

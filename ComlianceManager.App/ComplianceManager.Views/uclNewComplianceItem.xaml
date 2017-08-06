@@ -3,10 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:vm="clr-namespace:ComplianceManager.ViewModel;assembly=ComplianceManager.ViewModel"
              xmlns:local="clr-namespace:ComplianceManager.Views"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True,Type=vm:NewComplianceItemVM}"
-             d:DesignHeight="240.667" d:DesignWidth="506.334" FocusManager.FocusedElement="{Binding ElementName=txtCustomerName}">
+             d:DesignHeight="243.22" d:DesignWidth="506.334" FocusManager.FocusedElement="{Binding ElementName=txtCustomerName}">
     <UserControl.Resources>
         <Style TargetType="TextBox">
             <!--<Setter Property="VerticalAlignment" Value="Center"/>
@@ -25,6 +26,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
 
             <RowDefinition Height="Auto"/>
@@ -37,6 +39,7 @@
         <Label Content="Vorname/Nachname" Grid.Row="2"/>
         <Label Content="Kennzeichen/Marke" Grid.Row="3"/>
         <Label Content="Ursache/Eingangsart" Grid.Row="4"/>
+        <Label Content="Eingangsdatum" Grid.Row="5"/>
 
         <TextBox Name="txtCustomerName" Text="{Binding CustomerNumber,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="1" Width="80" HorizontalAlignment="Left"/>
         <Grid Grid.Column="1" Grid.Row="2">
@@ -78,11 +81,15 @@
 
            
         </Grid>
-
-        <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Right">
+        <DatePicker  Grid.Row="5" Grid.Column="1" Width="145" Margin="2" HorizontalAlignment="Left" SelectedDate="{Binding CreationDate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+        
+        <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="2" HorizontalAlignment="Right">
             <Button Content="Partner.Net Abruf"  Margin="5" Click="Abruf_Click"></Button>
             <Button Content="Anlegen" IsDefault="True" Margin="5" Width="70" Click="ButtonAnlegen_Click"></Button>
             <Button Content="Abbrechen" IsCancel="True" Margin="5" Width="70" Click="ButtonAbbrechen_Click"></Button>
         </StackPanel>
+
+        <toolkit:BusyIndicator x:Name="busi" IsBusy="False" Grid.RowSpan="10" Grid.ColumnSpan="10" BusyContent="Anhänge werden heruntergeladen Bitte warten..."/>
     </Grid>
+    
 </UserControl>

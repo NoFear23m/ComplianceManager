@@ -148,10 +148,13 @@ Public Class ComplianceItemVM
     End Property
 
 
-    Public ReadOnly Property CreationDate As DateTime
+    Public Property CreationDate As DateTime
         Get
             Return _compItem.CreationDate
         End Get
+        Set(value As DateTime)
+            _compItem.CreationDate = value
+        End Set
     End Property
 
     Public ReadOnly Property CreatedByUserName As String

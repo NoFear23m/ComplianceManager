@@ -20,8 +20,13 @@ Public Class MainVM
         Using settDb As New Context.CompContext
             AllSettings = settDb.Settings.ToList
 
-
+            If settDb.Users.Any = False Then
+                settDb.Users.Add(New Model.User() With {.FullName = "Unknown", .IsActive = True, .IsAdmin = True, .IsFirstLogin = False, .UserName = Environment.UserName})
+                settDb.SaveChanges()
+            End If
         End Using
+
+
 
         If IsUserInDB() Then
             IsUserAdmin = IsCurrUserAdmin()
@@ -170,7 +175,7 @@ Public Class MainVM
         Dim win As New Windows.Window
         win.Title = "Neue Reklamation anlegen..."
         win.Width = 500
-        win.Height = 250
+        win.Height = 300
         win.WindowStartupLocation = Windows.WindowStartupLocation.CenterScreen
         win.DataContext = newComItemVM
         win.Content = New ContentPresenter With {.Content = newComItemVM, .DataContext = newComItemVM}
@@ -178,7 +183,7 @@ Public Class MainVM
             Using db As New Context.CompContext
                 newComItem.ComplianceReason = db.Resons.Find(newComItem.ComplianceReason.ID)
                 newComItem.ComplianceEntryType = db.EntryTypes.Find(newComItem.ComplianceEntryType.ID)
-                newComItem.CreationDate = Now
+                'newComItem.CreationDate = Now
                 newComItem.CreatedByUserName = Environment.UserName
                 newComItem.LastChange = Now
                 newComItem.LastChangeByUserName = Environment.UserName

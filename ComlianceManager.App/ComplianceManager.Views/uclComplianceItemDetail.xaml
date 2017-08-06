@@ -48,13 +48,22 @@
             <Label Content="Nachname" Grid.Row="2"/>
             <TextBox Text="{Binding CustomerLastName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsFinished,Mode=OneWay}" Grid.Column="1" Grid.Row="2"/>
             <Label Content="Kennzeichen" Grid.Row="3"/>
-            <TextBox Text="{Binding LicensePlate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsFinished,Mode=OneWay}" Grid.Column="1" Grid.Row="3"/>
 
-           
+            <Grid Grid.Row="3" Grid.Column="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Text="{Binding LicensePlate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsFinished,Mode=OneWay}"/>
+                <Label Content="Eingangsdatum" Grid.Column="1"/>
+                <DatePicker Grid.Column="2" SelectedDate="{Binding CreationDate,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsFinished, Converter={StaticResource BooleanReverseConverter}}"/>
+            </Grid>
+
         </Grid>
       
             <WrapPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5" Margin="10">
-                <Label Content="Erstellt am "/>
+                <Label Content="Eingegangen am "/>
                 <Label Content="{Binding CreationDate}"/>
                 <Label Content=" durch "/>
                 <Label Content="{Binding CreatedByUserName}"/>

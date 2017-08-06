@@ -10,7 +10,7 @@
     <UserControl.Resources>
        
         <Style TargetType="{x:Type DataGridCell}">
-          
+            <Setter Property="FontSize" Value="14"/>
             <Style.Triggers>
                 <Trigger Property="DataGridCell.IsSelected" Value="True">
                     <Setter Property="BorderBrush">
@@ -80,7 +80,7 @@
                 <DataGridTextColumn Binding="{Binding FullName}" Header="Kundenname"/>
                 <DataGridTextColumn Binding="{Binding CustomerNumber}" Header="KdNr"/>
                 <DataGridTextColumn Binding="{Binding ComplianceBrand}" Header="Marke"/>
-                <DataGridTextColumn Binding="{Binding CreationDate, StringFormat=\{0:d\}}" Header="Erstelldatum"/>
+                <DataGridTextColumn Binding="{Binding CreationDate, StringFormat=\{0:d\}}" Header="Eingangsdatum"/>
                 <DataGridTextColumn Binding="{Binding ComplianceReason.ReasonTitle}" Header="Ursache der Reklamation"/>
                 <DataGridTextColumn Binding="{Binding ComplianceEntryType.EntryTitle}" Header="Reklamationsart"/>
                 

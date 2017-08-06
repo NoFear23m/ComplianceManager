@@ -22,6 +22,7 @@ Public Class NewComplianceItemVM
             _partnerNetUrl = db.Settings.Where(Function(s) s.Key = "ParnterNetURL").FirstOrDefault.Value
             AllAviableReasons = db.Resons.Where(Function(d) d.IsDeleted = False).ToList
             AllAviableEntryTypes = db.EntryTypes.Where(Function(d) d.IsDeleted = False).ToList
+            DownloadDestFolder = db.Settings.Where(Function(s) s.Key = "AttachmentsPath").First.Value
         End Using
         ComplianceReason = AllAviableReasons.FirstOrDefault
         ComplianceEntryType = AllAviableEntryTypes.FirstOrDefault
@@ -29,6 +30,16 @@ Public Class NewComplianceItemVM
 
     End Sub
 
+
+    Private _downloadDestFolder As String
+    Public Property DownloadDestFolder() As String
+        Get
+            Return _downloadDestFolder
+        End Get
+        Set(ByVal value As String)
+            _downloadDestFolder = value
+        End Set
+    End Property
 
     Private _partnerNetUrl As String
     Public Property PertnerNetUrl() As String
@@ -123,7 +134,15 @@ Public Class NewComplianceItemVM
     End Property
 
 
-
+    Public Property CreationDate As Date
+        Get
+            Return _compItem.CreationDate
+        End Get
+        Set(value As Date)
+            _compItem.CreationDate = value
+            RaisePropertyChanged("CreationDate")
+        End Set
+    End Property
 
 
 

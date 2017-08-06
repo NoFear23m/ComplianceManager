@@ -4,6 +4,7 @@
     Public Property Marke As String
     Public Property Kundendaten As List(Of String)
     Public Property historyText As String
+    Public Property AttachmentsPaths As List(Of String)
 
     Private Sub Button_Click(sender As Object, e As RoutedEventArgs)
 
@@ -60,6 +61,33 @@
 
         historyText = "{\rtf1\ansi\ansicpg1252\uc1\htmautsp\deff2{\fonttbl{\f0\fcharset0 Times New Roman;}{\f2\fcharset0 Segoe UI;}}{\colortbl\red0\green0\blue0;\red255\green255\blue255;}\loch\hich\dbch\pard\plain\ltrpar\itap0{\lang1033\fs18\f2\cf0 \cf0\ql{\f2 {\lang3079\ltrch " & historyText
         historyText += "}\li0\ri0\sa0\sb0\fi0\ql\par}}}"
+
+
+        Try
+            AttachmentsPaths = New List(Of String)
+            Dim attBlock As String = ""
+            Dim attBlockStart As Integer = InStr(quelltext, ">Anhänge</P>")
+            Dim attBlockEnd As Integer = InStr(quelltext, "<P class=orangetext>Händlerkontakt")
+            attBlock = Mid(quelltext, attBlockStart, attBlockEnd - attBlockStart + 12)
+
+            attBlock = attBlock.Replace("<TD><A title=", "$")
+            Dim attBlockList As List(Of String) = attBlock.Split("$").ToList
+
+            For Each b As String In attBlockList
+                If b.Contains("href=") Then
+                    Dim bLinkStart As Integer = InStr(b, "href=") + 6
+                    Dim bLinkEnd As Integer = InStr(b, "target=_blank>") - 2
+                    Dim bLink As String = Mid(b, bLinkStart, bLinkEnd - bLinkStart)
+                    AttachmentsPaths.Add(bLink)
+                End If
+            Next
+
+        Catch ex As Exception
+            MsgBox("Fehler beim laden der Ahange aus dem Partner.Net." & vbNewLine & vbNewLine & ex.Message)
+        End Try
+
+
+
 
 
         Me.DialogResult = True
