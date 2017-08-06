@@ -336,7 +336,7 @@ Public Class MainVM
         Using db As New Context.CompContext
             Dim win As New Windows.Window
             win.Title = "Einstellungen bearbeiten..."
-            win.Width = 400
+            win.Width = 800
             win.Height = 300
             win.WindowStartupLocation = Windows.WindowStartupLocation.CenterScreen
 

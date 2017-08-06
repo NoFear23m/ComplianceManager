@@ -197,11 +197,11 @@ Public Class ShortInfoVM
     End Property
 
     Private Function OpenLastChanged_CanExecute(obj As Object)
-        Return True
+        Return LatestChangedComplianceItem IsNot Nothing
     End Function
 
     Private Sub OpenLastChanged_Execute(obj As Object)
-        Dim ci As New ComplianceItemVM(obj, _mainVm.ComplianceItemsVm._context, _mainVm.ComplianceItemsVm)
+        Dim ci As New ComplianceItemVM(LatestChangedComplianceItem, _mainVm.ComplianceItemsVm._context, _mainVm.ComplianceItemsVm)
         ci.ShowDetailsCommand.Execute(Nothing)
     End Sub
 
