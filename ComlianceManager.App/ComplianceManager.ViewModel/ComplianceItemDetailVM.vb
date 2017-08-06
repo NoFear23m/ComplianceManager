@@ -164,7 +164,7 @@ Public Class ComplianceItemDetailVM
         Set(value As String)
             _compItem.IsDeleted = value
             RaisePropertyChanged("Deleted")
-
+            If detectChanges Then RefreshLastChange()
         End Set
     End Property
 
@@ -210,6 +210,7 @@ Public Class ComplianceItemDetailVM
         End Get
         Set(value As DateTime)
             _compItem.CreationDate = value
+            If detectChanges Then RefreshLastChange()
         End Set
     End Property
 
