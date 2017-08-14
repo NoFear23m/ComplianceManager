@@ -294,7 +294,7 @@ Public Class HistoryItemVM
             If Attachments Is Nothing Then Attachments = New List(Of Model.ComplianteAttachment)
             For Each f In ofDiag.FileNames
                 Dim fi As IO.FileInfo = New IO.FileInfo(f)
-                Dim NewFilename As String = Now.Ticks & "_" & fi.Name
+                Dim NewFilename As String = Now.Ticks & Mid(fi.Name, fi.Name.Length - 3, 4)
                 IO.File.Copy(fi.FullName, settPath & Now.Year & "\" & NewFilename)
                 Attachments.Add(New ComplianteAttachment() _
                                     With {.Title = Replace(fi.Name, fi.Extension, ""), .RelativeFilePath = Now.Year & "\" & NewFilename, .CreatedBy = Environment.UserName, .LastEditedBy = Environment.UserName})
