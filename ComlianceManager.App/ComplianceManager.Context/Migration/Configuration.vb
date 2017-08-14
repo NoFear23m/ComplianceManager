@@ -35,6 +35,8 @@ Namespace Migrations
             'context.Settings.AddOrUpdate(Function(c) c.Key,
             '                             New Model.Setting() With {.Key = "AttachmentsPath", .Title = "Der Pfad wo die Attachment gespeichert werden sollen.", .Value = "D:\Attachments\"},
             '                             New Model.Setting() With {.Key = "ParnterNetURL", .Title = "Die URL des Partner.Net Fensters mit den Reklamationen", .Value = "https://www.auto-partner.net/portal/at/thirdparty?directlink=KU_REK&noFramesMode=true"})
+            'context.UserSettings.AddOrUpdate(Function(s) s.Title,
+            '                                 New Model.UserSetting() With {.Title = "GridHidedColumns", .Value = "*;FallNr"})
         End Sub
 
 

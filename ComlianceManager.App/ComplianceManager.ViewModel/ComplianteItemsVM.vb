@@ -22,10 +22,36 @@ Public Class ComplianteItemsVM
         _mainVM = mainVM
         If _context Is Nothing Then _context = New Context.CompContext
 
+        Dim currUSer As Model.User = _context.Users.Include("UserSettings").Where(Function(u) u.UserName = Environment.UserName).First
+        HidedColumnsString = Split(currUSer.UserSettings.Where(Function(s) s.Title = "GridHidedColumns").FirstOrDefault.Value, ";").ToList
+
         Load()
 
         showOnProps = True
     End Sub
+
+
+
+
+
+    Private _hidedColumnsString As List(Of String)
+    Public Property HidedColumnsString() As List(Of String)
+        Get
+            Return _hidedColumnsString
+        End Get
+        Set(ByVal value As List(Of String))
+            _hidedColumnsString = value
+            Using db As New Context.CompContext
+                Dim currUSer As Model.User = db.Users.Include("UserSettings").Where(Function(u) u.UserName = Environment.UserName).First
+                currUSer.UserSettings.Where(Function(s) s.Title = "GridHidedColumns").FirstOrDefault.Value = String.Join(";", _hidedColumnsString)
+                db.SaveChanges()
+            End Using
+        End Set
+    End Property
+
+
+
+
 
     Friend Sub Load()
         ComplianceItems = New ObservableCollection(Of ComplianceItemVM)

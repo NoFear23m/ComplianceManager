@@ -10,9 +10,9 @@
              d:DesignHeight="600" d:DesignWidth="1217">
     <UserControl.Resources>
         <local:BooleanReverseConverter x:Key="BooleanReverseConverter"/>
-        <Style TargetType="{x:Type TextBox}">
+        <!--<Style TargetType="{x:Type TextBox}">
             <Setter Property="Margin" Value="2"/>
-        </Style>
+        </Style>-->
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -42,22 +42,28 @@
             </Grid.ColumnDefinitions>
             
             <Label Content="Kundennummer"/>
-            <TextBox Text="{Binding CustomerNumber,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsFinished,Mode=OneWay}" Grid.Column="1"/>
+            <TextBox Text="{Binding CustomerNumber,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,NotifyOnValidationError=True}" IsReadOnly="{Binding IsFinished,Mode=OneWay}" Grid.Column="1"/>
             <Label Content="Vorname" Grid.Row="1"/>
-            <TextBox Text="{Binding CustomerFirstName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsFinished,Mode=OneWay}" Grid.Column="1" Grid.Row="1"/>
+            <TextBox Text="{Binding CustomerFirstName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,NotifyOnValidationError=True}" IsReadOnly="{Binding IsFinished,Mode=OneWay}" Grid.Column="1" Grid.Row="1"/>
             <Label Content="Nachname" Grid.Row="2"/>
-            <TextBox Text="{Binding CustomerLastName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsFinished,Mode=OneWay}" Grid.Column="1" Grid.Row="2"/>
+            <TextBox Text="{Binding CustomerLastName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,NotifyOnValidationError=True}" IsReadOnly="{Binding IsFinished,Mode=OneWay}" Grid.Column="1" Grid.Row="2"/>
             <Label Content="Kennzeichen" Grid.Row="3"/>
 
             <Grid Grid.Row="3" Grid.Column="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="150"/>
                 </Grid.ColumnDefinitions>
                 <TextBox Text="{Binding LicensePlate,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsFinished,Mode=OneWay}"/>
-                <Label Content="Eingangsdatum" Grid.Column="1"/>
-                <DatePicker Grid.Column="2" SelectedDate="{Binding CreationDate,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsFinished, Converter={StaticResource BooleanReverseConverter}}"/>
+                <Label Content="Eingangsdatum:" Grid.Column="1"/>
+                <DatePicker Grid.Column="2" SelectedDate="{Binding CreationDate,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,NotifyOnValidationError=True}" 
+                            IsEnabled="{Binding IsFinished, Converter={StaticResource BooleanReverseConverter}}"/>
+                <Label Content="Abgeschlossen durch:" Grid.Column="3"/>
+                <TextBox Grid.Column="4" Text="{Binding FinishedFrom,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,NotifyOnValidationError=True}" 
+                            IsEnabled="{Binding IsFinished}"/>
             </Grid>
 
         </Grid>
@@ -89,13 +95,18 @@
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
             <Label Content="Marke"/>
-            <ComboBox Name="cmbBrands"  IsEnabled="{Binding IsFinished, Converter={StaticResource BooleanReverseConverter}, Mode=OneWay}" SelectedItem="{Binding ComplianceBrand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"  Margin="2" Grid.Column="1" Grid.Row="0">
+            <ComboBox Name="cmbBrands"  IsEnabled="{Binding IsFinished, Converter={StaticResource BooleanReverseConverter}, Mode=OneWay}" 
+                      SelectedItem="{Binding ComplianceBrand,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged,ValidatesOnDataErrors=True,NotifyOnValidationError=True}" Grid.Column="1" Grid.Row="0">
                
             </ComboBox>
             <Label Content="Ursache" Grid.Row="1"/>
-            <ComboBox Margin="2" Grid.Column="1" IsEnabled="{Binding IsFinished, Converter={StaticResource BooleanReverseConverter},Mode=OneWay}" Grid.Row="1" ItemsSource="{Binding AllAviableReasons,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ComplianceReason}" DisplayMemberPath="ReasonTitle" SelectedValuePath="ID" IsSynchronizedWithCurrentItem="True"></ComboBox>
+            <ComboBox Grid.Column="1" IsEnabled="{Binding IsFinished, Converter={StaticResource BooleanReverseConverter},Mode=OneWay}" Grid.Row="1" 
+                      ItemsSource="{Binding AllAviableReasons,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ComplianceReason,ValidatesOnDataErrors=True,NotifyOnValidationError=True}" 
+                      DisplayMemberPath="ReasonTitle" SelectedValuePath="ID" IsSynchronizedWithCurrentItem="True"></ComboBox>
             <Label Content="Eingangsart" Grid.Row="2"/>
-            <ComboBox Margin="2" Grid.Column="1" Grid.Row="2"  IsEnabled="{Binding IsFinished, Converter={StaticResource BooleanReverseConverter},Mode=OneWay}" ItemsSource="{Binding AllAviableEntryTypes,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ComplianceEntryType}" DisplayMemberPath="EntryTitle" SelectedValuePath="ID" IsSynchronizedWithCurrentItem="True"></ComboBox>
+            <ComboBox Grid.Column="1" Grid.Row="2"  IsEnabled="{Binding IsFinished, Converter={StaticResource BooleanReverseConverter},Mode=OneWay}" 
+                      ItemsSource="{Binding AllAviableEntryTypes,UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding ComplianceEntryType,ValidatesOnDataErrors=True,NotifyOnValidationError=True}" 
+                      DisplayMemberPath="EntryTitle" SelectedValuePath="ID" IsSynchronizedWithCurrentItem="True"></ComboBox>
             <CheckBox Grid.Column="1" Grid.Row="3" Margin="4" Content="Gelöscht markieren" IsChecked="{Binding Deleted}" IsEnabled="{Binding IsUserAdmin}"/>
 
 

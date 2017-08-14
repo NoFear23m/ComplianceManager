@@ -24,13 +24,29 @@ Public Class MainVM
                 settDb.Users.Add(New Model.User() With {.FullName = "Unknown", .IsActive = True, .IsAdmin = True, .IsFirstLogin = False, .UserName = Environment.UserName})
                 settDb.SaveChanges()
             End If
+
+
+
         End Using
 
 
 
         If IsUserInDB() Then
             IsUserAdmin = IsCurrUserAdmin()
+
+            Using db As New Context.CompContext
+                For Each u As Model.User In db.Users.Include("UserSettings")
+                    If u.UserSettings.Where(Function(s) s.Title = "").FirstOrDefault Is Nothing Then
+                        u.UserSettings.Add(New Model.UserSetting() With {.Title = "GridHidedColumns", .Value = "*;FallNr"})
+                    End If
+                Next
+
+                db.SaveChanges()
+            End Using
+
         End If
+
+
 
 
         RefreshViews()

@@ -20,7 +20,7 @@ Public Class CompContext
     Public Overridable Property Users As DbSet(Of Model.User)
     Public Overridable Property Settings As DbSet(Of Model.Setting)
 
-
+    Public Overridable Property UserSettings As DbSet(Of Model.UserSetting)
 
 
 End Class

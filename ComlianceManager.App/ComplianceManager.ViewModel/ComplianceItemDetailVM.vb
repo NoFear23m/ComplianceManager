@@ -3,9 +3,11 @@ Imports System.Windows.Input
 Imports SPS.ViewModel.Infrastructure
 Imports System.Data.Entity
 Imports System.Collections.ObjectModel
+Imports System.ComponentModel
 
 Public Class ComplianceItemDetailVM
     Inherits ViewModelBase
+    Implements IDataErrorInfo
 
 
     Private _compItem As Model.CompliantItem
@@ -92,7 +94,7 @@ Public Class ComplianceItemDetailVM
             _compItem.CustomerFirstName = value
             RaisePropertyChanged("CustomerFirstName")
             RaisePropertyChanged("FullName")
-            If detectChanges Then RefreshLastChange
+            If detectChanges Then RefreshLastChange()
         End Set
     End Property
 
@@ -199,7 +201,18 @@ Public Class ComplianceItemDetailVM
         Set(value As Date?)
             _compItem.FinishedAt = value
             RaisePropertyChanged("FinishedAt")
+            FinishedFrom = Environment.UserName
             If detectChanges Then RefreshLastChange()
+        End Set
+    End Property
+
+
+    Public Property FinishedFrom As String
+        Get
+            Return _compItem.FinishedFrom
+        End Get
+        Set(value As String)
+            _compItem.FinishedFrom = value
         End Set
     End Property
 
@@ -214,10 +227,14 @@ Public Class ComplianceItemDetailVM
         End Set
     End Property
 
-    Public ReadOnly Property CreatedByUserName As String
+    Public Property CreatedByUserName As String
         Get
             Return _compItem.CreatedByUserName
         End Get
+        Set(value As String)
+            _compItem.CreatedByUserName = value
+            RaisePropertyChanged("CreatedByUserName")
+        End Set
     End Property
 
     Public ReadOnly Property LastChange As DateTime
@@ -374,9 +391,9 @@ Public Class ComplianceItemDetailVM
             NewHist.Title = newHistVm.Title
             NewHist.Description = newHistVm.Description
             NewHist.CreationDate = Now
-            newHist.CreatedBy = Environment.UserName
-            newHist.LastChange = Now
-            newHist.LastEditedBy = Environment.UserName
+            NewHist.CreatedBy = Environment.UserName
+            NewHist.LastChange = Now
+            NewHist.LastEditedBy = Environment.UserName
 
             'For Each a As Model.ComplianteAttachment In newHistVm.Attachments
             '    If NewHist.Attachments.Where(Function(i) i.ID = a.ID).FirstOrDefault IsNot Nothing Then
@@ -414,10 +431,79 @@ Public Class ComplianceItemDetailVM
     End Property
 
     Private Function Save_CanExecute(obj As Object) As Boolean
-        Return True
+        Return _db.ChangeTracker.HasChanges
     End Function
 
     Private Sub Save_Execute(obj As Object)
+        If Not IsValid() Then
+            MsgBox("Folgende Fehler müssen ausgebessert werden:" & vbNewLine & vbNewLine & String.Join(vbNewLine, ValidationErrors), vbOKOnly, "Fehler bei der Eingabe")
+            Exit Sub
+        End If
         _db.SaveChanges()
     End Sub
+
+
+
+
+
+
+
+
+
+
+
+
+
+#Region "Validation"
+
+
+    Public Function IsValid() As Boolean
+        Dim ret As List(Of DataAnnotations.ValidationResult) = CheckForValidationErrors()
+        Return ret Is Nothing OrElse ret.Count = 0
+    End Function
+
+
+
+    Public ReadOnly Property ValidationErrors As List(Of DataAnnotations.ValidationResult)
+        Get
+            Dim ret As List(Of DataAnnotations.ValidationResult) = CheckForValidationErrors()
+            RaisePropertyChanged("IsValid")
+            Return ret
+        End Get
+    End Property
+
+
+    Private Function CheckForValidationErrors() As List(Of DataAnnotations.ValidationResult)
+        If _compItem Is Nothing Then Return New List(Of DataAnnotations.ValidationResult)
+        Dim ValRet As New List(Of DataAnnotations.ValidationResult)
+
+        ValRet = DirectCast(_compItem, Model.CompliantItem).Validate.ToList
+
+
+        Return ValRet
+    End Function
+
+
+    Public ReadOnly Property [Error] As String Implements IDataErrorInfo.Error
+        Get
+            Return "Hilfe" 'TODO
+        End Get
+    End Property
+
+    Default Public ReadOnly Property Item(columnName As String) As String Implements IDataErrorInfo.Item
+        Get
+            Dim valRes As DataAnnotations.ValidationResult = ValidationErrors.Where(Function(v) v.MemberNames.Contains(columnName) = True).FirstOrDefault
+            If valRes Is Nothing Then
+
+                Return Nothing
+            Else
+                Return valRes.ErrorMessage
+            End If
+            CommandManager.InvalidateRequerySuggested()
+
+        End Get
+    End Property
+
+
+#End Region
 End Class

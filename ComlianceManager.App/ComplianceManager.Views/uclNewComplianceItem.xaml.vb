@@ -10,6 +10,16 @@
     End Sub
 
     Private Sub ButtonAnlegen_Click(sender As Object, e As RoutedEventArgs)
+        vm = Me.DataContext
+        vm._compItem.CreatedByUserName = Environment.UserName
+        vm._compItem.LastChangeByUserName = Environment.UserName
+        vm.checkValidation = True
+        If Not vm.IsValid Then
+            MessageBox.Show("Folgende Fehler müssen ausgebessert werden:" & vbNewLine & String.Join(vbNewLine, vm.ValidationErrors), "Fehler bei der Eingabe", vbOKOnly)
+            Exit Sub
+        End If
+
+
         Dim win As Window = Window.GetWindow(Me)
         win.DialogResult = True
 

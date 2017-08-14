@@ -1,9 +1,11 @@
-﻿Imports System.Windows.Controls
+﻿Imports System.ComponentModel
+Imports System.Windows.Controls
 Imports System.Windows.Input
 Imports SPS.ViewModel.Infrastructure
 
 Public Class ComplianceItemVM
     Inherits ViewModelBase
+    Implements IDataErrorInfo
 
 
     Private _compItem As Model.CompliantItem
@@ -242,7 +244,7 @@ Public Class ComplianceItemVM
     End Function
 
     Private Sub ShowDetailsCommand_Execute(obj As Object)
-        Dim win As New Windows.Window
+        Dim win As New MahApps.Metro.Controls.MetroWindow
         win.Title = "Reklamations-Detailsansicht"
         win.Width = 1200
         win.Height = 800
@@ -273,4 +275,70 @@ Public Class ComplianceItemVM
         RaisePropertyChanged("FinishedAt")
         _listVm._mainVM.RefreshViews()
     End Sub
+
+
+
+
+
+
+
+
+#Region "Validation"
+
+
+    Public Function IsValid() As Boolean
+        Dim ret As List(Of DataAnnotations.ValidationResult) = CheckForValidationErrors()
+        Return ret Is Nothing OrElse ret.Count = 0
+    End Function
+
+
+
+    Public ReadOnly Property ValidationErrors As List(Of DataAnnotations.ValidationResult)
+        Get
+            Dim ret As List(Of DataAnnotations.ValidationResult) = CheckForValidationErrors()
+            RaisePropertyChanged("IsValid")
+            Return ret
+        End Get
+    End Property
+
+
+    Private Function CheckForValidationErrors() As List(Of DataAnnotations.ValidationResult)
+        If _compItem Is Nothing Then Return New List(Of DataAnnotations.ValidationResult)
+        Dim ValRet As New List(Of DataAnnotations.ValidationResult)
+
+        ValRet = DirectCast(_compItem, Model.CompliantItem).Validate.ToList
+
+
+        Return ValRet
+    End Function
+
+
+    Public ReadOnly Property [Error] As String Implements IDataErrorInfo.Error
+        Get
+            Return "Hilfe" 'TODO
+        End Get
+    End Property
+
+    Default Public ReadOnly Property Item(columnName As String) As String Implements IDataErrorInfo.Item
+        Get
+            Dim valRes As DataAnnotations.ValidationResult = ValidationErrors.Where(Function(v) v.MemberNames.Contains(columnName) = True).FirstOrDefault
+            If valRes Is Nothing Then
+
+                Return Nothing
+            Else
+                Return valRes.ErrorMessage
+            End If
+            CommandManager.InvalidateRequerySuggested()
+
+        End Get
+    End Property
+
+
+#End Region
+
+
+
+
+
+
 End Class

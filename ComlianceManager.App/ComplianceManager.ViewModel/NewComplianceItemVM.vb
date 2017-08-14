@@ -1,7 +1,11 @@
-﻿Imports SPS.ViewModel.Infrastructure
+﻿Imports System.ComponentModel
+Imports System.Windows.Input
+Imports SPS.ViewModel.Infrastructure
 
 Public Class NewComplianceItemVM
     Inherits ViewModelBase
+    Implements IDataErrorInfo
+
 
 
     Public _compItem As Model.CompliantItem
@@ -173,6 +177,74 @@ Public Class NewComplianceItemVM
             RaisePropertyChanged("AllAviableEntryTypes")
         End Set
     End Property
+
+
+
+
+
+
+
+
+
+
+
+
+#Region "Validation"
+    Public checkValidation As Boolean = True
+
+    Public Function IsValid() As Boolean
+        If Not checkValidation Then Return True
+        Dim ret As List(Of DataAnnotations.ValidationResult) = CheckForValidationErrors()
+        Return ret Is Nothing OrElse ret.Count = 0
+    End Function
+
+
+
+    Public ReadOnly Property ValidationErrors As List(Of DataAnnotations.ValidationResult)
+        Get
+            Dim ret As List(Of DataAnnotations.ValidationResult) = CheckForValidationErrors()
+            RaisePropertyChanged("IsValid")
+            'RaisePropertyChanged("CustomerFirstName")
+            'RaisePropertyChanged("CustomerLastName")
+            Return ret
+        End Get
+    End Property
+
+
+    Private Function CheckForValidationErrors() As List(Of DataAnnotations.ValidationResult)
+        If _compItem Is Nothing Or Not checkValidation Then Return New List(Of DataAnnotations.ValidationResult)
+        Dim ValRet As New List(Of DataAnnotations.ValidationResult)
+
+        ValRet = DirectCast(_compItem, Model.CompliantItem).Validate.ToList
+
+
+        Return ValRet
+    End Function
+
+
+    Public ReadOnly Property [Error] As String Implements IDataErrorInfo.Error
+        Get
+            Return "Hilfe" 'TODO
+        End Get
+    End Property
+
+    Default Public ReadOnly Property Item(columnName As String) As String Implements IDataErrorInfo.Item
+        Get
+            If Not checkValidation Then Return Nothing
+            Dim valRes As DataAnnotations.ValidationResult = ValidationErrors.Where(Function(v) v.MemberNames.Contains(columnName) = True).FirstOrDefault
+            If valRes Is Nothing Then
+
+                Return Nothing
+            Else
+                Return valRes.ErrorMessage
+            End If
+            CommandManager.InvalidateRequerySuggested()
+
+        End Get
+    End Property
+
+
+#End Region
 
 
 
