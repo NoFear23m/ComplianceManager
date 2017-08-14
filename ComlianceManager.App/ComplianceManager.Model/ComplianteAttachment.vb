@@ -15,7 +15,7 @@ Public Class ComplianteAttachment
     Public Overridable Property ID As Integer
 
     <Required>
-    <StringLength(50)>
+    <StringLength(250)>
     Public Overridable Property Title As String
 
     <Required>

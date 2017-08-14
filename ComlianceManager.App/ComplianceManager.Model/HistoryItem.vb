@@ -26,7 +26,7 @@ Public Class HistoryItem
     Public Overridable Property LastChange As DateTime
 
     <Required>
-    <StringLength(50, MinimumLength:=2)>
+    <StringLength(250, MinimumLength:=2)>
     Public Overridable Property Title As String
 
 
