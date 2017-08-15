@@ -36,8 +36,8 @@ Public Class MainVM
 
             Using db As New Context.CompContext
                 For Each u As Model.User In db.Users.Include("UserSettings")
-                    If u.UserSettings.Where(Function(s) s.Title = "").FirstOrDefault Is Nothing Then
-                        u.UserSettings.Add(New Model.UserSetting() With {.Title = "GridHidedColumns", .Value = "*;FallNr"})
+                    If u.UserSettings.Where(Function(s) s.Title = "GridHidedColumns").FirstOrDefault Is Nothing Then
+                        u.UserSettings.Add(New Model.UserSetting() With {.Title = "GridHidedColumns", .Value = "FallNr;KdNr;Abgeschl. am;Abgeschl. durch;Zul. bearb. von"})
                     End If
                 Next
 
@@ -188,7 +188,7 @@ Public Class MainVM
         Dim newComItemVM As New NewComplianceItemVM(newComItem)
 
 
-        Dim win As New Windows.Window
+        Dim win As New MahApps.Metro.Controls.MetroWindow
         win.Title = "Neue Reklamation anlegen..."
         win.Width = 500
         win.Height = 300
@@ -238,7 +238,7 @@ Public Class MainVM
 
     Private Sub EditUsers_Execute(obj As Object)
         Using db As New Context.CompContext
-            Dim win As New Windows.Window
+            Dim win As New MahApps.Metro.Controls.MetroWindow
             win.Title = "Benutzer bearbeiten..."
             win.Width = 400
             win.Height = 200
@@ -269,7 +269,7 @@ Public Class MainVM
 
     Private Sub EditReasons_Execute(obj As Object)
         Using db As New Context.CompContext
-            Dim win As New Windows.Window
+            Dim win As New MahApps.Metro.Controls.MetroWindow
             win.Title = "Reklamationursachen bearbeiten..."
             win.Width = 400
             win.Height = 300
@@ -312,7 +312,7 @@ Public Class MainVM
 
     Private Sub EditEntryTypes_Execute(obj As Object)
         Using db As New Context.CompContext
-            Dim win As New Windows.Window
+            Dim win As New MahApps.Metro.Controls.MetroWindow
             win.Title = "Reklamationsarten bearbeiten..."
             win.Width = 400
             win.Height = 300
@@ -350,7 +350,7 @@ Public Class MainVM
 
     Private Sub EditSettings_Execute(obj As Object)
         Using db As New Context.CompContext
-            Dim win As New Windows.Window
+            Dim win As New MahApps.Metro.Controls.MetroWindow
             win.Title = "Einstellungen bearbeiten..."
             win.Width = 800
             win.Height = 300

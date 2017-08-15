@@ -233,7 +233,7 @@ Public Class HistoryItemVM
 
     Private Sub EditCommand_Execute(obj As Object)
         ' Using db As New Context.CompContext
-        Dim win As New Windows.Window
+        Dim win As New MahApps.Metro.Controls.MetroWindow
         win.Title = "Historie bearbeiten..."
         win.Width = 800
         win.Height = 600

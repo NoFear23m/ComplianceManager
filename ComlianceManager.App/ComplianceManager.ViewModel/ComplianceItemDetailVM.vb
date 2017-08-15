@@ -213,6 +213,7 @@ Public Class ComplianceItemDetailVM
         End Get
         Set(value As String)
             _compItem.FinishedFrom = value
+            RaisePropertyChanged("FinishedFrom")
         End Set
     End Property
 
@@ -336,7 +337,7 @@ Public Class ComplianceItemDetailVM
     End Function
 
     Private Sub ShowDetailsCommand_Execute(obj As Object)
-        Dim win As New Windows.Window
+        Dim win As New MahApps.Metro.Controls.MetroWindow
         win.Title = "Reklamations-Detailsansicht"
         win.Width = 500
         win.Height = 400
@@ -373,7 +374,7 @@ Public Class ComplianceItemDetailVM
 
     Private Sub AddHistoryItemCommand_Execute(obj As Object)
 
-        Dim win As New Windows.Window
+        Dim win As New MahApps.Metro.Controls.MetroWindow
         win.Title = "Neue Historie anlegen..."
         win.Width = 600
         win.Height = 350

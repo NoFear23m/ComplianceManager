@@ -27,14 +27,14 @@
                 <TextBlock Text="{Binding Title,FallbackValue=Fehler,TargetNullValue=Fehler}" MaxHeight="50" TextWrapping="Wrap" FontSize="14" FontWeight="Bold" Grid.ColumnSpan="1" />
 
                 <Border Height="1" Grid.Row="1" BorderBrush="LightGray" BorderThickness="1" Grid.ColumnSpan="2" Margin="0,0,0,1"/>
-                <ScrollViewer Grid.Row="2" Grid.ColumnSpan="1">
-                    <toolkit:RichTextBox Background="Transparent"  Text="{Binding Description,FallbackValue=Fehler,TargetNullValue=Fehler}" MaxHeight="100" MinHeight="90">
+                
+                    <toolkit:RichTextBox Background="Transparent" Grid.Row="2" IsReadOnly="True" VerticalScrollBarVisibility="Auto" Text="{Binding Description,FallbackValue=Fehler,TargetNullValue=Fehler}" MaxHeight="100" MinHeight="90">
                         <toolkit:RichTextBox.TextFormatter>
 
                             <toolkit:RtfFormatter />
                         </toolkit:RichTextBox.TextFormatter>
                     </toolkit:RichTextBox>
-                </ScrollViewer>
+                
                 <ItemsControl Grid.Row="3" ItemsSource="{Binding Attachments}" Grid.ColumnSpan="2">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>

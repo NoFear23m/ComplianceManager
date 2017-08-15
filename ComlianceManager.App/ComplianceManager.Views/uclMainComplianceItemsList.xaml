@@ -62,6 +62,12 @@
             </StackPanel>
         </Grid>
         <DataGrid Name="CompliantGrid" ItemsSource="{Binding ComplianceItemsView}" AutoGenerateColumns="False" IsReadOnly="True" Grid.Row="1" IsSynchronizedWithCurrentItem="True">
+            <DataGrid.InputBindings>
+                <MouseBinding
+            MouseAction="LeftDoubleClick"
+            Command="{Binding SelectedItem.ShowDetailsCommand, ElementName=CompliantGrid}"/>
+            </DataGrid.InputBindings>
+
             <DataGrid.ItemContainerStyle>
                 <Style TargetType="{x:Type DataGridRow}">
                     <Setter Property="Background" Value="White"/>
@@ -92,7 +98,8 @@
                 <DataGridTextColumn Binding="{Binding CreationDate, StringFormat=\{0:d\}}" Header="Eingangsdatum"/>
                 <DataGridTextColumn Binding="{Binding ComplianceReason.ReasonTitle}" Header="Ursache der Reklamation"/>
                 <DataGridTextColumn Binding="{Binding ComplianceEntryType.EntryTitle}" Header="Reklamationsart"/>
-                
+                <DataGridTextColumn Binding="{Binding FinishedAt}" Header="Abgeschl. am"/>
+                <DataGridTextColumn Binding="{Binding FinishedFrom}" Header="Abgeschl. durch"/>
                 <DataGridTextColumn Binding="{Binding CreatedByUserName}" Header="Erstellt durch"/>
                 <DataGridTextColumn Binding="{Binding LastChangeByUserName}" Header="Zul. bearb. von"/>
                 <DataGridTextColumn Binding="{Binding LastChange, StringFormat=\{0:g\}}" Header="zul. bear."/>

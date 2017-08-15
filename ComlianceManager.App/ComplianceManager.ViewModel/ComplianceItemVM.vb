@@ -150,6 +150,18 @@ Public Class ComplianceItemVM
     End Property
 
 
+    Public Property FinishedFrom As String
+        Get
+            Return _compItem.FinishedFrom
+
+        End Get
+        Set(value As String)
+            _compItem.FinishedFrom = value
+            RaisePropertyChanged("FinishedFrom")
+        End Set
+    End Property
+
+
     Public Property CreationDate As DateTime
         Get
             Return _compItem.CreationDate
