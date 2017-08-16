@@ -22,10 +22,22 @@ Public Class ComplianteItemsVM
         _mainVM = mainVM
         If _context Is Nothing Then _context = New Context.CompContext
 
-        Dim currUSer As Model.User = _context.Users.Include("UserSettings").Where(Function(u) u.UserName = Environment.UserName).First
-        HidedColumnsString = Split(currUSer.UserSettings.Where(Function(s) s.Title = "GridHidedColumns").FirstOrDefault.Value, ";").ToList
-
         Load()
+
+        Try
+            Dim currUSer As Model.User = _context.Users.Include("UserSettings").Where(Function(u) u.UserName = Environment.UserName).FirstOrDefault
+            HidedColumnsString = New List(Of String)
+            If currUSer Is Nothing Then
+                MsgBox("Kein User gefunden!!!")
+            Else
+                Dim sett As Model.UserSetting = currUSer.UserSettings.Where(Function(s) s.Title = "GridHidedColumns").FirstOrDefault
+                If sett Is Nothing Then MsgBox("sett was Nothing!!")
+                HidedColumnsString = Split(sett.Value, ";").ToList
+            End If
+        Catch ex As Exception
+            MsgBox("Fehler beim HidedColumnsString-LoadedMainVM")
+        End Try
+        MsgBox("Welcome")
 
         showOnProps = True
     End Sub
@@ -41,6 +53,7 @@ Public Class ComplianteItemsVM
         End Get
         Set(ByVal value As List(Of String))
             _hidedColumnsString = value
+            If showOnProps = False Then Exit Property
             Using db As New Context.CompContext
                 Dim currUSer As Model.User = db.Users.Include("UserSettings").Where(Function(u) u.UserName = Environment.UserName).First
                 currUSer.UserSettings.Where(Function(s) s.Title = "GridHidedColumns").FirstOrDefault.Value = String.Join(";", _hidedColumnsString)

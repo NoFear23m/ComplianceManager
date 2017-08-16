@@ -67,7 +67,7 @@
                 <DatePicker Grid.Column="2" SelectedDate="{Binding CreationDate, Mode=TwoWay, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
                             IsEnabled="{Binding IsFinished, Converter={StaticResource BooleanReverseConverter}}"/>
                 <Label Content="Abgeschlossen durch:" Grid.Column="3" Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}}"/>
-                <TextBox Grid.Column="4" Text="{Binding FinishedFrom, Mode=TwoWay, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                <TextBox Grid.Column="4" MinWidth="70" Text="{Binding FinishedFrom, Mode=TwoWay, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
                             IsEnabled="{Binding IsUserAdmin}" Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}}"/>
                 <Label Content="am:" Grid.Column="5" Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}}"/>
                 <DatePicker Grid.Column="6" SelectedDate="{Binding FinishedAt, Mode=TwoWay, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
