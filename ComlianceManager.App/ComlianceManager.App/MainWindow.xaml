@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ComlianceManager.App"
         mc:Ignorable="d" Language="de-DE" Icon="Sick.ico" WindowStartupLocation="CenterScreen"
-        Title="Reklamationsmanager" Height="520" Width="969">
+        Title="Reklamationsmanager" Height="520" Width="969" BorderThickness="2" GlowBrush="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Padding="5">
     <Controls:MetroWindow.Resources>
       
     </Controls:MetroWindow.Resources>

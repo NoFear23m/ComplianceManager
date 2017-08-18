@@ -8,7 +8,7 @@
              xmlns:model="clr-namespace:ComplianceManager.Model;assembly=ComplianceManager.Model"
              xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock" x:Class="uclComplianceItemDetail"
              mc:Ignorable="d"  d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type vm:ComplianceItemVM}}"
-             d:DesignHeight="600" d:DesignWidth="1217">
+             d:DesignHeight="600" d:DesignWidth="1217"  BorderBrush="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" BorderThickness="1">
     <UserControl.Resources>
         <!--<Style TargetType="{x:Type TextBox}">
             <Setter Property="Margin" Value="2"/>
@@ -30,7 +30,7 @@
         </Grid.ColumnDefinitions>
         <TextBlock TextWrapping="Wrap" Margin="5" Grid.ColumnSpan="5" Text="Bearbeiten Sie die Reklamation mit bedacht. Sie können eine History bearbeiten oder einen neuen Eintrag hinzufügen. Durch einen klick auf den Link eines Anhangs können sie die Datei öffnen."/>
 
-
+        
         <Grid Grid.Row="1" >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>

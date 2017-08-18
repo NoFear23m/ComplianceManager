@@ -120,6 +120,7 @@ Public Class ShortInfoVM
     End Function
 
     Private Sub ShowOpenedCommand_Execute(obj As Object)
+        _mainVm.ComplianceItemsVm.ShowOnlyOpenItems = True
         For Each c As ComplianceItemVM In _mainVm.ComplianceItemsVm.ComplianceItems
             c.IsMarked = False
             If c.FinishedAt Is Nothing Then

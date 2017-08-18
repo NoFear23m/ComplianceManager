@@ -10,7 +10,7 @@
              d:DesignHeight="221.187" d:DesignWidth="825" Language="de-DE">
     <UserControl.Resources>
        
-        <Style TargetType="{x:Type DataGridCell}">
+        <Style  TargetType="{x:Type DataGridCell}">
             <Setter Property="FontSize" Value="14"/>
             <Style.Triggers>
                 <Trigger Property="DataGridCell.IsSelected" Value="True">
@@ -61,7 +61,7 @@
                                   ItemSelectionChanged="CheckComboHiddenCols_ItemSelectionChanged"/>
             </StackPanel>
         </Grid>
-        <DataGrid Name="CompliantGrid" ItemsSource="{Binding ComplianceItemsView}" AutoGenerateColumns="False" IsReadOnly="True" Grid.Row="1" IsSynchronizedWithCurrentItem="True">
+        <DataGrid Name="CompliantGrid" OverridesDefaultStyle="True" ItemsSource="{Binding ComplianceItemsView}" AutoGenerateColumns="False" IsReadOnly="True" Grid.Row="1" IsSynchronizedWithCurrentItem="True">
             <DataGrid.InputBindings>
                 <MouseBinding
             MouseAction="LeftDoubleClick"
@@ -69,7 +69,7 @@
             </DataGrid.InputBindings>
 
             <DataGrid.ItemContainerStyle>
-                <Style TargetType="{x:Type DataGridRow}">
+                <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">
                     <Setter Property="Background" Value="White"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsMarked}" Value="True">
@@ -98,7 +98,7 @@
                 <DataGridTextColumn Binding="{Binding CreationDate, StringFormat=\{0:d\}}" Header="Eingangsdatum"/>
                 <DataGridTextColumn Binding="{Binding ComplianceReason.ReasonTitle}" Header="Ursache der Reklamation"/>
                 <DataGridTextColumn Binding="{Binding ComplianceEntryType.EntryTitle}" Header="Reklamationsart"/>
-                <DataGridTextColumn Binding="{Binding FinishedAt}" Header="Abgeschl. am"/>
+                <DataGridTextColumn Binding="{Binding FinishedAt, StringFormat=\{0:d\}}" Header="Abgeschl. am"/>
                 <DataGridTextColumn Binding="{Binding FinishedFrom}" Header="Abgeschl. durch"/>
                 <DataGridTextColumn Binding="{Binding CreatedByUserName}" Header="Erstellt durch"/>
                 <DataGridTextColumn Binding="{Binding LastChangeByUserName}" Header="Zul. bearb. von"/>

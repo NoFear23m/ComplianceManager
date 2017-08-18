@@ -9,6 +9,7 @@ Class MainWindow
 
     Private Sub MainWindow_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
 
+        If ComponentModel.DesignerProperties.GetIsInDesignMode(Me) Then Exit Sub
 
         Try
             Database.SetInitializer(New MigrateDatabaseToLatestVersion(Of ComplianceManager.Context.CompContext, ComplianceManager.Context.Migrations.Configuration)())

@@ -189,6 +189,7 @@ Public Class MainVM
 
 
         Dim win As New MahApps.Metro.Controls.MetroWindow
+
         win.Title = "Neue Reklamation anlegen..."
         win.Width = 500
         win.Height = 300

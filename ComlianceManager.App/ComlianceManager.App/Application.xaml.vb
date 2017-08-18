@@ -8,7 +8,8 @@ Class Application
     End Sub
 
     Private Sub Application_Startup(sender As Object, e As StartupEventArgs) Handles Me.Startup
-
+        Dim win As New Start
+        win.Show()
     End Sub
 
     ' Ereignisse auf Anwendungsebene wie Startup, Exit und DispatcherUnhandledException

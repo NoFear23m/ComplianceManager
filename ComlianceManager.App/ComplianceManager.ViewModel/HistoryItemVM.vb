@@ -371,12 +371,14 @@ Public Class HistoryItemVM
     End Function
 
     Private Sub RemoveHistoryItem_Execute(obj As Object)
-        _db.HistoryItems.Remove(_db.HistoryItems.Where(Function(i) i.ID = DirectCast(obj, HistoryItemVM)._historyItem.ID).First)
-        _db.SaveChanges()
+        If MsgBox("Möchtest du den Eintrag wirklich löschen?", MsgBoxStyle.YesNo, "Wirklich löschen?") = MsgBoxResult.Yes Then
+            _db.HistoryItems.Remove(_db.HistoryItems.Where(Function(i) i.ID = DirectCast(obj, HistoryItemVM)._historyItem.ID).First)
+            _db.SaveChanges()
 
 
-        RefreshView()
-        RaiseEvent Refresh()
+            RefreshView()
+            RaiseEvent Refresh()
+        End If
     End Sub
 
 

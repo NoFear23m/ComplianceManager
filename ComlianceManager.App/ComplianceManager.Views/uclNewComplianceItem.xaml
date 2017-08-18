@@ -8,7 +8,7 @@
 
              xmlns:vm="clr-namespace:ComplianceManager.ViewModel;assembly=ComplianceManager.ViewModel"
              xmlns:local="clr-namespace:ComplianceManager.Views"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True,Type=vm:NewComplianceItemVM}"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True,Type=vm:NewComplianceItemVM}"  BorderBrush="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" BorderThickness="1"
              d:DesignHeight="243.22" d:DesignWidth="506.334" FocusManager.FocusedElement="{Binding ElementName=txtCustomerName}">
     <UserControl.Resources>
        

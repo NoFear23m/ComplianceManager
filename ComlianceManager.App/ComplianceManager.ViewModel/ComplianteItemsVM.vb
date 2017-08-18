@@ -11,6 +11,7 @@ Public Class ComplianteItemsVM
     Private showOnProps As Boolean = False
 
     Public Sub New()
+        If ComponentModel.DesignerProperties.GetIsInDesignMode(New Windows.DependencyObject) Then Exit Sub
         If _context Is Nothing Then _context = New Context.CompContext
 
         Load()
@@ -37,7 +38,7 @@ Public Class ComplianteItemsVM
         Catch ex As Exception
             MsgBox("Fehler beim HidedColumnsString-LoadedMainVM")
         End Try
-        MsgBox("Welcome")
+
 
         showOnProps = True
     End Sub

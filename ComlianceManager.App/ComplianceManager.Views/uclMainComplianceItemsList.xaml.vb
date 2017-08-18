@@ -41,6 +41,7 @@ Public Class uclMainComplianceItemsList
     End Sub
 
     Private Sub uclMainComplianceItemsList_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
+        If ComponentModel.DesignerProperties.GetIsInDesignMode(Me) Then Exit Sub
         Dim vm As ViewModel.ComplianteItemsVM = Me.DataContext
 
         Me.HiddenGridColumns = vm.HidedColumnsString

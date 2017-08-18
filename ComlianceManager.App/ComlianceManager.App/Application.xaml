@@ -6,8 +6,8 @@
 
     xmlns:local="clr-namespace:ComlianceManager.App"
     xmlns:views="clr-namespace:ComplianceManager.Views;assembly=ComplianceManager.Views"
-StartupUri="MainWindow.xaml"
-ShutdownMode="OnMainWindowClose">
+
+ShutdownMode="OnLastWindowClose">
     <Application.Resources>
 
        
@@ -50,10 +50,23 @@ ShutdownMode="OnMainWindowClose">
             <views:uclEditEntryTypes  DataContext="{Binding}"/>
         </DataTemplate>
 
-
+        <!--<Style TargetType="UserControl">
+            <Setter Property="BorderBrush" Value="Blue"/>
+            <Setter Property="BorderThickness" Value="3"/>
+        </Style>-->
            
 
             <!--Workaround damit Styles übernommen werden welche in anderen dll`s eingebettet sind-->
-        <Style TargetType="{x:Type Rectangle}" /> </ResourceDictionary>
+        <Style TargetType="{x:Type Rectangle}" /> 
+        
+        
+        
+        
+        
+        
+        
+        
+        </ResourceDictionary>
+      
     </Application.Resources>
 </Application>
