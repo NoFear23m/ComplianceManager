@@ -42,10 +42,9 @@ Public Class ComplianceItemDetailVM
         _compItem = _db.ComplianceItems.Include(
             Function(i) i.ComplianceEntryType).Include("ComplianceHistory").Include("ComplianceHistory.Attachments").Include(Function(i2) i2.ComplianceReason).Where(Function(c) c.ID = item.ID).FirstOrDefault
 
-
-        AllAviableReasons = _db.Resons.Where(Function(d) d.IsDeleted = False).ToList
-        AllAviableEntryTypes = _db.EntryTypes.Where(Function(d) d.IsDeleted = False).ToList
-        AviableUsers = _db.Users.Where(Function(u) u.IsActive = True).ToList
+        If AllAviableReasons Is Nothing Then AllAviableReasons = _db.Resons.Where(Function(d) d.IsDeleted = False).ToList
+        If AllAviableEntryTypes Is Nothing Then AllAviableEntryTypes = _db.EntryTypes.Where(Function(d) d.IsDeleted = False).ToList
+        If AviableUsers Is Nothing Then AviableUsers = _db.Users.Where(Function(u) u.IsActive = True).ToList
 
         ComplianceHistory = New ObservableCollection(Of HistoryItemVM)
         For Each hi As Model.HistoryItem In _compItem.ComplianceHistory

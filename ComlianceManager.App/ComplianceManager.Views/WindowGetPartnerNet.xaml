@@ -11,9 +11,12 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="247*"/>
-            <RowDefinition Height="30"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
-        <WebBrowser Name="wb" />
+        <WindowsFormsHost x:Name="Host">
+            
+        </WindowsFormsHost>
         <Button Content="Übernehmen" Margin="5" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Button_Click" Grid.Row="1"/>
+        <Button Content="Öffnen" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="Button1_Click" Grid.Row="1" Margin="5,5,120,5"/>
     </Grid>
 </Controls:MetroWindow>

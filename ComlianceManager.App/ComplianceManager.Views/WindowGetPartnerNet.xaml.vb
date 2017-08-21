@@ -1,6 +1,8 @@
-﻿Public Class WindowGetPartnerNet
+﻿Imports System.Windows.Forms
 
+Public Class WindowGetPartnerNet
 
+    Public wb As New Forms.WebBrowser
     Public Property Marke As String
     Public Property Kundendaten As List(Of String)
     Public Property historyText As String
@@ -8,7 +10,9 @@
 
     Private Sub Button_Click(sender As Object, e As RoutedEventArgs)
 
-        Dim quelltext As String = DirectCast(wb.Document, mshtml.HTMLDocumentClass).body.innerHTML
+        Dim quelltext As String = wb.Document.Body.InnerHtml
+
+
 
         Dim StartKundendaten As Integer = InStr(quelltext, "<!-- Kundendaten -->")
         Dim Endundendaten As Integer = InStr(StartKundendaten, quelltext, "</TD>")
@@ -91,5 +95,21 @@
 
 
         Me.DialogResult = True
+    End Sub
+
+    Private Sub WindowGetPartnerNet_Loaded(sender As Object, e As RoutedEventArgs) Handles Me.Loaded
+        MessageBox.Show("Bitte nur die Marke wählen und auf öffnen klicken, erste dann den Abruf starten.")
+
+        Host.Child = wb
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As RoutedEventArgs)
+        For Each elem As HtmlElement In wb.Document.All
+            If elem.GetAttribute("name") = "pNetContentFrame" Then
+                Dim link = elem.GetAttribute("src")
+                wb.Navigate("https://www.auto-partner.net" & link)
+
+            End If
+        Next
     End Sub
 End Class

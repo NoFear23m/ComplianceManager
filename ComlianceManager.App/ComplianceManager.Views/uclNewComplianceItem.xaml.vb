@@ -1,6 +1,6 @@
 ﻿Public Class uclNewComplianceItem
 
-    Dim win As New WindowGetPartnerNet
+    Dim win As WindowGetPartnerNet
     Dim vm As ViewModel.NewComplianceItemVM
     Dim hi As Model.HistoryItem
 
@@ -30,6 +30,7 @@
 
         vm = Me.DataContext
 
+        win = New WindowGetPartnerNet
         win.wb.Navigate(vm.PertnerNetUrl)
         If win.ShowDialog() = True Then
 
