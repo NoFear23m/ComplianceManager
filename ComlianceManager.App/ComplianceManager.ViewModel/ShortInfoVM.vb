@@ -33,7 +33,7 @@ Public Class ShortInfoVM
                 LatestAddedComplianceItem = db.ComplianceItems.Where(Function(d) d.IsDeleted = False).OrderByDescending(Function(o) o.CreationDate).FirstOrDefault
                 LatestChangedComplianceItem = db.ComplianceItems.Where(Function(d) d.IsDeleted = False).OrderByDescending(Function(o) o.LastChange).FirstOrDefault
                 OpenComplianceItems = db.ComplianceItems.Where(Function(d) d.IsDeleted = False).Where(Function(o) o.FinishedAt Is Nothing).Count
-                LastThreeComplianceItems = New ObservableCollection(Of Model.CompliantItem)(db.ComplianceItems.OrderByDescending(Function(o) o.CreationDate).Take(3).ToList)
+                LastThreeComplianceItems = New ObservableCollection(Of Model.CompliantItem)(db.ComplianceItems.Where(Function(c) c.IsDeleted = False).OrderByDescending(Function(o) o.CreationDate).Take(3).ToList)
                 AviableComplianceItemsCount = db.ComplianceItems.Where(Function(o) o.IsDeleted = False).Count
             End Using
 
