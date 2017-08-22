@@ -35,9 +35,13 @@ Public Class MainVM
             IsUserAdmin = IsCurrUserAdmin()
 
             Using db As New Context.CompContext
-                For Each u As Model.User In db.Users.Include("UserSettings")
+                Dim users = db.Users.Include("UserSettings").ToList
+                For Each u As Model.User In users
                     If u.UserSettings.Where(Function(s) s.Title = "GridHidedColumns").FirstOrDefault Is Nothing Then
                         u.UserSettings.Add(New Model.UserSetting() With {.Title = "GridHidedColumns", .Value = "FallNr;KdNr;Abgeschl. am;Abgeschl. durch;Zul. bearb. von"})
+                    End If
+                    If u.UserSettings.Where(Function(s) s.Title = "GridSorting").FirstOrDefault Is Nothing Then
+                        u.UserSettings.Add(New Model.UserSetting() With {.Title = "GridSorting", .Value = ""})
                     End If
                 Next
 
@@ -96,7 +100,9 @@ Public Class MainVM
         ShortInfoVm = New ShortInfoVM(Me)
         If ComplianceItemsVm Is Nothing Then
             ComplianceItemsVm = New ComplianteItemsVM(Me)
+
         Else
+            ComplianceItemsVm.SaveSortingString()
             ComplianceItemsVm.Load()
         End If
 

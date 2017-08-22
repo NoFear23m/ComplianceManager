@@ -1,4 +1,5 @@
 ﻿
+Imports System.ComponentModel
 Imports System.Data.Entity
 Imports ComplianceManager.ViewModel
 Imports MahApps.Metro.Controls
@@ -110,5 +111,12 @@ Class MainWindow
 
     Private Sub MenuItem2_Click(sender As Object, e As RoutedEventArgs)
         Process.Start(My.Application.Info.DirectoryPath)
+    End Sub
+
+    Private Sub MainWindow_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+        Dim vm As MainVM = Me.DataContext
+        vm.ComplianceItemsVm.SaveSortingString()
+
+        ShutDown()
     End Sub
 End Class

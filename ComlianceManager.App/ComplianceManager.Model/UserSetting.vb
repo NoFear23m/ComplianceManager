@@ -12,6 +12,6 @@ Public Class UserSetting
     <Required>
     Public Overridable Property Title As String
 
-    <Required>
+    <Required(AllowEmptyStrings:=True)>
     Public Overridable Property Value As String
 End Class

@@ -6,7 +6,7 @@ Inherits ViewModelBase
 
     Public Sub New()
         Me.UserName = "Unknown"
-        Me.StatusMessage = "Initialized"
+        Me.StatusMessage = "Initialized version " & My.Application.Info.Version.ToString
     End Sub
 
 

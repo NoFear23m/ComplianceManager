@@ -6,13 +6,24 @@
              xmlns:vm="clr-namespace:ComplianceManager.ViewModel;assembly=ComplianceManager.ViewModel"
              xmlns:local="clr-namespace:ComplianceManager.Views"
              xmlns:model="clr-namespace:ComplianceManager.Model;assembly=ComplianceManager.Model"
-             xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock" x:Class="uclComplianceItemDetail"
+             xmlns:xcad="http://schemas.xceed.com/wpf/xaml/avalondock" x:Class="uclComplianceItemDetail" Language="DE"
              mc:Ignorable="d"  d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True, Type={x:Type vm:ComplianceItemVM}}"
              d:DesignHeight="600" d:DesignWidth="1217"  BorderBrush="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" BorderThickness="1">
     <UserControl.Resources>
         <!--<Style TargetType="{x:Type TextBox}">
             <Setter Property="Margin" Value="2"/>
         </Style>-->
+        <Style TargetType="{x:Type DatePickerTextBox}">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <TextBox x:Name="PART_TextBox"
+     Text="{Binding Path=SelectedDate, StringFormat='d', 
+     RelativeSource={RelativeSource AncestorType={x:Type DatePicker}}}" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <xcad:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <local:BooleanReverseConverter x:Key="BooleanReverseConverter"/>
     </UserControl.Resources>
@@ -65,13 +76,13 @@
                 <TextBox Text="{Binding LicensePlate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="{Binding IsFinished, Mode=OneWay}"/>
                 <Label Content="Eingangsdatum:" Grid.Column="1"/>
                 <DatePicker Grid.Column="2" SelectedDate="{Binding CreationDate, Mode=TwoWay, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
-                            IsEnabled="{Binding IsFinished, Converter={StaticResource BooleanReverseConverter}}"/>
+                            IsEnabled="{Binding IsFinished, Converter={StaticResource BooleanReverseConverter}}" FirstDayOfWeek="Monday" />
                 <Label Content="Abgeschlossen durch:" Grid.Column="3" Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}}"/>
                 <TextBox Grid.Column="4" MinWidth="70" Text="{Binding FinishedFrom, Mode=TwoWay, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
                             IsEnabled="{Binding IsUserAdmin}" Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}}"/>
                 <Label Content="am:" Grid.Column="5" Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}}"/>
                 <DatePicker Grid.Column="6" SelectedDate="{Binding FinishedAt, Mode=TwoWay, NotifyOnValidationError=True, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
-                            IsEnabled="{Binding IsUserAdmin}" Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                            IsEnabled="{Binding IsUserAdmin}" Visibility="{Binding IsFinished, Converter={StaticResource BoolToVisibilityConverter}}" FirstDayOfWeek="Monday"/>
             </Grid>
 
         </Grid>

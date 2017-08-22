@@ -32,6 +32,7 @@ Public Class ComplianteItemsVM
                 MsgBox("Kein User gefunden!!!")
             Else
                 Dim sett As Model.UserSetting = currUSer.UserSettings.Where(Function(s) s.Title = "GridHidedColumns").FirstOrDefault
+
                 If sett Is Nothing Then MsgBox("sett was Nothing!!")
                 HidedColumnsString = Split(sett.Value, ";").ToList
             End If
@@ -64,10 +65,43 @@ Public Class ComplianteItemsVM
     End Property
 
 
+    Private Function GetSortDescriptionToString() As String
+        Dim ret As String = ""
+        For Each item In ComplianceItemsView.SortDescriptions
+            ret += String.Format("{0},{1};", CInt(item.Direction), item.PropertyName)
+        Next
+        Return ret
+    End Function
 
+
+    Private Sub GetSortdescriptionFromString(desc As String)
+        If String.IsNullOrWhiteSpace(desc) Then Exit Sub
+
+        Dim FirstLevel As List(Of String) = desc.Split(";", options:=StringSplitOptions.RemoveEmptyEntries).ToList
+
+        ComplianceItemsView.SortDescriptions.Clear()
+
+        For Each item In FirstLevel
+            Dim SecondLevel As List(Of String) = item.Split(",", options:=StringSplitOptions.RemoveEmptyEntries).ToList
+            ComplianceItemsView.SortDescriptions.Add(New SortDescription(SecondLevel(1), CInt(SecondLevel(0))))
+        Next
+        ComplianceItemsView.Refresh()
+
+    End Sub
+
+    Public Sub SaveSortingString()
+        Using db As New Context.CompContext
+            Dim currUSer As Model.User = db.Users.Include("UserSettings").Where(Function(u) u.UserName = Environment.UserName).FirstOrDefault
+            Dim sett = currUSer.UserSettings.Where(Function(s) s.Title = "GridSorting").FirstOrDefault
+            sett.Value = GetSortDescriptionToString()
+            Dim res As Integer = db.SaveChanges()
+            Debug.WriteLine(res.ToString)
+        End Using
+    End Sub
 
 
     Friend Sub Load()
+        If ComplianceItemsView IsNot Nothing Then Debug.WriteLine(String.Join(",", ComplianceItemsView.SortDescriptions))
         ComplianceItems = New ObservableCollection(Of ComplianceItemVM)
         _context = New Context.CompContext
         Dim itemsQuery = _context.ComplianceItems.OrderByDescending(Function(o) o.LastChange)
@@ -80,6 +114,8 @@ Public Class ComplianteItemsVM
             ComplianceItems.Add(New ComplianceItemVM(i, _context, Me))
         Next
         ComplianceItemsView = Windows.Data.CollectionViewSource.GetDefaultView(ComplianceItems)
+        Dim currUSer As Model.User = _context.Users.Include("UserSettings").Where(Function(u) u.UserName = Environment.UserName).FirstOrDefault
+        GetSortdescriptionFromString(currUSer.UserSettings.Where(Function(s) s.Title = "GridSorting").FirstOrDefault.Value)
     End Sub
 
 
@@ -142,6 +178,11 @@ Public Class ComplianteItemsVM
             ComplianceItemsView.Filter = New Predicate(Of Object)(AddressOf Filter_Queue)
         End Set
     End Property
+
+
+
+
+
 
     Private Function Filter_Queue(obj As Object) As Boolean
         Dim item As ComplianceItemVM = obj

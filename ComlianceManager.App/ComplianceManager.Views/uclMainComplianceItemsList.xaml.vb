@@ -65,6 +65,15 @@ Public Class uclMainComplianceItemsList
 
     End Sub
 
+    Private Sub CompliantGrid_Sorting(sender As Object, e As DataGridSortingEventArgs) Handles CompliantGrid.Sorting
+        'Dim vm As ViewModel.ComplianteItemsVM = Me.DataContext
+        'If vm IsNot Nothing Then
+
+        '    'vm.SaveSortingString()
+        'End If
+
+    End Sub
+
     Public Event PropertyChanged(sender As Object, e As PropertyChangedEventArgs) Implements INotifyPropertyChanged.PropertyChanged
 
 End Class
