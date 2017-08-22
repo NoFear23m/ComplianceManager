@@ -43,6 +43,12 @@ Public Class MainVM
                     If u.UserSettings.Where(Function(s) s.Title = "GridSorting").FirstOrDefault Is Nothing Then
                         u.UserSettings.Add(New Model.UserSetting() With {.Title = "GridSorting", .Value = ""})
                     End If
+                    If u.UserSettings.Where(Function(s) s.Title = "GridColumnsOrder").FirstOrDefault Is Nothing Then
+                        u.UserSettings.Add(New Model.UserSetting() With {.Title = "GridColumnsOrder", .Value = ""})
+                    End If
+                    If u.UserSettings.Where(Function(s) s.Title = "GridColumnsWidth").FirstOrDefault Is Nothing Then
+                        u.UserSettings.Add(New Model.UserSetting() With {.Title = "GridColumnsWidth", .Value = ""})
+                    End If
                 Next
 
                 db.SaveChanges()
