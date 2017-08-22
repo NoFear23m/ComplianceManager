@@ -10,6 +10,9 @@
     <Controls:MetroWindow.Resources>
       
     </Controls:MetroWindow.Resources>
+    <Control.InputBindings>
+        <KeyBinding Command="{Binding CreateNewItemCommand}" Key="F5"/>
+    </Control.InputBindings>
     <DockPanel LastChildFill="True">
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_Datei">
@@ -18,7 +21,7 @@
 
             </MenuItem>
             <MenuItem Header="Reklamation">
-                <MenuItem Header="Neue Reklamation erstellen" Command="{Binding CreateNewItemCommand}"/>
+                <MenuItem Header="Neue Reklamation erstellen" Command="{Binding CreateNewItemCommand}" InputGestureText="F5"/>
             </MenuItem>
             <MenuItem Header="Verwaltung">
                 <MenuItem Header="Benutzerverwaltung" Command="{Binding EditUsers}"/>

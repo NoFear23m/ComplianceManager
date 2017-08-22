@@ -14,7 +14,7 @@ Public Class FilePathToExtensionImageConverter
         'Catch ex As Exception
         '    Return Nothing
         'End Try
-
+        If value Is Nothing Then Return Nothing
         Dim ext As String = Mid(value.ToString, InStrRev(value.ToString, ".") + 1)
         Return "..\FileIcons\" & ext.ToLower & ".png"
 

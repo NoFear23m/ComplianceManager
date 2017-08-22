@@ -7,7 +7,7 @@
              xmlns:vm="clr-namespace:ComplianceManager.ViewModel;assembly=ComplianceManager.ViewModel"
              xmlns:local="clr-namespace:ComplianceManager.Views"
              mc:Ignorable="d"  d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True,Type=vm:ComplianteItemsVM}"
-             d:DesignHeight="221.187" d:DesignWidth="825" Language="de-DE">
+             d:DesignHeight="221.187" d:DesignWidth="1018" Language="de-DE">
     <UserControl.Resources>
        
         <Style  TargetType="{x:Type DataGridCell}">
@@ -55,10 +55,15 @@
             <CheckBox Content="Auch gelöscht markierte mitladen" IsChecked="{Binding IncludeDeleted,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Grid.Column="2" HorizontalAlignment="Right" />
 
             <StackPanel Orientation="Horizontal" Grid.Column="1">
+                <Label Content="Gruppieren:" DockPanel.Dock="Right" Grid.Column="1" Visibility="{Binding Visibility, ElementName=CompliantGrid}"/>
+                <ComboBox Name="Grouping" Grid.Column="1" DockPanel.Dock="Right" Width="170" ItemsSource="{Binding Columns, ElementName=CompliantGrid}" 
+                              DisplayMemberPath="Header" Visibility="{Binding Visibility, ElementName=CompliantGrid}" Margin="0,0,15,0"
+                                  SelectionChanged="Grouping_ItemSelectionChanged"/>
                 <Label Content="Spaltenauswahl:" DockPanel.Dock="Right" Grid.Column="1" Visibility="{Binding Visibility, ElementName=CompliantGrid}"/>
                 <tk:CheckComboBox Name="CheckComboHiddenCols" Grid.Column="1" DockPanel.Dock="Right" Width="170" ItemsSource="{Binding Columns, ElementName=CompliantGrid}" 
                               DisplayMemberPath="Header" Visibility="{Binding Visibility, ElementName=CompliantGrid}" Margin="0,0,15,0"
                                   ItemSelectionChanged="CheckComboHiddenCols_ItemSelectionChanged"/>
+                
             </StackPanel>
         </Grid>
         <DataGrid Name="CompliantGrid" OverridesDefaultStyle="True" ItemsSource="{Binding ComplianceItemsView}" AutoGenerateColumns="False" IsReadOnly="True" Grid.Row="1" IsSynchronizedWithCurrentItem="True">
@@ -67,6 +72,40 @@
             MouseAction="LeftDoubleClick"
             Command="{Binding SelectedItem.ShowDetailsCommand, ElementName=CompliantGrid}"/>
             </DataGrid.InputBindings>
+            <DataGrid.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <TextBlock Text="{Binding Path=Name}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Expander>
+                                            <Expander.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text=" "/>
+                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                                    <TextBlock Text=" "/>
+                                                    <TextBlock Text="{Binding Path=ItemCount}"/>
+                                                    <TextBlock Text=" "/>
+                                                    <TextBlock Text="Einträge"/>
+                                                </StackPanel>
+                                            </Expander.Header>
+                                            <ItemsPresenter />
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
 
             <DataGrid.ItemContainerStyle>
                 <Style TargetType="{x:Type DataGridCell}" BasedOn="{StaticResource {x:Type DataGridCell}}">

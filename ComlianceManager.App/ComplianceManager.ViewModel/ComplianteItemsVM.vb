@@ -22,6 +22,22 @@ Public Class ComplianteItemsVM
     Public Sub New(mainVM As MainVM)
         _mainVM = mainVM
         If _context Is Nothing Then _context = New Context.CompContext
+        ComplianceItems = New ObservableCollection(Of ComplianceItemVM)
+        ComplianceItemsView = Windows.Data.CollectionViewSource.GetDefaultView(ComplianceItems)
+
+        Try
+            Dim currUSer As Model.User = _context.Users.Include("UserSettings").Where(Function(u) u.UserName = Environment.UserName).FirstOrDefault
+            ColumnOrder = currUSer.UserSettings.Where(Function(s) s.Title = "GridColumnsOrder").FirstOrDefault.Value.Split(";").ToList
+        Catch ex As Exception
+            MsgBox("Fehler beim holden von ColumnOrder")
+        End Try
+
+        Try
+            Dim currUSer As Model.User = _context.Users.Include("UserSettings").Where(Function(u) u.UserName = Environment.UserName).FirstOrDefault
+            ColumnWidths = currUSer.UserSettings.Where(Function(s) s.Title = "GridColumnsWidth").FirstOrDefault.Value.Split(";").ToList
+        Catch ex As Exception
+            MsgBox("Fehler beim holden von ColumnOrder")
+        End Try
 
         Load()
 
@@ -65,6 +81,11 @@ Public Class ComplianteItemsVM
     End Property
 
 
+
+
+
+
+
     Private Function GetSortDescriptionToString() As String
         Dim ret As String = ""
         For Each item In ComplianceItemsView.SortDescriptions
@@ -100,9 +121,68 @@ Public Class ComplianteItemsVM
     End Sub
 
 
+
+
+
+
+
+    Private _ColumnsOrder As List(Of String)
+    Public Property ColumnOrder() As List(Of String)
+        Get
+            Return _ColumnsOrder
+        End Get
+        Set(ByVal value As List(Of String))
+            _ColumnsOrder = value
+        End Set
+    End Property
+
+
+
+
+    Private Function ConvertOrderListToString(order As List(Of String)) As String
+        Return String.Join(";", order)
+    End Function
+
+    Public Sub SaveOrderList()
+        Using db As New Context.CompContext
+            Dim currUSer As Model.User = db.Users.Include("UserSettings").Where(Function(u) u.UserName = Environment.UserName).FirstOrDefault
+            Dim sett = currUSer.UserSettings.Where(Function(s) s.Title = "GridColumnsOrder").FirstOrDefault
+            sett.Value = ConvertOrderListToString(ColumnOrder)
+            Dim res As Integer = db.SaveChanges()
+            Debug.WriteLine(res.ToString)
+        End Using
+    End Sub
+
+
+
+    Private _columnWidths As List(Of String)
+    Public Property ColumnWidths() As List(Of String)
+        Get
+            Return _columnWidths
+        End Get
+        Set(ByVal value As List(Of String))
+            _columnWidths = value
+        End Set
+    End Property
+
+    Private Function ConvertWidthsListToString(widths As List(Of String)) As String
+        Return String.Join(";", widths)
+    End Function
+
+
+    Public Sub SaveWidthsList()
+        Using db As New Context.CompContext
+            Dim currUSer As Model.User = db.Users.Include("UserSettings").Where(Function(u) u.UserName = Environment.UserName).FirstOrDefault
+            Dim sett = currUSer.UserSettings.Where(Function(s) s.Title = "GridColumnsWidth").FirstOrDefault
+            sett.Value = ConvertWidthsListToString(ColumnWidths)
+            Dim res As Integer = db.SaveChanges()
+            Debug.WriteLine(res.ToString)
+        End Using
+    End Sub
+
+
     Friend Sub Load()
-        If ComplianceItemsView IsNot Nothing Then Debug.WriteLine(String.Join(",", ComplianceItemsView.SortDescriptions))
-        ComplianceItems = New ObservableCollection(Of ComplianceItemVM)
+        '     If ComplianceItemsView IsNot Nothing Then Debug.WriteLine(String.Join(",", ComplianceItemsView.SortDescriptions))
         _context = New Context.CompContext
         Dim itemsQuery = _context.ComplianceItems.OrderByDescending(Function(o) o.LastChange)
         If Not IncludeDeleted Then itemsQuery = itemsQuery.Where(Function(d) d.IsDeleted = False)
@@ -110,12 +190,16 @@ Public Class ComplianteItemsVM
 
         Dim items As List(Of Model.CompliantItem) = itemsQuery.ToList
 
+        ComplianceItems.Clear()
+
         For Each i As Model.CompliantItem In items
             ComplianceItems.Add(New ComplianceItemVM(i, _context, Me))
         Next
-        ComplianceItemsView = Windows.Data.CollectionViewSource.GetDefaultView(ComplianceItems)
+
         Dim currUSer As Model.User = _context.Users.Include("UserSettings").Where(Function(u) u.UserName = Environment.UserName).FirstOrDefault
         GetSortdescriptionFromString(currUSer.UserSettings.Where(Function(s) s.Title = "GridSorting").FirstOrDefault.Value)
+
+        ComplianceItemsView.Refresh()
     End Sub
 
 
