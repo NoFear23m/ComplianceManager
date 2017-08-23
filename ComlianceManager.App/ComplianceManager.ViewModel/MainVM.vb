@@ -229,6 +229,9 @@ Public Class MainVM
             currUser.UserSettings.Where(Function(s) s.Title = "MainWindow_Position").FirstOrDefault.Value = WindowsPosition.ToString
 
             Dim res As Integer = db.SaveChanges()
+            If res < 1 Then
+                MsgBox("Fehler beim speichern der Fensterposition oder des Fenstergröße")
+            End If
             Debug.WriteLine(res)
         End Using
     End Sub
