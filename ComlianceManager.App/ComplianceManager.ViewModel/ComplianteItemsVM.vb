@@ -258,8 +258,9 @@ Public Class ComplianteItemsVM
         End Get
         Set(ByVal value As String)
             _filterString = value
-            RaisePropertyChanged("FilterString")
             ComplianceItemsView.Filter = New Predicate(Of Object)(AddressOf Filter_Queue)
+            RaisePropertyChanged("FilterString")
+
         End Set
     End Property
 
@@ -270,10 +271,10 @@ Public Class ComplianteItemsVM
 
     Private Function Filter_Queue(obj As Object) As Boolean
         Dim item As ComplianceItemVM = obj
-
+        If FilterString Is Nothing OrElse String.IsNullOrEmpty(FilterString) Then Return True
         Return item.FullName.ToLower.Contains(FilterString.ToLower) OrElse
                 item.CreatedByUserName.ToLower.Contains(FilterString.ToLower) OrElse
-                item.LicensePlate.ToLower.Contains(FilterString.ToLower)
+               (item.LicensePlate IsNot Nothing AndAlso item.LicensePlate.ToLower.Contains(FilterString.ToLower))
 
     End Function
 

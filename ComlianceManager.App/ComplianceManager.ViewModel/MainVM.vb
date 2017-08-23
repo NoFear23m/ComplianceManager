@@ -49,12 +49,32 @@ Public Class MainVM
                     If u.UserSettings.Where(Function(s) s.Title = "GridColumnsWidth").FirstOrDefault Is Nothing Then
                         u.UserSettings.Add(New Model.UserSetting() With {.Title = "GridColumnsWidth", .Value = ""})
                     End If
+                    If u.UserSettings.Where(Function(s) s.Title = "MainWindow_Size").FirstOrDefault Is Nothing Then
+                        u.UserSettings.Add(New Model.UserSetting() With {.Title = "MainWindow_Size", .Value = "600;800"})
+                    End If
+                    If u.UserSettings.Where(Function(s) s.Title = "MainWindow_Position").FirstOrDefault Is Nothing Then
+                        u.UserSettings.Add(New Model.UserSetting() With {.Title = "MainWindow_Position", .Value = "300;300"})
+                    End If
+                    If u.UserSettings.Where(Function(s) s.Title = "ComplaintDetailWindow_Size").FirstOrDefault Is Nothing Then
+                        u.UserSettings.Add(New Model.UserSetting() With {.Title = "ComplaintDetailWindow_Size", .Value = "600;800"})
+                    End If
+                    If u.UserSettings.Where(Function(s) s.Title = "ComplaintDetailWindow_Position").FirstOrDefault Is Nothing Then
+                        u.UserSettings.Add(New Model.UserSetting() With {.Title = "ComplaintDetailWindow_Position", .Value = "300;300"})
+                    End If
+
                 Next
 
                 db.SaveChanges()
+
+
+
+                Dim winName As String = "MainWindow"
+                Me.WindowsPosition = New WindowsPosition(db, winName)
+                Me.WindowsSize = New WindowsSize(db, winName)
             End Using
 
         End If
+
 
 
 
@@ -174,6 +194,55 @@ Public Class MainVM
 
 
 
+#Region "Windows"
+
+
+
+
+    Private _windowsSize As WindowsSize
+    Public Property WindowsSize() As WindowsSize
+        Get
+            Return _windowsSize
+        End Get
+        Set(ByVal value As WindowsSize)
+            _windowsSize = value
+            RaisePropertyChanged("WindowsSize")
+        End Set
+    End Property
+
+    Private _windowsPosition As WindowsPosition
+    Public Property WindowsPosition() As WindowsPosition
+        Get
+            Return _windowsPosition
+        End Get
+        Set(ByVal value As WindowsPosition)
+            _windowsPosition = value
+            RaisePropertyChanged("WindowsPosition")
+        End Set
+    End Property
+
+
+    Public Sub SaveBackWindowSettings()
+        Using db As New Context.CompContext
+            Dim currUser As Model.User = db.Users.Include("UserSettings").Where(Function(u) u.UserName = Environment.UserName).First
+            currUser.UserSettings.Where(Function(s) s.Title = "MainWindow_Size").FirstOrDefault.Value = WindowsSize.ToString
+            currUser.UserSettings.Where(Function(s) s.Title = "MainWindow_Position").FirstOrDefault.Value = WindowsPosition.ToString
+
+            Dim res As Integer = db.SaveChanges()
+            Debug.WriteLine(res)
+        End Using
+    End Sub
+
+#End Region
+
+
+
+
+
+
+
+
+
 
 
 #Region "Commands"
@@ -262,6 +331,7 @@ Public Class MainVM
             win.Content = New ContentPresenter With {.Content = win.DataContext}
 
             win.ShowDialog()
+
             db.SaveChanges()
 
         End Using

@@ -63,6 +63,8 @@ Class MainWindow
 
                 db.SaveChanges()
 
+
+
             End Using
         Catch ex As Exception
             MsgBox("Fehler beim erstellen der ersten einträge")
@@ -87,6 +89,13 @@ Class MainWindow
         mvm.IsFisrtLogin()
 
         Me.DataContext = mvm
+
+        'Me.Top = mvm.WindowsPosition.Top
+        'Me.Left = mvm.WindowsPosition.Left
+        'Me.Width = mvm.WindowsSize.Width
+        'Me.Height = mvm.WindowsSize.Height
+
+
     End Sub
 
 
@@ -116,7 +125,7 @@ Class MainWindow
     Private Sub MainWindow_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
         Dim vm As MainVM = Me.DataContext
         vm.ComplianceItemsVm.SaveSortingString()
-
+        vm.SaveBackWindowSettings()
         ShutDown()
     End Sub
 End Class

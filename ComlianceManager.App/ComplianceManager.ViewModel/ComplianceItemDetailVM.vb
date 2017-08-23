@@ -55,6 +55,11 @@ Public Class ComplianceItemDetailVM
 
         IsUserAdmin = IsCurrUserAdmin()
 
+
+        Dim winName As String = "ComplaintDetailWindow"
+        Me.WindowsPosition = New WindowsPosition(_db, winName)
+        Me.WindowsSize = New WindowsSize(_db, winName)
+
     End Sub
 
     Private Sub Refresh()
@@ -319,6 +324,70 @@ Public Class ComplianceItemDetailVM
 
 
 
+
+
+
+
+
+
+#Region "Windows"
+
+
+
+
+    Private _windowsSize As WindowsSize
+    Public Property WindowsSize() As WindowsSize
+        Get
+            Return _windowsSize
+        End Get
+        Set(ByVal value As WindowsSize)
+            _windowsSize = value
+            RaisePropertyChanged("WindowsSize")
+        End Set
+    End Property
+
+    Private _windowsPosition As WindowsPosition
+    Public Property WindowsPosition() As WindowsPosition
+        Get
+            Return _windowsPosition
+        End Get
+        Set(ByVal value As WindowsPosition)
+            _windowsPosition = value
+            RaisePropertyChanged("WindowsPosition")
+        End Set
+    End Property
+
+
+    Public Sub SaveBackWindowSettings()
+        Using db As New Context.CompContext
+            Dim currUser As Model.User = db.Users.Include("UserSettings").Where(Function(u) u.UserName = Environment.UserName).First
+            currUser.UserSettings.Where(Function(s) s.Title = "ComplaintDetailWindow_Size").FirstOrDefault.Value = WindowsSize.ToString
+            currUser.UserSettings.Where(Function(s) s.Title = "ComplaintDetailWindow_Position").FirstOrDefault.Value = WindowsPosition.ToString
+
+            Dim res As Integer = db.SaveChanges()
+            Debug.WriteLine(res)
+        End Using
+    End Sub
+
+#End Region
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     Private _showdetailsCommand As ICommand
     Public Property ShowDetailsCommand() As ICommand
         Get
@@ -349,6 +418,10 @@ Public Class ComplianceItemDetailVM
             'RefreshViews()
         End If
     End Sub
+
+
+
+
 
 
 

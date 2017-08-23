@@ -5,8 +5,10 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ComlianceManager.App"
-        mc:Ignorable="d" Language="de-DE" Icon="Sick.ico" WindowStartupLocation="CenterScreen"
-        Title="Reklamationsmanager" Height="520" Width="969" BorderThickness="2" GlowBrush="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Padding="5">
+        mc:Ignorable="d" Language="de-DE" Icon="Sick.ico"
+        Title="Reklamationsmanager"
+        Height="{Binding WindowsSize.Height,Mode =TwoWay}" Width="{Binding WindowsSize.Width,Mode =TwoWay}" Top="{Binding WindowsPosition.Top,Mode =TwoWay}" Left="{Binding WindowsPosition.Left,Mode =TwoWay}"
+        BorderThickness="2" GlowBrush="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Padding="5">
     <Controls:MetroWindow.Resources>
       
     </Controls:MetroWindow.Resources>

@@ -256,17 +256,16 @@ Public Class ComplianceItemVM
     End Function
 
     Private Sub ShowDetailsCommand_Execute(obj As Object)
-        Dim win As New MahApps.Metro.Controls.MetroWindow
+        Dim win As New MyWindows
         win.Title = "Reklamations-Detailsansicht"
-        win.Width = 1200
-        win.Height = 800
-        win.WindowStartupLocation = Windows.WindowStartupLocation.CenterScreen
         win.DataContext = New ComplianceItemDetailVM(_compItem)
         win.Content = New ContentPresenter With {.Content = win.DataContext, .DataContext = win.DataContext}
         win.ShowDialog()
 
-        If DirectCast(win.DataContext, ComplianceItemDetailVM).Save.CanExecute(Nothing) Then DirectCast(win.DataContext, ComplianceItemDetailVM).Save.Execute(Nothing)
 
+
+        If DirectCast(win.DataContext, ComplianceItemDetailVM).Save.CanExecute(Nothing) Then DirectCast(win.DataContext, ComplianceItemDetailVM).Save.Execute(Nothing)
+        DirectCast(win.DataContext, ComplianceItemDetailVM).SaveBackWindowSettings()
         RefreshViews()
         _listVm.Load()
     End Sub
