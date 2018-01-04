@@ -28,6 +28,7 @@ Public Class WindowsPosition
         Else
             Top = Split(sett.Value, ";")(0)
             Left = Split(sett.Value, ";")(1)
+            State = Split(sett.Value, ";")(2)
         End If
     End Sub
 
@@ -55,7 +56,19 @@ Public Class WindowsPosition
         End Set
     End Property
 
+
+    Private _state As String = "Normal"
+    Public Property State() As String
+        Get
+            Return _state
+        End Get
+        Set(ByVal value As String)
+            _state = value
+            RaisePropertyChanged("State")
+        End Set
+    End Property
+
     Public Overrides Function ToString() As String
-        Return String.Format("{0};{1}", Top, Left)
+        Return String.Format("{0};{1};{2}", Top, Left, State.ToString)
     End Function
 End Class

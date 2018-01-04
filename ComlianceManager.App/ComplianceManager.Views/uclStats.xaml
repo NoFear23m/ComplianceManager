@@ -1,0 +1,49 @@
+﻿<UserControl   x:Class="uclStats"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:ComplianceManager.ViewModel;assembly=ComplianceManager.ViewModel"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+               xmlns:local="clr-namespace:ComplianceManager.Views"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True,Type={x:Type vm:StatisticsVm}}"
+             d:DesignHeight="654.149" d:DesignWidth="808.95" Language="de-DE">
+    <Grid>
+        <ScrollViewer>
+        <DockPanel LastChildFill="True">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                <Label Content="Selektion: "/>
+                <StackPanel Margin="5,0">
+                    <Label Content="Start"/>
+                    <DatePicker SelectedDate="{Binding StatStartDate}"/>
+                </StackPanel>
+                <StackPanel Margin="5,0">
+                    <Label Content="Ende"/>
+                    <DatePicker SelectedDate="{Binding StatEndDate}"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
+                <Label HorizontalAlignment="Center" Content="Statistik über Reklamationen" FontSize="25"/>
+                <lvc:CartesianChart Series="{Binding CompliantCountPerMonthStats,UpdateSourceTrigger=PropertyChanged,Mode=OneWay}" LegendLocation="Right" Height="200">
+                    <lvc:CartesianChart.AxisY>
+                        <lvc:Axis Title="Sales" ></lvc:Axis>
+                    </lvc:CartesianChart.AxisY>
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis Title="Month" Labels="{Binding MonthValues}"></lvc:Axis>
+                    </lvc:CartesianChart.AxisX>
+                </lvc:CartesianChart>
+
+                <!--<Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>-->
+                <lvc:PieChart LegendLocation="Left" Series="{Binding ReasonCountstats}"  Height="200" DataTooltip="{x:Null}"/>
+                    <lvc:PieChart LegendLocation="Right" Grid.Column="1" Series="{Binding EntryTypeStats}"  Height="200" DataTooltip="{x:Null}"/>
+                <!--</Grid>-->
+
+            </StackPanel>
+        </DockPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

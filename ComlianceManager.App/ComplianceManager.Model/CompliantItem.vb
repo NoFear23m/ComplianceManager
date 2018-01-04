@@ -34,6 +34,14 @@ Public Class CompliantItem
         End Get
     End Property
 
+    <NotMapped>
+    Public ReadOnly Property EditTimeInDays As Integer
+        Get
+            If Not FinishedAt.HasValue Then Return 0
+            Return DateDiff(DateInterval.Day, CreationDate, FinishedAt.Value)
+        End Get
+    End Property
+
     Public Overridable Property CustomerNumber As Integer
 
     <Required(AllowEmptyStrings:=False, ErrorMessage:="Die Marke ist ein erforderliches Feld und muss ausgewählt werden")>

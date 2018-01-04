@@ -272,7 +272,7 @@ Public Class MainVM
         Dim newComItemVM As New NewComplianceItemVM(newComItem)
 
 
-        Dim win As New MahApps.Metro.Controls.MetroWindow
+        Dim win As New MyWindows
 
         win.Title = "Neue Reklamation anlegen..."
         win.Width = 500
@@ -304,7 +304,6 @@ Public Class MainVM
 
 
 
-
     Private _editUsers As ICommand
     Public Property EditUsers() As ICommand
         Get
@@ -323,7 +322,7 @@ Public Class MainVM
 
     Private Sub EditUsers_Execute(obj As Object)
         Using db As New Context.CompContext
-            Dim win As New MahApps.Metro.Controls.MetroWindow
+            Dim win As New MyWindows
             win.Title = "Benutzer bearbeiten..."
             win.Width = 400
             win.Height = 200
@@ -355,7 +354,7 @@ Public Class MainVM
 
     Private Sub EditReasons_Execute(obj As Object)
         Using db As New Context.CompContext
-            Dim win As New MahApps.Metro.Controls.MetroWindow
+            Dim win As new MyWindows
             win.Title = "Reklamationursachen bearbeiten..."
             win.Width = 400
             win.Height = 300
@@ -398,7 +397,7 @@ Public Class MainVM
 
     Private Sub EditEntryTypes_Execute(obj As Object)
         Using db As New Context.CompContext
-            Dim win As New MahApps.Metro.Controls.MetroWindow
+            Dim win As New MyWindows
             win.Title = "Reklamationsarten bearbeiten..."
             win.Width = 400
             win.Height = 300
@@ -436,7 +435,7 @@ Public Class MainVM
 
     Private Sub EditSettings_Execute(obj As Object)
         Using db As New Context.CompContext
-            Dim win As New MahApps.Metro.Controls.MetroWindow
+            Dim win As New MyWindows
             win.Title = "Einstellungen bearbeiten..."
             win.Width = 800
             win.Height = 300
@@ -452,6 +451,31 @@ Public Class MainVM
         End Using
     End Sub
 
+
+    Private _openStatsComand As ICommand
+    Public Property OpenStatsCommand() As ICommand
+        Get
+            If _openStatsComand Is Nothing Then _openStatsComand = New RelayCommand(AddressOf OpenStatsCommand_Execute)
+            Return _openStatsComand
+        End Get
+        Set(ByVal value As ICommand)
+            _openStatsComand = value
+            RaisePropertyChanged("OpenStatsCommand")
+        End Set
+    End Property
+
+    Private Sub OpenStatsCommand_Execute(obj As Object)
+        Dim win As New MyWindows
+        win.Title = "Statistiken"
+        win.Width = 800
+        win.Height = 700
+        win.WindowStartupLocation = Windows.WindowStartupLocation.CenterScreen
+
+        win.DataContext = New ViewModel.StatisticsVm()
+        win.Content = New ContentPresenter With {.Content = win.DataContext}
+
+        win.ShowDialog()
+    End Sub
 
 
 #End Region

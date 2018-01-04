@@ -6,9 +6,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ComlianceManager.App"
         mc:Ignorable="d" Language="de-DE" Icon="Sick.ico"
-        Title="Reklamationsmanager"
+        Title="Reklamationsmanager" WindowState="{Binding WindowsPosition.State,Mode=TwoWay}" MinWidth="900" MinHeight="400"
         Height="{Binding WindowsSize.Height,Mode =TwoWay}" Width="{Binding WindowsSize.Width,Mode =TwoWay}" Top="{Binding WindowsPosition.Top,Mode =TwoWay}" Left="{Binding WindowsPosition.Left,Mode =TwoWay}"
-        BorderThickness="2" GlowBrush="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Padding="5">
+        BorderThickness="2" GlowBrush="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Padding="5" d:DesignWidth="1237.238">
     <Controls:MetroWindow.Resources>
       
     </Controls:MetroWindow.Resources>
@@ -24,6 +24,7 @@
             </MenuItem>
             <MenuItem Header="Reklamation">
                 <MenuItem Header="Neue Reklamation erstellen" Command="{Binding CreateNewItemCommand}" InputGestureText="F5"/>
+                <MenuItem Header="Statistiken" Command="{Binding OpenStatsCommand}"/>
             </MenuItem>
             <MenuItem Header="Verwaltung">
                 <MenuItem Header="Benutzerverwaltung" Command="{Binding EditUsers}"/>

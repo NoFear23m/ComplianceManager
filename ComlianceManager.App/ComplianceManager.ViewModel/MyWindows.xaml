@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:local="clr-namespace:ComplianceManager.ViewModel"
-        mc:Ignorable="d" 
-        Title="{Binding WindowTitle,Mode =TwoWay}" Height="{Binding WindowsSize.Height,Mode =TwoWay}" Width="{Binding WindowsSize.Width,Mode =TwoWay}" Top="{Binding WindowsPosition.Top,Mode =TwoWay}" Left="{Binding WindowsPosition.Left,Mode =TwoWay}">
+        mc:Ignorable="d"  WindowState="{Binding WindowsPosition.State,Mode=TwoWay}"
+         Height="{Binding WindowsSize.Height,Mode =TwoWay}" Width="{Binding WindowsSize.Width,Mode =TwoWay}" Top="{Binding WindowsPosition.Top,Mode =TwoWay}" Left="{Binding WindowsPosition.Left,Mode =TwoWay}"
+                      BorderThickness="2" GlowBrush="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" Padding="5">
     <Grid>
         
     </Grid>
