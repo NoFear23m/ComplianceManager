@@ -1,6 +1,9 @@
 ﻿Imports System.Collections.ObjectModel
+Imports System.Collections.Specialized
 Imports System.ComponentModel
+Imports System.IO
 Imports ComplianceManager.Model
+Imports OutlookDataObjects
 
 Public Class uclAddEditHistoryItem
 
@@ -10,11 +13,11 @@ Public Class uclAddEditHistoryItem
 
 
 
-
+        Dim VM As ViewModel.HistoryItemVM = Me.DataContext
 
         If e.Data.GetDataPresent(DataFormats.FileDrop) Then
 
-            Dim VM As ViewModel.HistoryItemVM = Me.DataContext
+
             If Not IO.Directory.Exists(VM.saveFolder) Then IO.Directory.CreateDirectory(VM.saveFolder)
             If VM.Attachments Is Nothing Then VM.Attachments = New List(Of Model.ComplianteAttachment)
             Dim files() As String = e.Data.GetData(DataFormats.FileDrop)
@@ -26,14 +29,32 @@ Public Class uclAddEditHistoryItem
 
                 IO.File.Copy(fi.FullName, VM.settPath & Now.Year & "\" & NewFilename)
                 VM.Attachments.Add(newAtt)
-
-                VM.RefreshView()
-                Me.DataContext = Nothing
-                Me.DataContext = VM
             Next
             VM.RefreshView()
+        ElseIf e.Data.GetDataPresent("FileGroupDescriptor") Then
+            Dim odo = New Helpers.OutlookDataObject(e.Data)
+            Dim filenames() As String = CType(odo.GetData("FileGroupDescriptor"), String())
+            Dim filestreams() As MemoryStream = CType(odo.GetData("FileContents"), MemoryStream())
+            Dim fileIndex As Integer = 0
+            Do While (fileIndex < filenames.Length)
+                Dim filename As String = filenames(fileIndex)
+                Dim filestream As MemoryStream = filestreams(fileIndex)
+
+                Dim NewFilename As String = Now.Ticks & Mid(filename, filename.Length - 3, 4)
+                Dim newAtt As New ComplianteAttachment() _
+                                    With {.Title = Replace(filename, Mid(filename, filename.Length - 3, 4), ""), .RelativeFilePath = Now.Year & "\" & NewFilename, .CreatedBy = Environment.UserName, .LastEditedBy = Environment.UserName}
+
+                Dim outputStream As FileStream = File.Create(VM.settPath & newAtt.RelativeFilePath)
+                filestream.WriteTo(outputStream)
+                outputStream.Close()
+                fileIndex = (fileIndex + 1)
+                VM.Attachments.Add(newAtt)
+            Loop
         End If
 
+        VM.RefreshView()
+        Me.DataContext = Nothing
+        Me.DataContext = VM
     End Sub
 
     Private Sub Button_Click(sender As Object, e As RoutedEventArgs)

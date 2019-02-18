@@ -8,42 +8,91 @@
                xmlns:local="clr-namespace:ComplianceManager.Views"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance IsDesignTimeCreatable=True,Type={x:Type vm:StatisticsVm}}"
              d:DesignHeight="654.149" d:DesignWidth="808.95" Language="de-DE">
-    <Grid>
-        <ScrollViewer>
-        <DockPanel LastChildFill="True">
-            <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
-                <Label Content="Selektion: "/>
-                <StackPanel Margin="5,0">
-                    <Label Content="Start"/>
-                    <DatePicker SelectedDate="{Binding StatStartDate}"/>
-                </StackPanel>
-                <StackPanel Margin="5,0">
-                    <Label Content="Ende"/>
-                    <DatePicker SelectedDate="{Binding StatEndDate}"/>
-                </StackPanel>
-            </StackPanel>
-            <StackPanel Orientation="Vertical" DockPanel.Dock="Top">
-                <Label HorizontalAlignment="Center" Content="Statistik über Reklamationen" FontSize="25"/>
-                <lvc:CartesianChart Series="{Binding CompliantCountPerMonthStats,UpdateSourceTrigger=PropertyChanged,Mode=OneWay}" LegendLocation="Right" Height="200">
-                    <lvc:CartesianChart.AxisY>
-                        <lvc:Axis Title="Sales" ></lvc:Axis>
-                    </lvc:CartesianChart.AxisY>
-                    <lvc:CartesianChart.AxisX>
-                        <lvc:Axis Title="Month" Labels="{Binding MonthValues}"></lvc:Axis>
-                    </lvc:CartesianChart.AxisX>
-                </lvc:CartesianChart>
 
-                <!--<Grid>
+    <Grid>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <DockPanel LastChildFill="True">
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
+                    <Label Content="Selektion: "/>
+                    <StackPanel Margin="5,0">
+                        <Label Content="Start"/>
+                        <DatePicker SelectedDate="{Binding StatStartDate}"/>
+                    </StackPanel>
+                    <StackPanel Margin="5,0">
+                        <Label Content="Ende"/>
+                        <DatePicker SelectedDate="{Binding StatEndDate}"/>
+                    </StackPanel>
+                    <StackPanel Margin="5,0">
+                        <Label Content="Zoomfaktor"/>
+                        <Slider x:Name="sizeBar" Minimum="0.1" Maximum="2" Value="0.8" Width="100" VerticalAlignment="Center"/>
+                    </StackPanel>
+
+                </StackPanel>
+                <StackPanel Orientation="Vertical" DockPanel.Dock="Top" VerticalAlignment="Top">
+                    <StackPanel.LayoutTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="{Binding Value, ElementName=sizeBar}" ScaleY="{Binding Value, ElementName=sizeBar}"/>
+                        </TransformGroup>
+                    </StackPanel.LayoutTransform>
+
+                    <Label HorizontalAlignment="Center" Content="Statistik über Reklamationen" FontSize="25"/>
+                    <lvc:CartesianChart Series="{Binding CompliantCountPerMonthStats,UpdateSourceTrigger=PropertyChanged,Mode=OneWay}" LegendLocation="Right" Height="200">
+                       
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Sales" ></lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Month" Labels="{Binding MonthValues}"></lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+
+                    </lvc:CartesianChart>
+
+                    <!--<Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>-->
-                <lvc:PieChart LegendLocation="Left" Series="{Binding ReasonCountstats}"  Height="200" DataTooltip="{x:Null}"/>
-                    <lvc:PieChart LegendLocation="Right" Grid.Column="1" Series="{Binding EntryTypeStats}"  Height="200" DataTooltip="{x:Null}"/>
-                <!--</Grid>-->
 
-            </StackPanel>
-        </DockPanel>
+                    <Label HorizontalAlignment="Center" Content="Reklamationsarten" FontSize="25"/>
+                    <lvc:CartesianChart LegendLocation="Bottom" Series="{Binding ReasonCountstats}"  Height="460" >
+                        
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Anzahl"/>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Grund" Labels="{Binding AviableReasons}"/>
+                        </lvc:CartesianChart.AxisY>
+                        <lvc:CartesianChart.DataTooltip>
+                            <lvc:DefaultTooltip SelectionMode="SharedYValues"></lvc:DefaultTooltip>
+                        </lvc:CartesianChart.DataTooltip>
+                    </lvc:CartesianChart>
+
+                    <Label HorizontalAlignment="Center" Content="Reklamationsherkunft" FontSize="25"/>
+                    <lvc:CartesianChart LegendLocation="Bottom" Series="{Binding EntryTypeStats}"  Height="460" >
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Anzahl"/>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Herkunft" Labels="{Binding AviableentryTypes}"/>
+                        </lvc:CartesianChart.AxisY>
+                        <lvc:CartesianChart.DataTooltip>
+                            <lvc:DefaultTooltip SelectionMode="SharedYValues"></lvc:DefaultTooltip>
+                        </lvc:CartesianChart.DataTooltip>
+                    </lvc:CartesianChart>
+
+                    <!--<Label HorizontalAlignment="Center" Content="Art der Reklamation" FontSize="25"/>
+                    <lvc:CartesianChart LegendLocation="Bottom" Grid.Column="1" Series="{Binding EntryTypeStats}"  Height="400" DataTooltip="{x:Null}"/>-->
+                    <!--</Grid>-->
+                    <!--<lvc:CartesianChart Series="{Binding ReasonCountstats}" LegendLocation="Left">
+                        <lvc:CartesianChart.AxisX>
+                            <lvc:Axis Title="Salesman" Labels="{Binding Labels}"></lvc:Axis>
+                        </lvc:CartesianChart.AxisX>
+                        <lvc:CartesianChart.AxisY>
+                            <lvc:Axis Title="Sold Apps" LabelFormatter="{Binding Formatter}"></lvc:Axis>
+                        </lvc:CartesianChart.AxisY>
+                    </lvc:CartesianChart>-->
+                </StackPanel>
+            </DockPanel>
         </ScrollViewer>
     </Grid>
 </UserControl>

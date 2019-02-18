@@ -1,6 +1,8 @@
-﻿Imports LiveCharts
+﻿Imports System.Windows.Media
+Imports LiveCharts
 Imports LiveCharts.Defaults
 Imports SPS.ViewModel.Infrastructure
+
 
 Public Class StatisticsVm
     Inherits ViewModelBase
@@ -59,6 +61,10 @@ Public Class StatisticsVm
         MonthValues = New List(Of String)
 
         Using db As New Context.CompContext
+            _aviableEntryTypes = (From et In db.EntryTypes Where et.IsDeleted = False Select et.EntryTitle).ToList
+            _aviableReasons = (From re In db.Resons Where re.IsDeleted = False Select re.ReasonTitle).ToList
+            RaisePropertyChanged(NameOf(AviableentryTypes)) : RaisePropertyChanged(NameOf(AviableReasons))
+
             'Das erste Liniendiagram
             Dim Allcompliants = db.ComplianceItems.Where(Function(c) c.IsDeleted = False AndAlso c.FinishedAt IsNot Nothing AndAlso c.CreationDate > StatStartDate AndAlso c.FinishedAt.Value < StatEndDate).ToList
 
@@ -75,13 +81,20 @@ Public Class StatisticsVm
             CompliantCountPerMonthStats.Add(editDaysLineSerie)
 
             'Dim AbteilungenSerie = New Wpf.PieSeries() With {.Title = "Anz. nach Abteilungen", .Values = New ChartValues(Of Integer)}
-            For Each r In db.Resons.ToList
-                Dim c = Allcompliants.Where(Function(c1) c1.ComplianceReason.ID = r.ID).Count
-                ReasonCountstats.Add(New Wpf.PieSeries() With {.Title = r.ReasonTitle, .Values = New ChartValues(Of Integer) From {c}, .DataLabels = True, .ToolTip = String.Format("{0}: {1} Reklamationen", r.ReasonTitle, c)})
+            ReasonCountstats.Add(New Wpf.RowSeries() With {.Title = "Reklamationsgrund", .Values = New ChartValues(Of Double), .Fill = New SolidColorBrush(Colors.Green)})
+
+
+            For Each r In AviableReasons
+                Dim c = Allcompliants.Where(Function(c1) c1.ComplianceReason.ReasonTitle = r).Count
+                'ReasonCountstats.Add(New Wpf.RowSeries() With {.Title = r.ReasonTitle, .Values = New ChartValues(Of Integer) From {c}, .DataLabels = True, .ToolTip = String.Format("{0}: {1} Reklamationen", r.ReasonTitle, c)})
+                ReasonCountstats(0).Values.Add(CDbl(c))
             Next
-            For Each r In db.EntryTypes.ToList
-                Dim c = Allcompliants.Where(Function(c1) c1.ComplianceEntryType.ID = r.ID).Count
-                EntryTypeStats.Add(New Wpf.PieSeries() With {.Title = r.EntryTitle, .Values = New ChartValues(Of Integer) From {c}, .DataLabels = True, .ToolTip = String.Format("{0}: {1} Reklamationen", r.EntryTitle, c)})
+
+            EntryTypeStats.Add(New Wpf.RowSeries() With {.Title = "Reklamationsherkunft", .Values = New ChartValues(Of Double)})
+            For Each r In AviableentryTypes
+                Dim c = Allcompliants.Where(Function(c1) c1.ComplianceEntryType.EntryTitle = r).Count
+                'EntryTypeStats.Add(New Wpf.RowSeries() With {.Title = r.EntryTitle, .Values = New ChartValues(Of Integer) From {c}, .DataLabels = True, .ToolTip = String.Format("{0}: {1} Reklamationen", r.EntryTitle, c)})
+                EntryTypeStats(0).Values.Add(CDbl(c))
             Next
 
 
@@ -138,5 +151,28 @@ Public Class StatisticsVm
         End Set
     End Property
 
+
+    Private _aviableReasons As List(Of String)
+    Public ReadOnly Property AviableReasons As List(Of String)
+        Get
+            Return _aviableReasons
+        End Get
+    End Property
+
+    Public Property ReasonsColors As New LiveCharts.Wpf.ColorsCollection From {Colors.Red, Colors.Blue, Colors.YellowGreen, Colors.Green, Colors.Brown, Colors.DeepPink}
+
+    Private _aviableEntryTypes As List(Of String)
+    Public ReadOnly Property AviableentryTypes As List(Of String)
+        Get
+            Return _aviableEntryTypes
+        End Get
+    End Property
+
+
+    Public ReadOnly Property ReasonFormatter(val As Double) As String
+        Get
+            Return val.ToString("N")
+        End Get
+    End Property
 
 End Class

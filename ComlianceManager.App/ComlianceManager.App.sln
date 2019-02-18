@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ComlianceManager.App", "ComlianceManager.App\ComlianceManager.App.vbproj", "{37D4B780-B84C-487D-827D-150610092440}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ComplianceManager.ViewModel", "ComplianceManager.ViewModel\ComplianceManager.ViewModel.vbproj", "{40299B4A-4CDD-42B6-A834-B51C5B8E12EE}"
 EndProject
 Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "ComplianceManager.Views", "ComplianceManager.Views\ComplianceManager.Views.vbproj", "{DEA5B46F-A600-42DB-9E75-A43ABF71E869}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OutlookDataObject", "OutlookDataObject\OutlookDataObject.csproj", "{2D364490-7AB2-476F-82B1-B8C8577DF857}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,8 +47,15 @@ Global
 		{DEA5B46F-A600-42DB-9E75-A43ABF71E869}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DEA5B46F-A600-42DB-9E75-A43ABF71E869}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DEA5B46F-A600-42DB-9E75-A43ABF71E869}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D364490-7AB2-476F-82B1-B8C8577DF857}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D364490-7AB2-476F-82B1-B8C8577DF857}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D364490-7AB2-476F-82B1-B8C8577DF857}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D364490-7AB2-476F-82B1-B8C8577DF857}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C92CA92B-6345-4CA3-ADEC-F491BB647E3B}
 	EndGlobalSection
 EndGlobal

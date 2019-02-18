@@ -281,6 +281,10 @@
       <Project>{40299b4a-4cdd-42b6-a834-b51c5b8e12ee}</Project>
       <Name>ComplianceManager.ViewModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OutlookDataObject\OutlookDataObject.csproj">
+      <Project>{2d364490-7ab2-476f-82b1-b8c8577df857}</Project>
+      <Name>OutlookDataObject</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SPS.ViewModel.Infrastructure\SPS.ViewModel.Infrastructure.vbproj">
       <Project>{b6bd0e5c-d9a3-4eb0-a7a0-ffb18743fdad}</Project>
       <Name>SPS.ViewModel.Infrastructure</Name>

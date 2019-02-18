@@ -12,8 +12,8 @@ Imports System.Windows
 ' Werte der Assemblyattribute überprüfen
 
 <Assembly: AssemblyTitle("ComplaintManager.App")>
-<Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("")>
+<Assembly: AssemblyDescription("Reklamationsmanager")>
+<Assembly: AssemblyCompany("SPS")>
 <Assembly: AssemblyProduct("ComplaintManager.App")>
 <Assembly: AssemblyCopyright("Copyright ©  2017")>
 <Assembly: AssemblyTrademark("")>
@@ -55,5 +55,5 @@ Imports System.Windows
 ' übernehmen, indem Sie "*" eingeben:
 ' <Assembly: AssemblyVersion("1.0.*")>
 
-<Assembly: AssemblyVersion("0.0.5.63")>
-<Assembly: AssemblyFileVersion("0.0.5.63")>
+<Assembly: AssemblyVersion("1.1.2.75")>
+<Assembly: AssemblyFileVersion("1.1.2.75")>
