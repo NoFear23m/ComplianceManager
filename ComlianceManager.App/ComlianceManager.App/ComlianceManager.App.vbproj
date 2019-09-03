@@ -29,7 +29,7 @@
     <ProductName>CompliantManager</ProductName>
     <PublisherName>Patschka Sascha</PublisherName>
     <SuiteName>CompliantManager</SuiteName>
-    <ApplicationRevision>76</ApplicationRevision>
+    <ApplicationRevision>77</ApplicationRevision>
     <ApplicationVersion>1.1.2.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>

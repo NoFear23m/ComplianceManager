@@ -72,7 +72,7 @@ Public Class StatisticsVm
             Dim montLineSerie = New Wpf.LineSeries() With {.Title = "Anz. Reklamationen", .Values = New ChartValues(Of Integer)}
             Dim editDaysLineSerie = New Wpf.LineSeries() With {.Title = "Bearbeitungsdauer Tage", .Values = New ChartValues(Of Integer)}
 
-            For i As Integer = 0 To 11
+            For i As Integer = 0 To DateDiff(DateInterval.Month, StatStartDate, StatEndDate) - 1
                 MonthValues.Add(MonthName(StatStartDate.AddMonths(i).Month))
                 montLineSerie.Values.Add(Allcompliants.Where(Function(c) c.CreationDate.Month = StatStartDate.AddMonths(i).Month).Count)
                 editDaysLineSerie.Values.Add(Allcompliants.Where(Function(c) c.CreationDate.Month = StatStartDate.AddMonths(i).Month).Sum(Function(s) s.EditTimeInDays))

@@ -39,10 +39,10 @@
                     <lvc:CartesianChart Series="{Binding CompliantCountPerMonthStats,UpdateSourceTrigger=PropertyChanged,Mode=OneWay}" LegendLocation="Right" Height="200">
                        
                         <lvc:CartesianChart.AxisY>
-                            <lvc:Axis Title="Sales" ></lvc:Axis>
+                            <lvc:Axis Title="Tage" ></lvc:Axis>
                         </lvc:CartesianChart.AxisY>
                         <lvc:CartesianChart.AxisX>
-                            <lvc:Axis Title="Month" Labels="{Binding MonthValues}"></lvc:Axis>
+                            <lvc:Axis Title="Monat" Labels="{Binding MonthValues}"></lvc:Axis>
                         </lvc:CartesianChart.AxisX>
 
                     </lvc:CartesianChart>
